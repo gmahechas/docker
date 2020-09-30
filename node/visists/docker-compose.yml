@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+        node_app:
+                build: node-app/.
+                ports:
+                        - "4001:8081"
+                networks:
+                        - frontend
+                depends_on:
+                        - redis_server
+        redis_server:
+                image: redis:6.0.8-alpine3.12
+                networks:
+                        - frontend
+
+networks:
+        frontend:
+                driver: bridge
