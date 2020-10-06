@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+        jenkins:
+                container_name: jenkins
+                image: jenkins/jenkins:2.249.1-lts-centos7
+                ports:
+                        - "10.1.0.229:8080:8080"
+                        - "10.1.0.229:50000:50000"  
+                networks:
+                        - jenkins_network
+networks:
+        jenkins_network:
+                driver: bridge
+
+volumes:
+        jenkins_home:
+                external: true
