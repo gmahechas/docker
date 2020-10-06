@@ -6,7 +6,9 @@ services:
                 image: jenkins/jenkins:2.249.1-lts-centos7
                 ports:
                         - "10.1.0.229:8080:8080"
-                        - "10.1.0.229:50000:50000"  
+                        - "10.1.0.229:50000:50000"
+                volumes:
+                        - jenkins_home:/var/jenkins_home
                 networks:
                         - jenkins_network
 networks:

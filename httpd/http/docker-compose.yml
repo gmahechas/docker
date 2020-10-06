@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+        httpd:
+                container_name: httpd
+                image: httpd:2.4.46
+                ports:
+                        - "8080:80"
+                networks:
+                        - httpd_network
+networks:
+        httpd_network:
+                driver: bridge
