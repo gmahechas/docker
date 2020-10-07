@@ -12,17 +12,17 @@ services:
                         - mariadb_network
                 depends_on:
                         - mariadb
-        mariadb:
-                container_name: mariadb
-                image: mariadb:10.5.5
-                volumes:
-                        - mariadb-dbs:/var/lib/mysql
-                ports:
-                        - "10.1.0.229:3306:3306"
-                environment:
-                        - MYSQL_ROOT_PASSWORD=root
-                networks:
-                        - mariadb_network
+#       mariadb:
+#                container_name: mariadb
+#                image: mariadb:10.5.5
+#                volumes:
+#                        - mariadb-dbs:/var/lib/mysql
+#                ports:
+#                        - "10.1.0.229:3306:3306"
+#                environment:
+#                        - MYSQL_ROOT_PASSWORD=root
+#                networks:
+#                        - mariadb_network
 
 networks:
         mariadb_network:
