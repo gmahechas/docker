@@ -1,28 +1,28 @@
 version: '3'
 
 services:
-        phpmyadmin:
-                container_name: phpmyadmin
-                image: phpmyadmin:5.0.2
+        mariadb:
+                container_name: mariadb
+                image: mariadb:10.5.5
+                volumes:
+                        - mariadb-dbs:/var/lib/mysql
                 ports:
-                        - "10.1.0.229:81:80"
+                        - "10.1.0.229:3306:3306"
                 environment:
-                        - PMA_HOST=mariadb
+                        - MYSQL_ROOT_PASSWORD=root
                 networks:
                         - mariadb_network
-                depends_on:
-                        - mariadb
-#       mariadb:
-#                container_name: mariadb
-#                image: mariadb:10.5.5
-#                volumes:
-#                        - mariadb-dbs:/var/lib/mysql
+#        phpmyadmin:
+#                container_name: phpmyadmin
+#                image: phpmyadmin:5.0.2
 #                ports:
-#                        - "10.1.0.229:3306:3306"
+#                        - "10.1.0.229:81:80"
 #                environment:
-#                        - MYSQL_ROOT_PASSWORD=root
+#                        - PMA_HOST=mariadb
 #                networks:
 #                        - mariadb_network
+#                depends_on:
+#                        - mariadb
 
 networks:
         mariadb_network:
