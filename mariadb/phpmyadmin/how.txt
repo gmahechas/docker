@@ -1,7 +1,0 @@
-docker run \
-	 --name phpmyadmin \
-	 -h phpmyadmin \
-	 -p 10.1.0.229:81:80 \
-	 -e PMA_HOST=mariadb \
-	 --network custom-bridge \
-	 -d  phpmyadmin:5.0.2

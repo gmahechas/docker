@@ -1,8 +1,0 @@
-docker run \
-	 --name mariadb \
-	 -h mariadb \
-	 -p 10.1.0.229:3306:3306 \
-	 -e MYSQL_ROOT_PASSWORD=root \
-	 -v mariadb-dbs:/var/lib/mysql \
-	 --network custom-bridge \
-	 -d mariadb:10.5.5
