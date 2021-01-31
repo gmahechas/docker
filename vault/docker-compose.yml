@@ -14,10 +14,10 @@ services:
       - VAULT_ADDR=http://127.0.0.1:8200
       - VAULT_TOKEN=myroot
     volumes:
-      - ./vault/logs:/vault/logs
-      - ./vault/file:/vault/file
-      - ./vault/config:/vault/config
-      - ./vault/policy:/vault/policy
+      - ./logs:/vault/logs
+      - ./file:/vault/file
+      - ./config:/vault/config
+      - ./policy:/vault/policy
     networks:
       - vault_network
 
