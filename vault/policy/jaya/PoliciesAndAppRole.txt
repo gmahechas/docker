@@ -1,6 +1,6 @@
-vault policy write admin admin.hcl
-vault policy write dev-cpaas-reader dev-cpaas-reader.hcl
-vault policy write dev-cpaas-writer dev-cpaas-writer.hcl
+vault policy write /vault/policy/jaya/admin admin.hcl
+vault policy write dev-cpaas-reader /vault/policy/jaya/dev-cpaas-reader.hcl
+vault policy write dev-cpaas-writer /vault/policy/jaya/dev-cpaas-writer.hcl
 vault secrets enable -version=2 kv
 vault auth enable approle
 vault write auth/approle/role/cpaas-engine token_ttl=24h  token_max_ttl=72h policies=dev-cpaas-reader
