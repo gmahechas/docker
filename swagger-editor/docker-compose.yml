@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  swagger-editor:
+    container_name: swagger-editor
+    image: swaggerapi/swagger-editor:v3.15.4
+    ports:
+      - "10.1.0.229:80:8080"
+    networks:
+      - swagger_network
+
+networks:
+  swagger_network:
+    name: swagger_network
+    driver: bridge

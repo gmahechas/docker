@@ -6,6 +6,7 @@ services:
     image: mariadb:10.5.5
     volumes:
       - mariadb-dbs:/var/lib/mysql
+      - ./backup:/backup
     ports:
       - "10.1.0.229:3306:3306"
     environment:
