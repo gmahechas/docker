@@ -22,3 +22,5 @@ networks:
   vault_network:
     name: vault_network
     driver: bridge
+
+#docker exec vault sh vault/policy/jaya/PoliciesAndAppRole.txt
