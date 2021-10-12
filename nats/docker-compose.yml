@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  nats:
+    container_name: nats
+    image: nats-streaming:0.21.2-alpine3.13
+    command: "-p 4222 -m 8222 -hbi 5s -hbt 5s -hbf 2 -SD -cid ticketing"
+    ports:
+      - "10.1.0.229:4222:4222"
+      - "10.1.0.229:4223:4223"
+      - "10.1.0.229:8222:8222"
+      - "10.1.0.229:8223:8223"  
+    networks:
+      - nats_network
+
+networks:
+  nats_network:
+    name: nats_network
+    driver: bridge
