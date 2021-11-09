@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:7.0.0 
+    ports:
+      - "10.1.0.229:32181:32181"
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=32181
+      - ZOOKEEPER_TICK_TIME=2000
+      - ZOOKEEPER_SYNC_LIMIT=2
+    networks:
+      - kafka_network
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:7.0.0
+    ports:
+      - "10.1.0.229:29092:29092"
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:32181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:29092
+      - KAFKA_BROKER_ID=2
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    networks:
+      - kafka_network
+    depends_on:
+      - zookeeper
+networks:
+  kafka_network:
+    name: kafka_network
+    driver: bridge
