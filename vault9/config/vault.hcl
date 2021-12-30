@@ -1,3 +1,4 @@
+cluster_name = "vault-dev-local"
 ui = true
 
 storage "file" {
