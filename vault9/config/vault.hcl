@@ -1,8 +1,11 @@
 cluster_name = "vault-dev-local"
 ui = true
 
-storage "file" {
-  path = "vault/data"
+storage "mysql" {
+  username = "root"
+  password = "root"
+  database = "vault"
+  address = "10.1.0.229:3306"
 }
 
 listener "tcp" {
