@@ -1,2 +1,3 @@
-Unseal Key 1: 7gJ08lyxEvgBWelT6CNcWRBU98sJeMSRtxZsLMAeqwg=
-Initial Root Token: s.jtG9aWhEZ6fX6CGbppKtQqVQ
+Unseal Key 1: AxMC9r5qG8H8WMXOS2Ecdxa66uyaP4RYqS2GKEPP4LE=
+
+Initial Root Token: s.doRfmkneCnssDUmKN8w4HzD0
