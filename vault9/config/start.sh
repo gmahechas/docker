@@ -3,7 +3,7 @@
 # secrets
 vault secrets enable -version=2 -description=kv kv
 
-echo "creating serets"
+echo "creating secrets"
 vault kv put kv/erp/ms-0/development redis_url=redis://10.1.0.229
 vault kv put kv/erp/ms-0/stage redis_url=redis://10.1.0.229
 vault kv put kv/erp/ms-0/production redis_url=redis://10.1.0.229
