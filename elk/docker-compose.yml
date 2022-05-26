@@ -1,0 +1,62 @@
+version: "3.8"
+services:
+# elasticsearch0
+  elasticsearch0:
+    container_name: elasticsearch0
+    image: amazon/opendistro-for-elasticsearch:1.13.3 
+    ports:
+      - "9200:9200"
+      - "9600:9600"
+    environment:
+      - cluster.name=elasticsearch-cluster
+      - node.name=elasticsearch0
+      - discovery.seed_hosts=elasticsearch0
+      - cluster.initial_master_nodes=elasticsearch0
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - opendistro_security.disabled=true
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536 
+        hard: 65536
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+    networks:
+      - opendistro_network
+# logstash
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:7.10.2
+    environment:
+      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://10.1.0.229:9200
+#      - XPACK_MONITORING_ELASTICSEARCH_USERNAME=admin
+#      - XPACK_MONITORING_ELASTICSEARCH_PASSWORD=admin
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logstash/config:/usr/share/logstash/config
+    networks:
+      - opendistro_network
+    depends_on:
+      - elasticsearch0
+# kibana
+  kibana:
+    image: kibana-no-security:latest
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    expose:
+      - "5601"
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch0:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch0:9200
+    networks:
+      - opendistro_network
+    depends_on:
+      - elasticsearch0
+networks:
+  opendistro_network:
+    name: opendistro_network
+    driver: bridge
