@@ -30,13 +30,14 @@ services:
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:7.10.2
+    ports:
+      - "5044:5044"
     environment:
       - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://10.1.0.229:9200
 #      - XPACK_MONITORING_ELASTICSEARCH_USERNAME=admin
 #      - XPACK_MONITORING_ELASTICSEARCH_PASSWORD=admin
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
-      - ./logstash/config:/usr/share/logstash/config
     networks:
       - opendistro_network
     depends_on:
