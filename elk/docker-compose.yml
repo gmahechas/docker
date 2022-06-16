@@ -38,6 +38,7 @@ services:
 #      - XPACK_MONITORING_ELASTICSEARCH_PASSWORD=admin
     volumes:
       - ./logstash/pipeline:/usr/share/logstash/pipeline
+      - ./logstash/templates:/usr/share/logstash/templates
     networks:
       - opendistro_network
     depends_on:
