@@ -5,7 +5,7 @@ services:
     container_name: redis
     image: redis:6.0.9-alpine
     ports:
-      - "ec2-3-145-214-142.us-east-2.compute.amazonaws.com:6379:6379"
+      - "6379:6379"
     networks:
       - redis_network
 
