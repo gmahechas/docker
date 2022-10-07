@@ -4,6 +4,8 @@ services:
   mongodb:
     container_name: mongodb
     image: mongo:4.2.10
+    volumes:
+      - mongodb-dbs:/data/db
     ports:
       - "10.1.0.229:27017:27017"
     environment:
@@ -16,3 +18,7 @@ networks:
   mongodb_network:
     name: mongodb_network
     driver: bridge
+
+volumes:
+  mongodb-dbs:
+    external: true
