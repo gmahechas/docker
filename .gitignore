@@ -1,3 +1,4 @@
 elk/elasticsearch
 elk/logstash
 mongodb/cluster/data
+sonarqube/sonarscanner/repo

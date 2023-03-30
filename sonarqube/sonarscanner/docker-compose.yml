@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  sonarscanner:
+    container_name: sonarqubescanner
+    image: sonarsource/sonar-scanner-cli:4.8
+    volumes:
+      - ./repo:/usr/src
+    environment:
+      - SONAR_HOST_URL=http://10.1.0.229:9000
+      - SONAR_SCANNER_OPTS=-Dsonar.projectKey=first-project
+      - SONAR_LOGIN=886dc50727d66fd012831eebb3236f04090c4de5
+    networks:
+      - sonarscanner_network
+
+networks:
+  sonarscanner_network:
+    name: sonarscanner_network
+    driver: bridge
