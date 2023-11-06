@@ -12,6 +12,8 @@ services:
     healthcheck:
       test: test $$(echo "rs.initiate({_id:'my-replica-set',members:[{_id:0,host:\"mongo1:30001\"},{_id:1,host:\"mongo2:30002\"},{_id:2,host:\"mongo3:30003\"}]}).ok || rs.status().ok" | mongo --port 30001 --quiet) -eq 1
       interval: 10s
+    networks:
+      - mongodb_network
 
   mongo2:
     image: mongo:4.2.10
@@ -21,6 +23,8 @@ services:
       - ./data/mongo-2:/data/db
     ports:
       - 30002:30002
+    networks:
+      - mongodb_network
 
   mongo3:
     image: mongo:4.2.10
@@ -30,3 +34,10 @@ services:
       - ./data/mongo-3:/data/db
     ports:
       - 30003:30003
+    networks:
+      - mongodb_network
+
+networks:
+  mongodb_network:
+    name: mongodb_network
+    driver: bridge
