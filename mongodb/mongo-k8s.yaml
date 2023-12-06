@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: mongodb
+  name: mongodb-namespace
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-namespace
+    app.kubernetes.io/instance: mongodb-namespace
     app.kubernetes.io/version: "1.0.0"
 ---
 apiVersion: v1
 kind: LimitRange
 metadata:
-  name: mongodb
+  name: mongodb-limit-range
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-limit-range
+    app.kubernetes.io/instance: mongodb-limit-range
     app.kubernetes.io/version: "1.0.0"
-  namespace: mongodb
+  namespace: mongodb-namespace
 spec:
   limits:
   - max:
@@ -35,12 +35,12 @@ spec:
 apiVersion: v1
 kind: ResourceQuota
 metadata:
-  name: mongodb
+  name: mongodb-resource-quota
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-resource-quota
+    app.kubernetes.io/instance: mongodb-resource-quota
     app.kubernetes.io/version: "1.0.0"
-  namespace: mongodb
+  namespace: mongodb-namespace
 spec:
   hard:
     limits.cpu: "2"
@@ -52,15 +52,15 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongodb
+  name: mongodb-persistent-volume
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-persistent-volume
+    app.kubernetes.io/instance: mongodb-persistent-volume
     app.kubernetes.io/version: "1.0.0"
-  namespace: mongodb
+  namespace: mongodb-namespace
 spec:
   storageClassName: manual
-  persistentVolumeReclaimPolicy: Recycle
+  #persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteOnce
   capacity:
@@ -71,12 +71,12 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: mongodb
+  name: mongodb-persistent-volume-claim
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-persistent-volume-claim
+    app.kubernetes.io/instance: mongodb-persistent-volume-claim
     app.kubernetes.io/version: "1.0.0"
-  namespace: mongodb
+  namespace: mongodb-namespace
 spec:
   storageClassName: manual
   accessModes:
@@ -86,29 +86,30 @@ spec:
       storage: 2Gi
   selector: 
     matchLabels:
-      app.kubernetes.io/name: mongodb
-      app.kubernetes.io/instance: mongodb
+      app.kubernetes.io/name: mongodb-persistent-volume
+      app.kubernetes.io/instance: mongodb-persistent-volume
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: mongodb-deployment
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-deployment
+    app.kubernetes.io/instance: mongodb-deployment
     app.kubernetes.io/version: "1.0.0"
-  namespace: mongodb
+  namespace: mongodb-namespace
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app.kubernetes.io/name: mongodb
-      app.kubernetes.io/instance: mongodb
+      app.kubernetes.io/name: mongodb-pod
+      app.kubernetes.io/instance: mongodb-pod
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: mongodb
-        app.kubernetes.io/instance: mongodb
+        app.kubernetes.io/name: mongodb-pod
+        app.kubernetes.io/instance: mongodb-pod
+        app.kubernetes.io/version: "1.0.0"
     spec:
       containers:
       - name: mongodb
@@ -129,27 +130,28 @@ spec:
           - containerPort: 27017
         volumeMounts:
           - mountPath: "/data/db"
-            name: mongodb
+            name: mongodb-volume
       volumes:
-        - name: mongodb
+        - name: mongodb-volume
           persistentVolumeClaim:
-            claimName: mongodb
+            claimName: mongodb-persistent-volume-claim
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb
+  name: mongodb-service
   labels:
-    app.kubernetes.io/name: mongodb
-    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/name: mongodb-service
+    app.kubernetes.io/instance: mongodb-service
     app.kubernetes.io/version: "1.0.0"
-  namespace: mongodb
+  namespace: mongodb-namespace
 spec:
   type: NodePort
   selector:
-    app.kubernetes.io/name: mongodb
+    app.kubernetes.io/name: mongodb-pod
+    app.kubernetes.io/instance: mongodb-pod
   ports:
-    - name: mongodb
+    - name: mongodb-port
       protocol: TCP
       nodePort: 30001
       port: 27017
