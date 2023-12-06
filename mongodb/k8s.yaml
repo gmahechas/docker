@@ -4,6 +4,8 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
 ---
 apiVersion: v1
 kind: LimitRange
@@ -11,6 +13,8 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
   namespace: mongodb
 spec:
   limits:
@@ -34,6 +38,8 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
   namespace: mongodb
 spec:
   hard:
@@ -49,13 +55,16 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
   namespace: mongodb
 spec:
   storageClassName: manual
-  capacity:
-    storage: 2Gi
+  persistentVolumeReclaimPolicy: Recycle
   accessModes:
     - ReadWriteOnce
+  capacity:
+    storage: 2Gi
   hostPath:
     path: "/mnt/mongodb"
 ---
@@ -65,6 +74,8 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
   namespace: mongodb
 spec:
   storageClassName: manual
@@ -73,6 +84,10 @@ spec:
   resources:
     requests:
       storage: 2Gi
+  selector: 
+    matchLabels:
+      app.kubernetes.io/name: mongodb
+      app.kubernetes.io/instance: mongodb
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -80,21 +95,21 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
   namespace: mongodb
 spec:
   replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: mongodb
+      app.kubernetes.io/instance: mongodb
   template:
     metadata:
       labels:
         app.kubernetes.io/name: mongodb
+        app.kubernetes.io/instance: mongodb
     spec:
-      volumes:
-        - name: mongodb
-          persistentVolumeClaim:
-            claimName: mongodb
       containers:
       - name: mongodb
         image: mongo:4.2.10
@@ -115,6 +130,10 @@ spec:
         volumeMounts:
           - mountPath: "/data/db"
             name: mongodb
+      volumes:
+        - name: mongodb
+          persistentVolumeClaim:
+            claimName: mongodb
 ---
 apiVersion: v1
 kind: Service
@@ -122,6 +141,8 @@ metadata:
   name: mongodb
   labels:
     app.kubernetes.io/name: mongodb
+    app.kubernetes.io/instance: mongodb
+    app.kubernetes.io/version: "1.0.0"
   namespace: mongodb
 spec:
   type: NodePort
