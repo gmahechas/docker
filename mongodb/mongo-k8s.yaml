@@ -18,19 +18,19 @@ metadata:
   namespace: mongodb-namespace
 spec:
   limits:
-  - max:
-      cpu: "2"
-      memory: "2Gi"
-    min:
-      cpu: "1"
-      memory: "1Gi"
-    default: # limit
-      cpu: "2"
-      memory: "2Gi" 
-    defaultRequest:
-      cpu: "1"
-      memory: "1Gi"
-    type: Container
+    - max:
+        cpu: "2"
+        memory: "2Gi"
+      min:
+        cpu: "1"
+        memory: "1Gi"
+      default: # limit
+        cpu: "2"
+        memory: "2Gi"
+      defaultRequest:
+        cpu: "1"
+        memory: "1Gi"
+      type: Container
 ---
 apiVersion: v1
 kind: ResourceQuota
@@ -84,7 +84,7 @@ spec:
   resources:
     requests:
       storage: 2Gi
-  selector: 
+  selector:
     matchLabels:
       app.kubernetes.io/name: mongodb-persistent-volume
       app.kubernetes.io/instance: mongodb-persistent-volume
@@ -112,25 +112,25 @@ spec:
         app.kubernetes.io/version: "1.0.0"
     spec:
       containers:
-      - name: mongodb
-        image: mongo:4.2.10
-        resources:
-          requests:
-            memory: "1Gi"
-            cpu: "1"
-          limits:
-            memory: "2Gi"
-            cpu: "2"
-        env:
-          - name: MONGO_INITDB_ROOT_USERNAME
-            value: root
-          - name: MONGO_INITDB_ROOT_PASSWORD
-            value: root
-        ports:
-          - containerPort: 27017
-        volumeMounts:
-          - mountPath: "/data/db"
-            name: mongodb-volume
+        - name: mongodb
+          image: mongo:4.2.10
+          resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "2Gi"
+              cpu: "2"
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: root
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: root
+          ports:
+            - containerPort: 27017
+          volumeMounts:
+            - mountPath: "/data/db"
+              name: mongodb-volume
       volumes:
         - name: mongodb-volume
           persistentVolumeClaim:
