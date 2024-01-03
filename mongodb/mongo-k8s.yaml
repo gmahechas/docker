@@ -136,6 +136,25 @@ spec:
           persistentVolumeClaim:
             claimName: mongodb-persistent-volume-claim
 ---
+#apiVersion: v1
+#kind: Service
+#metadata:
+#  name: mongodb-service
+#  labels:
+#    app.kubernetes.io/name: mongodb-service
+#    app.kubernetes.io/instance: mongodb-service
+#    app.kubernetes.io/version: "1.0.0"
+#  namespace: mongodb-namespace
+#spec:
+#  type: ClusterIP
+#  selector:
+#    app.kubernetes.io/name: mongodb-pod
+#    app.kubernetes.io/instance: mongodb-pod
+#  ports:
+#    - name: mongodb-port
+#      protocol: TCP
+#      port: 27017
+#      targetPort: 27017
 apiVersion: v1
 kind: Service
 metadata:
