@@ -1,13 +1,13 @@
-version: "3.8"
-
 services:
   gitlab-ce:
     container_name: gitlab-ce
     image: gitlab/gitlab-ce:16.10.3-ce.0
+    restart: always
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'http://10.1.0.228:8929'; gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        external_url 'http://10.1.0.228:8929'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2424
     ports:
       - '8929:8929'
       - '2424:2424'
@@ -18,6 +18,20 @@ services:
     shm_size: '256m'
     networks:
       - gitlab_ce_network
+    
+#  gitlab-runner:
+#    container_name: gitlab-runner
+#    image: gitlab/gitlab-runner:alpine3.19-bleeding
+#    restart: always
+#    volumes:
+#      - gitlab_runner_config:/etc/gitlab-runner
+#      - /var/run/docker.sock:/var/run/docker.sock
+#      - gitlab_runner_data:/usr/bin/docker
+#    environment:
+#      - CI_SERVER_URL=10.1.0.228  # Cambia esto por la URL de tu GitLab
+#      - REGISTRATION_TOKEN=your-registration-token  # Cambia esto por tu token de registro
+#      - RUNNER_EXECUTOR=docker
+#      - DOCKER_IMAGE=docker:latest
 
 networks:
   gitlab_ce_network:
@@ -26,8 +40,10 @@ networks:
 
 volumes:
   gitlab_ce_config:
-    external: true
   gitlab_ce_data:
-    external: true
   gitlab_ce_logs:
-    external: true
+#  gitlab_runner_config:
+#  gitlab_runner_data:
+#  gitlab_runner_logs:
+
+# /etc/gitlab/initial_root_password
