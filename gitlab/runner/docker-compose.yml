@@ -1,0 +1,16 @@
+services:
+  gitlab-runner:
+    container_name: gitlab-runner
+    image: gitlab/gitlab-runner:alpine3.19-bleeding
+    restart: always
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - gitlab-runner-config:/etc/gitlab-runner
+    environment:
+      - CI_SERVER_URL=http://10.1.0.228:8929
+      - REGISTRATION_TOKEN=glrt-P2ikJJV2QXeinxZDsyYx
+    networks:
+      - gitlab_ce_network
+
+volumes:
+  gitlab_runner_config:

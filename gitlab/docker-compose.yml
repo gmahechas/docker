@@ -19,20 +19,6 @@ services:
     networks:
       - gitlab_ce_network
     
-#  gitlab-runner:
-#    container_name: gitlab-runner
-#    image: gitlab/gitlab-runner:alpine3.19-bleeding
-#    restart: always
-#    volumes:
-#      - gitlab_runner_config:/etc/gitlab-runner
-#      - /var/run/docker.sock:/var/run/docker.sock
-#      - gitlab_runner_data:/usr/bin/docker
-#    environment:
-#      - CI_SERVER_URL=10.1.0.228  # Cambia esto por la URL de tu GitLab
-#      - REGISTRATION_TOKEN=your-registration-token  # Cambia esto por tu token de registro
-#      - RUNNER_EXECUTOR=docker
-#      - DOCKER_IMAGE=docker:latest
-
 networks:
   gitlab_ce_network:
     name: gitlab_ce_network
@@ -42,8 +28,5 @@ volumes:
   gitlab_ce_config:
   gitlab_ce_data:
   gitlab_ce_logs:
-#  gitlab_runner_config:
-#  gitlab_runner_data:
-#  gitlab_runner_logs:
 
 # /etc/gitlab/initial_root_password
