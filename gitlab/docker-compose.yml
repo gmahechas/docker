@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  gitlab-ce:
+    container_name: gitlab-ce
+    image: gitlab/gitlab-ce:16.10.3-ce.0
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        # Add any other gitlab.rb configuration here, each on its own line
+        external_url 'http://10.1.0.228:8929'; gitlab_rails['gitlab_shell_ssh_port'] = 2424
+    publish:
+      - '8929:8929'
+      - '2424:2424'
+    volumes:
+      - gitlab_ce_config:/etc/gitlab
+      - gitlab_ce_data:/var/opt/gitlab
+      - gitlab_ce_logs:/var/log/gitlab
+    shm_size: '256m'
+    networks:
+      - gitlab_ce_network
+
+networks:
+  gitlab_ce_network:
+    name: gitlab_ce_network
+    driver: bridge
+
+volumes:
+  gitlab_ce_config:
+    external: true
+  gitlab_ce_data:
+    external: true
+  gitlab_ce_logs:
+    external: true
