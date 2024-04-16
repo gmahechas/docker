@@ -29,4 +29,4 @@ volumes:
   gitlab_ce_data:
   gitlab_ce_logs:
 
-# /etc/gitlab/initial_root_password
+#docker exec gitlab-ce grep 'Password:' /etc/gitlab/initial_root_password

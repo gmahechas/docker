@@ -13,3 +13,5 @@ networks:
   gitlab_ce_network:
     name: gitlab_ce_network
     driver: bridge
+
+#docker exec -it gitlab-runner /bin/bash
