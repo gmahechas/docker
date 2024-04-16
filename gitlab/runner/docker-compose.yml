@@ -12,5 +12,10 @@ services:
     networks:
       - gitlab_ce_network
 
+networks:
+  gitlab_ce_network:
+    name: gitlab_ce_network
+    driver: bridge
+
 volumes:
   gitlab_runner_config:
