@@ -8,7 +8,7 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
         external_url 'http://10.1.0.228:8929'; gitlab_rails['gitlab_shell_ssh_port'] = 2424
-    publish:
+    ports:
       - '8929:8929'
       - '2424:2424'
     volumes:
