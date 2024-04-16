@@ -29,4 +29,5 @@ volumes:
   gitlab_ce_data:
   gitlab_ce_logs:
 
-#docker exec gitlab-ce grep 'Password:' /etc/gitlab/initial_root_password
+# docker exec gitlab-ce grep 'Password:' /etc/gitlab/initial_root_password
+# https://docs.gitlab.com/ee/install/docker.html#pre-configure-docker-container
