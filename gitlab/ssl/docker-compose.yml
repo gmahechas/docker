@@ -3,6 +3,7 @@ services:
     container_name: gitlab
     image: gitlab/gitlab-ce:16.10.3-ce.0
     restart: always
+    hostname: 'gitlab.gmahechas.net'
     cpus: 2.0
     mem_limit: 4g
     environment:
