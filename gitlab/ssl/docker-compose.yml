@@ -3,13 +3,17 @@ services:
     container_name: gitlab
     image: gitlab/gitlab-ce:16.10.3-ce.0
     restart: always
-    hostname: 'gitlab.gmahechas.net'
     cpus: 2.0
     mem_limit: 4g
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'http://gitlab.gmahechas.net:8929'
+        external_url 'https://gitlab.gmahechas.net:8929'
+        nginx['listen_port'] = 8929
+        nginx['listen_https'] = true
+        nginx['redirect_http_to_https'] = true
+        nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.gmahechas.net.crt"
+        nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.gmahechas.net.key"
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
     ports:
       - '8929:8929'
@@ -18,6 +22,7 @@ services:
       - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
       - gitlab_logs:/var/log/gitlab
+      - './certificate:/etc/gitlab/ssl'
     shm_size: '256m'
     networks:
       - gitlab_network

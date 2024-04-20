@@ -3,15 +3,17 @@ services:
     container_name: gitlab-runner
     image: gitlab/gitlab-runner:alpine3.19-bleeding
     restart: always
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./config.toml:/etc/gitlab-runner/config.toml
     networks:
-      - gitlab_ce_network
+      - gitlab_network
 
 networks:
-  gitlab_ce_network:
-    name: gitlab_ce_network
+  gitlab_network:
+    name: gitlab_network
     driver: bridge
 
 # docker exec -it gitlab-runner /bin/bash
