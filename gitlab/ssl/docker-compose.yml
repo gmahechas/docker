@@ -9,16 +9,17 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'https://gitlab.gmahechas.net:8929'
-        nginx['listen_port'] = 8929
-        nginx['listen_https'] = true
+        external_url 'https://gitlab.gmahechas.net'
         nginx['redirect_http_to_https'] = true
         nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.gmahechas.net.crt"
         nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.gmahechas.net.key"
-        nginx['custom_gitlab_server_config'] = "listen 80;"
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
+      # external_url 'https://gitlab.gmahechas.net:8929'
+      # nginx['listen_port'] = 8929
+      # nginx['listen_https'] = true
+      #  nginx['custom_gitlab_server_config'] = "listen 80;"
     ports:
-      - '8929:8929'
+      - '443:443'
       - '80:80'
       - '2424:2424'
     volumes:
