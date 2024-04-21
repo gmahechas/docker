@@ -1,0 +1,23 @@
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.25.5-alpine
+    restart: always
+    hostname: 'nginx'
+    cpus: 1.0
+    mem_limit: 1g
+    ports:
+    # gitlab
+      - '8929:8929'
+      - '2424:2424'
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - nginx_network
+    depends_on:
+      - gitlab
+    
+networks:
+  nginx_network:
+    name: nginx_network
+    driver: bridge
