@@ -21,3 +21,5 @@ networks:
   nginx_network:
     name: nginx_network
     driver: bridge
+  gitlab_network:
+    external: true
