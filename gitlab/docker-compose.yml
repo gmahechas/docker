@@ -9,7 +9,7 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'http://gitlab:8928'
+        external_url 'http://gitlab.gmahechas.net:8928'
         gitlab_rails['gitlab_shell_ssh_port'] = 2423
     ports:
       - '8928:8928'
