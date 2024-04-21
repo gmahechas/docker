@@ -11,10 +11,9 @@ services:
         # Add any other gitlab.rb configuration here, each on its own line
         external_url 'http://gitlab.gmahechas.net:8928'
         gitlab_rails['gitlab_shell_ssh_port'] = 2423
-        gitlab_rails['internal_api_url'] = 'http://gitlab.gmahechas.net:8929'
-      #  nginx['proxy_protocol'] = true
-      #  nginx['real_ip_header'] = 'X-Forwarded-For'
-      #  nginx['real_ip_recursive'] = 'on'
+        nginx['proxy_protocol'] = true
+        nginx['real_ip_header'] = 'X-Forwarded-For'
+        nginx['real_ip_recursive'] = 'on'
     ports:
       - '8928:8928'
       - '2423:2423'
