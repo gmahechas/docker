@@ -15,6 +15,7 @@ services:
       - ./ssh.conf:/etc/nginx/ssh.conf
     networks:
       - nginx_network
+      - gitlab_network
     
 networks:
   nginx_network:
