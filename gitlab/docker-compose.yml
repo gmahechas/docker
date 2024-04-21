@@ -9,11 +9,11 @@ services:
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'http://gitlab:8929'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        external_url 'http://gitlab:8928'
+        gitlab_rails['gitlab_shell_ssh_port'] = 2423
     ports:
-      - '8929:8929'
-      - '2424:2424'
+      - '8928:8928'
+      - '2423:2423'
     volumes:
       - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
