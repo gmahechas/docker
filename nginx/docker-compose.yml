@@ -12,6 +12,7 @@ services:
       - '2424:2424'
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./ssh.conf:/etc/nginx/ssh.conf
     networks:
       - nginx_network
     
