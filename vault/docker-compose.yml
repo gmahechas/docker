@@ -17,7 +17,7 @@ services:
       - vault-data:/vault/data
     networks:
       - vault_network
-    user: 'vault:vault' # fix permissions
+    user: root
     cap_add:
       - IPC_LOCK
     command:
