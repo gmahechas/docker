@@ -23,8 +23,6 @@ services:
       - "server"
 
 volumes:
-  vault-config:
-    driver: local
   vault-logs:
     driver: local
   vault-data:
