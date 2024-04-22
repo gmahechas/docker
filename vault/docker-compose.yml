@@ -9,6 +9,7 @@ services:
     environment:
       - VAULT_ADDR=http://0.0.0.0:8200
       - VAULT_API_ADDR=http://vault.gmahechas.local:8200
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
     ports:
       - "8200:8200"
     volumes: 
@@ -19,7 +20,7 @@ services:
       - vault_network
     cap_add:
       - IPC_LOCK
-    entrypoint: ["./entrypoint.sh"]
+    entrypoint: ["/usr/local/bin/entrypoint.sh"]
 
 volumes:
   vault-logs:
