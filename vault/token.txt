@@ -1,4 +1,0 @@
-Unseal Key 1: z2VzqrmKUwOYEUOEaSQnQjJH7DnXiMWf9seRvcnb9yk=
-
-Initial Root Token: s.Ws8uFFQ3KxtMfkDbUXo3csVQ
-
