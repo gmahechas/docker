@@ -1,15 +1,15 @@
 services:
   gitlab1:
-    container_name: gitlab1
+    container_name: gitlab
     image: gitlab/gitlab-ce:16.10.3-ce.0
     restart: always
-    hostname: 'gitlab1'
+    hostname: 'gitlab'
     cpus: 2.0
     mem_limit: 4g
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
-        external_url 'http://gitlab1.gmahechas.local:8928'
+        external_url 'http://gitlab.gmahechas.local:8928'
         gitlab_rails['gitlab_shell_ssh_port'] = 2423
     ports:
       - '8928:8928'
@@ -32,5 +32,5 @@ volumes:
   gitlab_data:
   gitlab_logs:
 
-# docker exec gitlab1 grep 'Password:' /etc/gitlab/initial_root_password
+# docker exec gitlab grep 'Password:' /etc/gitlab/initial_root_password
 # https://docs.gitlab.com/ee/install/docker.html#pre-configure-docker-container
