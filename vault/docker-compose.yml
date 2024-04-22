@@ -15,12 +15,11 @@ services:
       - vault-logs:/vault/logs
       - vault-data:/vault/data
       - ./config:/vault/config
-      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
     networks:
       - vault_network
     cap_add:
       - IPC_LOCK
-    entrypoint: ["/usr/local/bin/entrypoint.sh"]
+    entrypoint: ["/vault/config/entrypoint.sh"]
 
 volumes:
   vault-logs:
