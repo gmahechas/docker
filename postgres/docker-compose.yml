@@ -1,4 +1,18 @@
 services:
+  consul-template-postgres:
+    container_name: consul-template-postgres
+    image: hashicorp/consul-template:0.37
+    environment:
+      VAULT_ADDR: 'http://vault.gmahechas.local:8200'
+      VAULT_TOKEN: ''
+    volumes:
+      - ./postgres_secrets:/run/secrets
+      - ./templates:/templates
+    networks:
+      - postgres_network
+    command: >
+      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once
+
   postgres:
     container_name: postgres
     image: postgres:14.11-alpine3.19
@@ -22,24 +36,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  consul-template-postgres:
-    container_name: consul-template-postgres
-    image: hashicorp/consul-template:0.37
-    environment:
-      VAULT_ADDR: 'http://vault.gmahechas.local:8200'
-      VAULT_TOKEN: ''
-    volumes:
-      - ./postgres_secrets:/run/secrets
-      - ./templates:/templates
-    command: >
-      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once
     depends_on:
-      - postgres
+      - consul-template-postgres
 
 volumes:
   postgres-data:
-    driver: local
+    driver: local  
 
 networks:
   postgres_network:
