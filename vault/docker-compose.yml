@@ -15,7 +15,6 @@ services:
       - vault-logs:/vault/logs
       - vault-data:/vault/data
       - ./config:/vault/config
-      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
     networks:
       - vault_network
     cap_add:
@@ -33,3 +32,8 @@ networks:
   vault_network:
     name: vault_network
     driver: bridge
+
+
+# if 
+#
+#
