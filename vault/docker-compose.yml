@@ -17,11 +17,9 @@ services:
       - vault-data:/vault/data
     networks:
       - vault_network
-    user: root
     cap_add:
       - IPC_LOCK
-    command:
-      - "server"
+    entrypoint: ["./entrypoint.sh"]
 
 volumes:
   vault-logs:
