@@ -5,4 +5,4 @@ chown -R vault:vault /vault/logs
 chown -R vault:vault /vault/data
 
 # start vault
-exec vault server -config=/vault/config/vault.hcl
+# exec vault server -config=/vault/config/vault.hcl
