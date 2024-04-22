@@ -1,0 +1,82 @@
+version: '3.7'
+
+services:
+  postgresql:
+    image: postgres:12
+    environment:
+      POSTGRES_DB: gitlab
+      POSTGRES_USER: gitlab
+      POSTGRES_PASSWORD: gitlab_secure_password
+    volumes:
+      - gitlab-postgresql:/var/lib/postgresql/data
+    networks:
+      - gitlab-network
+
+  redis:
+    image: redis:6.0
+    volumes:
+      - gitlab-redis:/data
+    networks:
+      - gitlab-network
+
+  gitlab1:
+    image: gitlab/gitlab-ce:latest
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab1'
+        postgresql['enable'] = false
+        gitlab_rails['db_username'] = "gitlab"
+        gitlab_rails['db_password'] = "gitlab_secure_password"
+        gitlab_rails['db_host'] = "postgresql"
+        gitlab_rails['db_database'] = "gitlab"
+        gitlab_rails['redis_host'] = "redis"
+        gitlab_rails['redis_port'] = 6379
+    ports:
+      - "8081:80"
+    volumes:
+      - gitlab-config1:/etc/gitlab
+      - gitlab-logs1:/var/log/gitlab
+      - gitlab-data1:/var/opt/gitlab
+    networks:
+      - gitlab-network
+    depends_on:
+      - postgresql
+      - redis
+
+  gitlab2:
+    image: gitlab/gitlab-ce:latest
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://gitlab2'
+        postgresql['enable'] = false
+        gitlab_rails['db_username'] = "gitlab"
+        gitlab_rails['db_password'] = "gitlab_secure_password"
+        gitlab_rails['db_host'] = "postgresql"
+        gitlab_rails['db_database'] = "gitlab"
+        gitlab_rails['redis_host'] = "redis"
+        gitlab_rails['redis_port'] = 6379
+    ports:
+      - "8082:80"
+    volumes:
+      - gitlab-config2:/etc/gitlab
+      - gitlab-logs2:/var/log/gitlab
+      - gitlab-data2:/var/opt/gitlab
+    networks:
+      - gitlab-network
+    depends_on:
+      - postgresql
+      - redis
+
+volumes:
+  gitlab-postgresql:
+  gitlab-redis:
+  gitlab-config1:
+  gitlab-logs1:
+  gitlab-data1:
+  gitlab-config2:
+  gitlab-logs2:
+  gitlab-data2:
+
+networks:
+  gitlab-network:
+    driver: bridge

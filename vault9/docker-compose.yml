@@ -1,24 +1,35 @@
-version: "3.8"
-
 services:
   vault:
-    container_name: vault9
-    image: vault:1.9.2
+    container_name: vault
+    image: vault:1.13.3
+    restart: unless-stopped
+    hostname: 'vault'
+    cpus: 1.0
+    mem_limit: 1g
+    environment:
+      - VAULT_ADDR=http://0.0.0.0:8200
+      - VAULT_API_ADDR="http://vault.gmahechas.local:8200"
     ports:
       - "8200:8200"
-    cap_add:
-      - IPC_LOCK
-    environment:
-#      - VAULT_DEV_ROOT_TOKEN_ID=myroot
-#      - VAULT_DEV_LISTEN_ADDRESS=http://127.0.0.1:8200
-      - VAULT_ADDR=http://127.0.0.1:8200
-      - VAULT_API_ADDR=http://127.0.0.1:8200
     volumes: 
       - ./config:/vault/config
+      - vault-logs:/vault/logs
+      - vault-data:/vault/data
     networks:
       - vault_network
+    cap_add:
+      - IPC_LOCK
     command:
       - "server"
+
+volumes:
+  vault-config:
+    driver: local
+  vault-logs:
+    driver: local
+  vault-data:
+    driver: local
+
 networks:
   vault_network:
     name: vault_network

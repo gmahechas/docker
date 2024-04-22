@@ -1,11 +1,11 @@
 services:
   gitlab1:
     container_name: gitlab
-    image: gitlab/gitlab-ce:16.10.3-ce.0
+    image: gitlab/gitlab-ce:16.11.0-ce.0
     restart: always
     hostname: 'gitlab'
-    cpus: 2.0
-    mem_limit: 4g
+    cpus: 1.0
+    mem_limit: 1g
     environment:
       GITLAB_OMNIBUS_CONFIG: |
         # Add any other gitlab.rb configuration here, each on its own line
@@ -18,19 +18,22 @@ services:
       - gitlab_config:/etc/gitlab
       - gitlab_data:/var/opt/gitlab
       - gitlab_logs:/var/log/gitlab
-    shm_size: '256m'
     networks:
       - gitlab_network
-    
+    shm_size: '256m'
+
+volumes:
+  gitlab_config:
+    driver: local
+  gitlab_data:
+    driver: local
+  gitlab_logs:
+    driver: local
+
 networks:
   gitlab_network:
     name: gitlab_network
     driver: bridge
-
-volumes:
-  gitlab_config:
-  gitlab_data:
-  gitlab_logs:
 
 # docker exec gitlab grep 'Password:' /etc/gitlab/initial_root_password
 # https://docs.gitlab.com/ee/install/docker.html#pre-configure-docker-container
