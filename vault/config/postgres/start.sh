@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # secrets
 vault secrets enable -version=2 -description=kv kv
