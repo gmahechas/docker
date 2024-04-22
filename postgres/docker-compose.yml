@@ -14,7 +14,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./postgres_password:/run/secrets
+      - ./postgres_secrets:/run/secrets
     networks:
       - postgres_network
     healthcheck:
@@ -22,8 +22,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    entrypoint: >
-      /bin/sh -c 'consul-template-postgres -template "/templates/postgres.tpl:/run/secrets/postgres_password" -once && docker-entrypoint.sh postgres'
 
   consul-template-postgres:
     container_name: consul-template-postgres
@@ -32,7 +30,10 @@ services:
       VAULT_ADDR: 'http://vault.gmahechas.local:8200'
       VAULT_TOKEN: ''
     volumes:
+      - ./postgres_secrets:/run/secrets
       - ./templates:/templates
+    command: >
+      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once
     depends_on:
       - postgres
 
