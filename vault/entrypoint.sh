@@ -1,4 +1,5 @@
 #!/bin/bash
+
 # fix permissions 
 chown -R vault:vault /vault/config
 chown -R vault:vault /vault/logs
