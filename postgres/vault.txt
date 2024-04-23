@@ -1,0 +1,8 @@
+- docker exec -it postgres psql
+- select * from pg_roles;
+- CREATE ROLE readonly NOINHERIT;
+- GRANT SELECT ON ALL TABLES IN SCHEMA public TO "readonly";
+
+For test
+CREATE DATABASE myapp;
+\q
