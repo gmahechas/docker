@@ -1,16 +1,17 @@
+consul {
+  address = "127.0.0.1:8500"
+
+  auth {
+    enabled = true
+    username = "consul"
+    password = "consul"
+  }
+}
+
 vault {
   address = "http://10.1.0.228:8200"
   ssl {
     enabled = false
-  }
-
-	auth {
-    enabled = true
-    type = "approle"
-    params {
-      role_id = "tu_role_id"
-      secret_id = "tu_secret_id"
-    }
   }
 }
 
