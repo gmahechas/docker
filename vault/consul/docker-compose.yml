@@ -2,9 +2,6 @@ services:
   consul:
     container_name: consul
     image: hashicorp/consul-template:0.37
-    environment:
-      VAULT_ROLE_ID: 'tu_role_id'
-      VAULT_SECRET_ID: 'tu_secret_id'
     volumes:
       - consul-secrets:/run/secrets
       - ./templates:/templates
