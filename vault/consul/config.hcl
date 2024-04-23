@@ -1,5 +1,5 @@
 vault {
-  address = "http://vault.gmahechas.local:8200"
+  address = "http://10.1.0.228:8200"
   enabled = true
   renew_token = false
   ssl {
