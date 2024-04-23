@@ -13,7 +13,7 @@ services:
 
 volumes:
   consul-template-data:
-    driver: external  
+    external: true  
 
 networks:
   consul_template_network:
