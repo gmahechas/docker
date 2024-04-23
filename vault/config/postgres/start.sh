@@ -11,7 +11,7 @@ vault write database/config/postgresql \
       allowed_roles=readonly \
       connection_url="postgresql://{{username}}:{{password}}@$POSTGRES_URL/myapp?sslmode=disable" \
       username=root \
-      password=rootpassword
+      password=root
 
 
 vault write database/roles/readonly db_name=postgresql \
