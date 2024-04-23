@@ -23,4 +23,6 @@ networks:
   consul_template_network:
     name: consul_template_network
     driver: bridge
+  vault_network:
+    external: true
 
