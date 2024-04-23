@@ -8,7 +8,6 @@ exec /usr/local/bin/docker-entrypoint.sh "$@"
 chown postgres:postgres /var/lib/postgresql/data/ssl/server.key
 chmod 600 /var/lib/postgresql/data/ssl/server.key
 
-
 # include custom configs
 PG_CONF="/var/lib/postgresql/data/pgdata/postgresql.conf"
 PG_HBA="/var/lib/postgresql/data/pgdata/pg_hba.conf"
