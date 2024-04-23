@@ -8,8 +8,10 @@ services:
     volumes:
       - consul-template-data:/run/secrets
       - ./templates:/templates
+    networks:
+      - consul_template_network
     command: >
-      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once
+      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once -log-level=debug
 
 volumes:
   consul-template-data:
