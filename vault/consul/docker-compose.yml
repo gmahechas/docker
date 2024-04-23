@@ -1,0 +1,22 @@
+services:
+  consul_template:
+    container_name: consul_template
+    image: hashicorp/consul-template:0.37
+    environment:
+      VAULT_ADDR: 'http://vault.gmahechas.local:8200'
+      VAULT_TOKEN: ''
+    volumes:
+      - consul-template-data:/run/secrets
+      - ./templates:/templates
+    command: >
+      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once
+
+volumes:
+  consul-template-data:
+    driver: external  
+
+networks:
+  consul_template_network:
+    name: consul_template_network
+    driver: bridge
+
