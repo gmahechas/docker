@@ -1,3 +1,0 @@
-{{ with secret "kv/databases/postgres" }}
-export POSTGRES_PASSWORD='{{ .Data.data.password }}'
-{{ end }}

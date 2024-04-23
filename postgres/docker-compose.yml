@@ -7,8 +7,8 @@ services:
     cpus: 1.0
     mem_limit: 1g
     environment:
-      - POSTGRES_PASSWORD=postgres # user: postgres
-      # - POSTGRES_PASSWORD_FILE=/run/secrets/postgres_password
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
       - PGDATA=/var/lib/postgresql/data/pgdata
     ports:
       - "5432:5432"
