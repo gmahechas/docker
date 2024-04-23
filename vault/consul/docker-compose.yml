@@ -17,7 +17,7 @@ services:
 
 volumes:
   consul-secrets:
-    external: true  
+    driver: local
 
 networks:
   consul_network:
