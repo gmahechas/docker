@@ -9,10 +9,11 @@ services:
     volumes:
       - consul-template-data:/run/secrets
       - ./templates:/templates
+      - ./config.hcl:/etc/consul-template/config.hcl
     networks:
       - consul_template_network
     command: >
-      consul-template -template "/templates/postgres-config.tpl:/run/secrets/postgres_password" -once -log-level=debug
+      consul-template -config="/etc/consul-template/config.hcl" -log-level=debug -once
 
 volumes:
   consul-template-data:
