@@ -5,6 +5,14 @@ vault {
   ssl {
     enabled = false
   }
+
+	auth {
+    method = "approle"
+    config = {
+      role_id_file_path = "/etc/consul-template/role_id"
+      secret_id_file_path = "/etc/consul-template/secret_id"
+    }
+  }
 }
 
 template {
