@@ -14,9 +14,9 @@ services:
       - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      - ./postgresql.conf:/var/lib/postgresql/data/postgresql.conf
-      - ./pg_hba.conf:/var/lib/postgresql/data/pg_hba.conf
-      - ./ssl:/var/lib/postgresql/data/ssl
+      - ./postgresql.custom.conf:/var/lib/postgresql/data/pgdata/postgresql.custom.conf
+      - ./pg_hba.custom.conf:/var/lib/postgresql/data/pgdata/pg_hba.custom.conf
+      - ./ssl:/var/lib/postgresql/data/pgdata/ssl
     networks:
       - postgres_network
     healthcheck:
@@ -24,6 +24,12 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    command: >
+      /bin/sh -c "
+      echo 'include = 'postgresql.custom.conf'' >> /var/lib/postgresql/data/pgdata/postgresql.conf &&
+      echo 'include = ''pg_hba.custom.conf''' >> /var/lib/postgresql/data/pgdata/pg_hba.conf &&
+      exec docker-entrypoint.sh postgres
+      "
 
 volumes:
   postgres-data:
