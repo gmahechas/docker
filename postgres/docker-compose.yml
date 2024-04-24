@@ -37,6 +37,6 @@ networks:
 # chown postgres:postgres /var/lib/postgresql/data/ssl/server.key
 # chmod 600 /var/lib/postgresql/data/ssl/server.key
 # cat /var/lib/postgresql/data/postgresql.custom.conf >> /var/lib/postgresql/data/pgdata/postgresql.conf
+# sed -i '/host all all all scram-sha-256/d' /var/lib/postgresql/data/pgdata/pg_hba.conf
 # cat /var/lib/postgresql/data/pg_hba.custom.conf >> /var/lib/postgresql/data/pgdata/pg_hba.conf
-# sed -i '/host all all all scram-sha-256/d' /var/lib/postgresql/data/pgdata/postgresql.conf
 # docker compose restart
