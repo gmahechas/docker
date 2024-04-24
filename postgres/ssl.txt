@@ -1,3 +1,4 @@
-openssl genrsa -out server.key 2048
-chmod 400 server.key
-openssl req -new -x509 -days 365 -key server.key -out server.crt -subj "/C=US/ST=Tolima/L=Ibague/O=gmahechas/CN=postgres.gmahechas.local"
+openssl req -new -text -passout pass:abcd -subj /CN=localhost -out server.req
+openssl rsa -in privkey.pem -passin pass:abcd -out server.key
+openssl req -x509 -in server.req -text -key server.key -out server.crt
+chmod 600 server.key server.crt
