@@ -9,7 +9,7 @@ echo "###### creating secrets ######"
 vault write database/config/postgresql \
       plugin_name=postgresql-database-plugin \
       allowed_roles=readonly \
-      connection_url="postgresql://{{username}}:{{password}}@$POSTGRES_URL/myapp?sslmode=disable" \
+      connection_url="postgresql://{{username}}:{{password}}@10.1.0.228/myapp?sslmode=require" \
       username=root \
       password=root
 

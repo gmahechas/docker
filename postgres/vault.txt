@@ -1,4 +1,4 @@
-- docker exec -it postgres psql
+- docker exec -it postgres psql "sslmode=require"
 - select * from pg_roles;
 - CREATE ROLE readonly NOINHERIT;
 - GRANT SELECT ON ALL TABLES IN SCHEMA public TO "readonly";
