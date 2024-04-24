@@ -24,12 +24,13 @@ vault write database/config/postgres_connection \
       connection_url="postgresql://{{username}}:{{password}}@10.1.0.228/root?sslmode=require" \
       username=root \
       password=root
+
 vault read database/config/postgres_connection
 
 vault write database/roles/postgres_role db_name=postgres_connection \
         creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" \
         default_ttl=1h max_ttl=24h
 
-vault read database/creds/postgres_connection
+vault read database/creds/postgres_role
 
-vault token create -policy="db_creds" -format json
+vault token create -policy="database_credentials" -format json
