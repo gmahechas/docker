@@ -1,12 +1,12 @@
 services:
-  consul:
-    container_name: consul
+  vault-consul:
+    container_name: vault-consul
     image: hashicorp/consul-template:0.37
     volumes:
       - consul-secrets:/run/secrets
       - ./config:/etc/consul-template/config
     networks:
-      - consul_network
+      - vault_consul_network
       - vault_network
     command: >
       consul-template -config="/etc/consul-template/config/config.hcl" -template="/etc/consul-template/config/config.yml.tpl:/etc/consul-template/config/config.yml" -log-level=debug -once
@@ -16,8 +16,8 @@ volumes:
     driver: local
 
 networks:
-  consul_network:
-    name: consul_network
+  vault_consul_network:
+    name: vault_consul_network
     driver: bridge
   vault_network:
     external: true
