@@ -4,13 +4,12 @@ services:
     image: hashicorp/consul-template:0.37
     volumes:
       - consul-secrets:/run/secrets
-      - ./templates:/templates
-      - ./config.hcl:/etc/consul-template/config.hcl
+      - ./config:/etc/consul-template/config
     networks:
       - consul_network
       - vault_network
     command: >
-      consul-template -config="/etc/consul-template/config.hcl" -log-level=debug -once
+      consul-template -config="/etc/consul-template/config/config.hcl" -template="/etc/consul-template/config/config.yml.tpl:/etc/consul-template/config/config.yml" -log-level=debug -once
 
 volumes:
   consul-secrets:
