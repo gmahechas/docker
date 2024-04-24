@@ -1,0 +1,35 @@
+####### init
+vault operator init -key-shares=1 -key-threshold=1
+vault operator unseal
+vault login TOKEN
+
+####### database secrets: not use root, use this instead
+vault policy write database_policies database_policies.hcl
+vault token create -policy="database_policies" -ttl="1h"
+vault login TOKEN
+
+####### secrets
+echo "###### enabling secrets ######"
+vault secrets enable database
+
+####### policies for database 
+vault policy write database_credentials database_credentials.hcl
+vault token create -policy="database_credentials" -format json # create at the end
+
+####### postgres
+echo "###### creating secrets ######"
+vault write database/config/postgres_connection \
+      plugin_name=postgresql-database-plugin \
+      allowed_roles=postgres_role \
+      connection_url="postgresql://{{username}}:{{password}}@10.1.0.228/root?sslmode=require" \
+      username=root \
+      password=root
+vault read database/config/postgres_connection
+
+vault write database/roles/postgres_role db_name=postgres_connection \
+        creation_statements="CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}'; GRANT SELECT ON ALL TABLES IN SCHEMA public TO \"{{name}}\";" \
+        default_ttl=1h max_ttl=24h
+
+vault read database/creds/postgres_connection
+
+vault token create -policy="db_creds" -format json

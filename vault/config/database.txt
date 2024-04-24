@@ -1,3 +1,0 @@
-vault policy write database-policies database-policies.hcl
-vault token create -policy="database-policies"
-vault login TOKEN
