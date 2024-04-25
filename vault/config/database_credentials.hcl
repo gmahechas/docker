@@ -1,4 +1,4 @@
-path "database/creds/readonly" {
+path "database/creds/postgres_role" {
   capabilities = [ "read" ]
 }
 

@@ -14,7 +14,6 @@ vault secrets enable database
 
 ####### policies for database 
 vault policy write database_credentials database_credentials.hcl
-vault token create -policy="database_credentials" -format json # create at the end
 
 ####### postgres
 echo "###### creating secrets ######"
