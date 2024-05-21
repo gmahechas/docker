@@ -1,17 +1,18 @@
-# Generar la clave privada del CA
+# Generar la clave privada de la CA
 openssl genpkey -algorithm RSA -out ca.key
 
-# Generar el certificado del CA
+# Generar el certificado de la CA
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt
 
 # Generar la clave privada del servidor
 openssl genpkey -algorithm RSA -out mongo.key
 
-# Generar una solicitud de firma de certificado (CSR) para el servidor (Luna2019)
+# Generar una solicitud de firma de certificado (CSR) para el servidor
 openssl req -new -key mongo.key -out mongo.csr
 
-# Firmar el certificado del servidor con el CA
+# Firmar el certificado del servidor con la CA
 openssl x509 -req -in mongo.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out mongo.crt -days 365 -sha256
 
 # Combinar la clave privada y el certificado en un solo archivo
 cat mongo.key mongo.crt > mongo.pem
+
