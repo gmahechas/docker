@@ -1,14 +1,14 @@
 # Generar la clave privada de la CA
 openssl genpkey -algorithm RSA -out ca.key
 
-# Generar el certificado de la CA
+# Generar el certificado de la CA (pregunta)
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt
 
 # Generar la clave privada del servidor
 openssl genpkey -algorithm RSA -out mongo.key
 
-# Generar una solicitud de firma de certificado (CSR) para el servidor
-openssl req -new -key mongo.key -out mongo.csr
+# Generar una solicitud de firma de certificado (CSR) para el servidor (pregunta con challenge)
+openssl req -new -key mongo.key -out mongo.csr 
 
 # Firmar el certificado del servidor con la CA
 openssl x509 -req -in mongo.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out mongo.crt -days 365 -sha256
@@ -16,3 +16,14 @@ openssl x509 -req -in mongo.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out mo
 # Combinar la clave privada y el certificado en un solo archivo
 cat mongo.key mongo.crt > mongo.pem
 
+# Generar la clave privada del cliente
+openssl genpkey -algorithm RSA -out client.key
+
+# Generar una solicitud de firma de certificado (CSR) para el cliente (pregunta con challenge)
+openssl req -new -key client.key -out client.csr
+
+# Firmar el certificado del cliente con la CA
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 365 -sha256
+
+# Combinar la clave privada y el certificado en un solo archivo
+cat client.key client.crt > client.pem
