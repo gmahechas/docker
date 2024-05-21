@@ -6,14 +6,14 @@ services:
     hostname: 'mongodb1'
     cpus: 1.0
     mem_limit: 1g
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30001", "--sslMode", "requireSSL", "--sslPEMKeyFile", "/etc/ssl/mongo.pem", "--sslCAFile", "/etc/ssl/ca.crt"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30001", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongo.pem", "--tlsCAFile", "/etc/ssl/ca.crt"]
     volumes:
       - mongodb1_data:/data/db
       - ./certificate:/etc/ssl
     ports:
       - "30001:30001"
     healthcheck:
-      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb1:30001\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --ssl --sslCAFile /etc/ssl/ca.crt --sslPEMKeyFile /etc/ssl/mongo.pem --host mongodb1 --port 30001 --quiet) -eq 1"
+      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb1:30001\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongo.pem --host mongodb1 --port 30001 --quiet) -eq 1"
       interval: 10s
       retries: 5
     networks:
@@ -25,14 +25,14 @@ services:
     restart: always
     hostname: 'mongodb2'
     cpus: 1.0
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30002", "--sslMode", "requireSSL", "--sslPEMKeyFile", "/etc/ssl/mongo.pem", "--sslCAFile", "/etc/ssl/ca.crt"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30002", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongo.pem", "--tlsCAFile", "/etc/ssl/ca.crt"]
     volumes:
       - mongodb2_data:/data/db
       - ./certificate:/etc/ssl
     ports:
       - "30002:30002"
     healthcheck:
-      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb2:30002\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --ssl --sslCAFile /etc/ssl/ca.crt --sslPEMKeyFile /etc/ssl/mongo.pem --host mongodb2 --port 30002 --quiet) -eq 1"
+      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb2:30002\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongo.pem --host mongodb2 --port 30002 --quiet) -eq 1"
       interval: 10s
       retries: 5
     networks:
@@ -44,14 +44,14 @@ services:
     restart: always
     hostname: 'mongodb3'
     cpus: 1.0
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30003", "--sslMode", "requireSSL", "--sslPEMKeyFile", "/etc/ssl/mongo.pem", "--sslCAFile", "/etc/ssl/ca.crt"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30003", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongo.pem", "--tlsCAFile", "/etc/ssl/ca.crt"]
     volumes:
       - mongodb3_data:/data/db
       - ./certificate:/etc/ssl
     ports:
       - "30003:30003"
     healthcheck:
-      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb3:30003\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --ssl --sslCAFile /etc/ssl/ca.crt --sslPEMKeyFile /etc/ssl/mongo.pem --host mongodb3 --port 30003 --quiet) -eq 1"
+      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb3:30003\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongo.pem --host mongodb3 --port 30003 --quiet) -eq 1"
       interval: 10s
       retries: 5
     networks:
@@ -71,9 +71,9 @@ services:
     entrypoint: >
       bash -c "
         for i in `seq 1 30`; do
-          mongo --ssl --sslCAFile /etc/ssl/ca.crt --sslPEMKeyFile /etc/ssl/mongo.pem --host mongodb1 --port 30001 --eval 'printjson(rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"mongodb1:30001\"},{_id:1,host:\"mongodb2:30002\"},{_id:2,host:\"mongodb3:30003\"}]}))' && break || echo 'Retrying in 5 secs...' && sleep 5;
+          mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongo.pem --host mongodb1 --port 30001 --eval 'printjson(rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"mongodb1:30001\"},{_id:1,host:\"mongodb2:30002\"},{_id:2,host:\"mongodb3:30003\"}]}))' && break || echo 'Retrying in 5 secs...' && sleep 5;
         done;
-        mongo --ssl --sslCAFile /etc/ssl/ca.crt --sslPEMKeyFile /etc/ssl/mongo.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongo.pem --host mongodb1 --port 30001 --eval 'rs.status()'
       "
     networks:
       - mongodb_network
