@@ -1,7 +1,11 @@
 services:
   mongodb1:
-    image: mongo:4.2.10
     container_name: mongodb1
+    image: mongo:4.2.10
+    restart: always
+    hostname: 'mongodb1'
+    cpus: 1.0
+    mem_limit: 1g
     command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30001", "--sslMode", "requireSSL", "--sslPEMKeyFile", "/etc/ssl/mongo.pem", "--sslCAFile", "/etc/ssl/ca.crt"]
     volumes:
       - mongodb1_data:/data/db
@@ -16,8 +20,11 @@ services:
       - mongodb_network
 
   mongodb2:
-    image: mongo:4.2.10
     container_name: mongodb2
+    image: mongo:4.2.10
+    restart: always
+    hostname: 'mongodb2'
+    cpus: 1.0
     command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30002", "--sslMode", "requireSSL", "--sslPEMKeyFile", "/etc/ssl/mongo.pem", "--sslCAFile", "/etc/ssl/ca.crt"]
     volumes:
       - mongodb2_data:/data/db
@@ -32,8 +39,11 @@ services:
       - mongodb_network
 
   mongodb3:
-    image: mongo:4.2.10
     container_name: mongodb3
+    image: mongo:4.2.10
+    restart: always
+    hostname: 'mongodb3'
+    cpus: 1.0
     command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30003", "--sslMode", "requireSSL", "--sslPEMKeyFile", "/etc/ssl/mongo.pem", "--sslCAFile", "/etc/ssl/ca.crt"]
     volumes:
       - mongodb3_data:/data/db
@@ -48,8 +58,10 @@ services:
       - mongodb_network
 
   mongodb_init:
-    image: mongo:4.2.10
     container_name: mongodb_init
+    image: mongo:4.2.10
+    restart: "no"
+    hostname: 'mongodb_init'
     depends_on:
       - mongodb1
       - mongodb2
