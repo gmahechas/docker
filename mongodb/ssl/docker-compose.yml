@@ -72,6 +72,9 @@ services:
     container_name: mongodb_init
     image: mongo:4.2.10
     hostname: 'mongodb_init'
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
       - ./certificate:/etc/ssl:ro
     depends_on:
