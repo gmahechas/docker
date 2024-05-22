@@ -6,6 +6,9 @@ services:
     hostname: 'mongodb1'
     cpus: 1.0
     mem_limit: 1g
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
       - ./certificate:/etc/ssl:ro
       - mongodb1_data:/data/db
@@ -26,6 +29,9 @@ services:
     hostname: 'mongodb2'
     cpus: 1.0
     mem_limit: 1g
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
       - ./certificate:/etc/ssl:ro
       - mongodb2_data:/data/db
@@ -46,6 +52,9 @@ services:
     hostname: 'mongodb3'
     cpus: 1.0
     mem_limit: 1g
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     volumes:
       - ./certificate:/etc/ssl:ro
       - mongodb3_data:/data/db

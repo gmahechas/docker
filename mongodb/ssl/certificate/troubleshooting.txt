@@ -1,15 +1,14 @@
-inside container
-MongoDB shell version v4.2.10
-connecting to: mongodb://mongodb1:30001/?compressors=disabled&gssapiServiceName=mongodb
-2024-05-22T00:57:08.943+0000 E  NETWORK  [js] The server certificate does not match the host name. Hostname: mongodb1 does not match CN: mongodb-server
-2024-05-22T00:57:08.943+0000 E  QUERY    [js] Error: couldn't connect to server mongodb1:30001, connection attempt failed: SSLHandshakeFailed: The server certificate does not match the host name. Hostname: mongodb1 does not match CN: mongodb-server :
-connect@src/mongo/shell/mongo.js:353:17
-@(connect):2:6
-2024-05-22T00:57:08.945+0000 F  -        [main] exception: connect failed
-2024-05-22T00:57:08.945+0000 E  -        [main] exiting with code 1
-
-
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
 mongo --tls --tlsAllowInvalidHostnames --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
 
+
+####### login in container
+- mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001
+- rs.status()
+
+####### healthcheck
 echo 'rs.status().members.find(m => m.name === "mongodb1:30001" && (m.stateStr === "PRIMARY" || m.stateStr === "SECONDARY")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --quiet
+
+
+####### connect from robo3t
+mongodb://${username}:${password}@${hosts}/?replicaSet=${replica_set_name}&tls=true&tlsCAFile=${ca_file}&tlsCertificateKeyFile=${client_pem}
