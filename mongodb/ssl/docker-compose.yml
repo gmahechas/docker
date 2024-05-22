@@ -107,9 +107,13 @@ services:
       - mongodb3
     entrypoint: >
       bash -c "
-        for i in `seq 1 30`; do
-          mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --eval 'printjson(rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"mongodb1:30001\"},{_id:1,host:\"mongodb2:30002\"},{_id:2,host:\"mongodb3:30003\"}]}))' && break || echo 'Retrying in 5 secs...' && sleep 5;
+        while ! mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --eval 'db.runCommand({ping: 1})'; do
+          echo 'Waiting for mongodb1 to be ready...'
+          sleep 5
         done;
+        echo 'Initiating replica set...'
+        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --eval 'rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"mongodb1:30001\"}, {_id: 1, host: \"mongodb2:30002\"}, {_id: 2, host: \"mongodb3:30003\"}]});'
+        echo 'Replica set initiated.'
         mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --eval 'rs.status()'
       "
     networks:
