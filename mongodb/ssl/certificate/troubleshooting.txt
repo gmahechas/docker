@@ -1,7 +1,7 @@
 ####### login in container
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb2 --port 30002
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb3 --port 30003
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb2 --port 30002 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb3 --port 30003 -u root -p root --authenticationDatabase admin
 rs.status()
 
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
@@ -9,5 +9,6 @@ mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/
 ####### healthcheck
 echo 'rs.status().members.find(m => m.name === "mongodb1:30001" && (m.stateStr === "PRIMARY" || m.stateStr === "SECONDARY")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --quiet
 
-####### connect from robo3t
-mongodb://mongodb1:30001,mongodb2:30002,mongodb3:30003/?replicaSet=rs0&tls=true&tlsCAFile=/Users/tavogus/dev/docker/mongodb/ssl/certificate/ca.crt&tlsCertificateKeyFile=/Users/tavogus/dev/docker/mongodb/ssl/certificate/client/client.pem
+####### initiate
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --eval 'printjson(rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"mongodb1:30001\"},{_id:1,host:\"mongodb2:30002\"},{_id:2,host:\"mongodb3:30003\"}]}))'
+rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "mongodb1:30001" }, { _id: 1, host: "mongodb2:30002" }, { _id: 2, host: "mongodb3:30003" }] })
