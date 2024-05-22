@@ -22,7 +22,8 @@ services:
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
-      "--auth"
+      "--auth",
+      "--verbose"
     ]
     healthcheck:
       test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb1:30001\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --quiet) -eq 1"
@@ -54,7 +55,8 @@ services:
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
-      "--auth"
+      "--auth",
+      "--verbose"
     ]
     healthcheck:
       test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb2:30002\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb2 --port 30002 -u root -p root --authenticationDatabase admin --quiet) -eq 1"
@@ -86,7 +88,8 @@ services:
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
-      "--auth"
+      "--auth",
+      "--verbose"
     ]
     healthcheck:
       test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb3:30003\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb3 --port 30003 -u root -p root --authenticationDatabase admin --quiet) -eq 1"
