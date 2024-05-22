@@ -18,10 +18,11 @@ services:
       "--port", "30001",
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem",
-      "--tlsCAFile", "/etc/ssl/ca.crt"
+      "--tlsCAFile", "/etc/ssl/ca.crt",
+      "--auth"
     ]
     healthcheck:
-      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb1:30001\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --quiet) -eq 1"
+      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb1:30001\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u 'admin' -p 'password' --authenticationDatabase 'admin' --quiet) -eq 1"
       interval: 10s
       retries: 5
     networks:
@@ -46,10 +47,11 @@ services:
       "--port", "30002",
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem",
-      "--tlsCAFile", "/etc/ssl/ca.crt"
+      "--tlsCAFile", "/etc/ssl/ca.crt",
+      "--auth"
     ]
     healthcheck:
-      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb2:30002\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb2 --port 30002 --quiet) -eq 1"
+      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb2:30002\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb2 --port 30002 -u 'admin' -p 'password' --authenticationDatabase 'admin' --quiet) -eq 1"
       interval: 10s
       retries: 5
     networks:
@@ -74,10 +76,11 @@ services:
       "--port", "30003",
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem",
-      "--tlsCAFile", "/etc/ssl/ca.crt"
+      "--tlsCAFile", "/etc/ssl/ca.crt",
+      "--auth"
     ]
     healthcheck:
-      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb3:30003\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb3 --port 30003 --quiet) -eq 1"
+      test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb3:30003\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb3 --port 30003 -u 'admin' -p 'password' --authenticationDatabase 'admin' --quiet) -eq 1"
       interval: 10s
       retries: 5
     networks:
@@ -95,16 +98,14 @@ services:
       - mongodb3
     entrypoint: >
       bash -c "
-        while ! mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.runCommand({ping: 1})'; do
+        while ! mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u 'admin' -p 'password' --authenticationDatabase 'admin' --eval 'db.runCommand({ping: 1})'; do
           echo 'Waiting for mongodb1 to be ready...'
           sleep 5
         done;
         echo 'Initiating replica set...'
-        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"mongodb1:30001\"}, {_id: 1, host: \"mongodb2:30002\"}, {_id: 2, host: \"mongodb3:30003\"}]});'
+        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u 'admin' -p 'password' --authenticationDatabase 'admin' --eval 'rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"mongodb1:30001\"}, {_id: 1, host: \"mongodb2:30002\"}, {_id: 2, host: \"mongodb3:30003\"}]});'
         echo 'Replica set initiated.'
-        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
-        echo 'Creating admin user...'
-        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.getSiblingDB(\"admin\").createUser({user: \"admin\", pwd: \"password\", roles: [{role: \"root\", db: \"admin\"}]});'
+        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u 'admin' -p 'password' --authenticationDatabase 'admin' --eval 'rs.status()'
         echo 'Admin user created.'
       "
     networks:
