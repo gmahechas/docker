@@ -14,7 +14,7 @@ services:
       - mongodb1_data:/data/db
     ports:
       - "30001:30001"
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30001", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem", "--tlsCAFile", "/etc/ssl/ca.crt"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30001", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem", "--tlsCAFile", "/etc/ssl/ca.crt", "--auth"]
     healthcheck:
       test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb1:30001\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 -u root -p root --authenticationDatabase admin --quiet) -eq 1"
       interval: 10s
@@ -37,7 +37,7 @@ services:
       - mongodb2_data:/data/db
     ports:
       - "30002:30002"
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30002", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem", "--tlsCAFile", "/etc/ssl/ca.crt"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30002", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem", "--tlsCAFile", "/etc/ssl/ca.crt", "--auth"]
     healthcheck:
       test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb2:30002\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb2 --port 30002 -u root -p root --authenticationDatabase admin --quiet) -eq 1"
       interval: 10s
@@ -60,7 +60,7 @@ services:
       - mongodb3_data:/data/db
     ports:
       - "30003:30003"
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30003", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem", "--tlsCAFile", "/etc/ssl/ca.crt"]
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "30003", "--tlsMode", "requireTLS", "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem", "--tlsCAFile", "/etc/ssl/ca.crt", "--auth"]
     healthcheck:
       test: "test $$(echo 'rs.status().members.find(m => m.name === \"mongodb3:30003\" && (m.stateStr === \"PRIMARY\" || m.stateStr === \"SECONDARY\")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb3 --port 30003 -u root -p root --authenticationDatabase admin --quiet) -eq 1"
       interval: 10s
