@@ -11,3 +11,5 @@ connect@src/mongo/shell/mongo.js:353:17
 
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
 mongo --tls --tlsAllowInvalidHostnames --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+
+echo 'rs.status().members.find(m => m.name === "mongodb1:30001" && (m.stateStr === "PRIMARY" || m.stateStr === "SECONDARY")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --quiet
