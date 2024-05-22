@@ -9,5 +9,5 @@ connect@src/mongo/shell/mongo.js:353:17
 2024-05-22T00:57:08.945+0000 E  -        [main] exiting with code 1
 
 
-mongo --tls 													 --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
-mongo --tls --tlsAllowInvalidHostnames --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+mongo --tls --tlsAllowInvalidHostnames --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'

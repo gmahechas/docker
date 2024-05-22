@@ -72,9 +72,9 @@ services:
     entrypoint: >
       bash -c "
         for i in `seq 1 30`; do
-          mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client.pem --host mongodb1 --port 30001 --eval 'printjson(rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"mongodb1:30001\"},{_id:1,host:\"mongodb2:30002\"},{_id:2,host:\"mongodb3:30003\"}]}))' && break || echo 'Retrying in 5 secs...' && sleep 5;
+          mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'printjson(rs.initiate({_id:\"rs0\",members:[{_id:0,host:\"mongodb1:30001\"},{_id:1,host:\"mongodb2:30002\"},{_id:2,host:\"mongodb3:30003\"}]}))' && break || echo 'Retrying in 5 secs...' && sleep 5;
         done;
-        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
       "
     networks:
       - mongodb_network
