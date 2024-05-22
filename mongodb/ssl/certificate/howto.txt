@@ -1,34 +1,63 @@
-1.
+1. Generar la clave privada de la CA y el certificado de la CA
 # Generar la clave privada de la CA
 openssl genpkey -algorithm RSA -out ca.key
 
 # Generar el certificado de la CA (Common Name: mongodb-ca)
-openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=mongodb-ca"
 
 
-2.
-# Generar la clave privada del servidor
-openssl genpkey -algorithm RSA -out mongo.key
+2. Generar la clave privada del servidor, CSR, y el certificado del servidor para cada nodo
+mongodb1
+# Generar la clave privada del servidor para mongodb1
+openssl genpkey -algorithm RSA -out mongodb1.key
 
-# Generar una solicitud de firma de certificado (CSR) para el servidor
-openssl req -new -key mongo.key -out mongo.csr (Common Name: mongodb-server)
+# Generar una solicitud de firma de certificado (CSR) para mongodb1
+openssl req -new -key mongodb1.key -out mongodb1.csr -subj "/CN=mongodb1"
 
-# Firmar el certificado del servidor con la CA
-openssl x509 -req -in mongo.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out mongo.crt -days 365 -sha256
+# Firmar el certificado del servidor para mongodb1 con la CA
+openssl x509 -req -in mongodb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb1.crt -days 365 -sha256
 
 # Combinar la clave privada y el certificado en un solo archivo
-cat mongo.key mongo.crt > mongo.pem
+cat mongodb1.key mongodb1.crt > mongodb1.pem
 
 
-3.
+mongodb2
+# Generar la clave privada del servidor para mongodb2
+openssl genpkey -algorithm RSA -out mongodb2.key
+
+# Generar una solicitud de firma de certificado (CSR) para mongodb2
+openssl req -new -key mongodb2.key -out mongodb2.csr -subj "/CN=mongodb2"
+
+# Firmar el certificado del servidor para mongodb2 con la CA
+openssl x509 -req -in mongodb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb2.crt -days 365 -sha256
+
+# Combinar la clave privada y el certificado en un solo archivo
+cat mongodb2.key mongodb2.crt > mongodb2.pem
+
+
+mongodb3
+# Generar la clave privada del servidor para mongodb3
+openssl genpkey -algorithm RSA -out mongodb3.key
+
+# Generar una solicitud de firma de certificado (CSR) para mongodb3
+openssl req -new -key mongodb3.key -out mongodb3.csr -subj "/CN=mongodb3"
+
+# Firmar el certificado del servidor para mongodb3 con la CA
+openssl x509 -req -in mongodb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb3.crt -days 365 -sha256
+
+# Combinar la clave privada y el certificado en un solo archivo
+cat mongodb3.key mongodb3.crt > mongodb3.pem
+
+
+3. Generar la clave privada del cliente, CSR, y el certificado del cliente
 # Generar la clave privada del cliente
 openssl genpkey -algorithm RSA -out client.key
 
 # Generar una solicitud de firma de certificado (CSR) para el cliente
-openssl req -new -key client.key -out client.csr
+openssl req -new -key client.key -out client.csr -subj "/CN=mongodb-client"
 
 # Firmar el certificado del cliente con la CA
-openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 365 -sha256
+openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 365 -sha256
 
 # Combinar la clave privada y el certificado en un solo archivo
 cat client.key client.crt > client.pem

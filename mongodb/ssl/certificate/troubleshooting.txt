@@ -1,0 +1,13 @@
+inside container
+MongoDB shell version v4.2.10
+connecting to: mongodb://mongodb1:30001/?compressors=disabled&gssapiServiceName=mongodb
+2024-05-22T00:57:08.943+0000 E  NETWORK  [js] The server certificate does not match the host name. Hostname: mongodb1 does not match CN: mongodb-server
+2024-05-22T00:57:08.943+0000 E  QUERY    [js] Error: couldn't connect to server mongodb1:30001, connection attempt failed: SSLHandshakeFailed: The server certificate does not match the host name. Hostname: mongodb1 does not match CN: mongodb-server :
+connect@src/mongo/shell/mongo.js:353:17
+@(connect):2:6
+2024-05-22T00:57:08.945+0000 F  -        [main] exception: connect failed
+2024-05-22T00:57:08.945+0000 E  -        [main] exiting with code 1
+
+
+mongo --tls 													 --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+mongo --tls --tlsAllowInvalidHostnames --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
