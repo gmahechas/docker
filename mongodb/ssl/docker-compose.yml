@@ -103,6 +103,9 @@ services:
         mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"mongodb1:30001\"}, {_id: 1, host: \"mongodb2:30002\"}, {_id: 2, host: \"mongodb3:30003\"}]});'
         echo 'Replica set initiated.'
         mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+        echo 'Creating admin user...'
+        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.getSiblingDB(\"admin\").createUser({user: \"admin\", pwd: \"password\", roles: [{role: \"root\", db: \"admin\"}]});'
+        echo 'Admin user created.'
       "
     networks:
       - mongodb_network
