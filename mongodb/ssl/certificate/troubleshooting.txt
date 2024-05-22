@@ -11,4 +11,4 @@ echo 'rs.status().members.find(m => m.name === "mongodb1:30001" && (m.stateStr =
 
 
 ####### connect from robo3t
-mongodb://${username}:${password}@${hosts}/?replicaSet=${replica_set_name}&tls=true&tlsCAFile=${ca_file}&tlsCertificateKeyFile=${client_pem}
+mongodb://root:root@10.1.0.228:30001,10.1.0.228:30002,10.1.0.228:30003/?replicaSet=rs0&tls=true&tlsCAFile=/Users/tavogus/dev/docker/mongodb/ssl/certificate/ca.crt&tlsCertificateKeyFile=/Users/tavogus/dev/docker/mongodb/ssl/certificate/client/client.pem
