@@ -79,7 +79,7 @@ services:
       - mongodb1
       - mongodb2
       - mongodb3
-    entrypoint: ["/docker-entrypoint-initdb.d/start.sh"]
+    entrypoint: ["/docker-entrypoint-initdb.d/init.sh"]
     networks:
       - mongodb_network
 
