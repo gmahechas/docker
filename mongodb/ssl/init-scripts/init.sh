@@ -28,10 +28,3 @@ done
 echo 'creating root user...'
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.getSiblingDB("admin").createUser({user: "root", pwd: "root", roles: [{role: "root", db: "admin"}]});'
 echo 'root user created.'
-
-# enabling authentication
-# echo 'enabling authentication...'
-# for NODE in mongodb1 mongodb2 mongodb3; do
-#   mongod --replSet rs0 --bind_ip_all --port 30001 --tlsMode requireTLS --tlsCertificateKeyFile /etc/ssl/$NODE/$NODE.pem --tlsCAFile /etc/ssl/ca.crt --auth &
-# done
-# echo 'authentication enabled.'
