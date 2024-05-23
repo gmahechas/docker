@@ -88,12 +88,13 @@ services:
     image: mongo:4.2.10
     hostname: 'mongodb_init'
     volumes:
-      - ./init-scripts:/docker-entrypoint-initdb.d
       - ./certificate:/etc/ssl:ro
+      - ./init-scripts:/docker-entrypoint-initdb.d
     depends_on:
       - mongodb1
       - mongodb2
       - mongodb3
+    entrypoint: "/docker-entrypoint-initdb.d/init.sh"
     networks:
       - mongodb_network
 
