@@ -16,10 +16,13 @@ PRIMARY_READY=0
 while [ $PRIMARY_READY -eq 0 ]; do
   PRIMARY_STATE=$(mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --quiet --eval 'rs.status().members.filter(m => m.stateStr == "PRIMARY").length')
   if [ "$PRIMARY_STATE" -eq 1 ]; then
-    PRIMARY_READY=1
     echo 'primary node is ready.'
+    mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+    PRIMARY_READY=1
   else
     echo 'waiting for a primary node to be elected...'
     sleep 5
   fi
 done
+
+exit 0
