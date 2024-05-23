@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export PORT=${PORT}
-export HOSTNAME=${HOSTNAME}#
+export HOSTNAME=${HOSTNAME}
 
 # check if replica set is initialized
 if [ -f /data/db/replica_set_initialized ]; then
