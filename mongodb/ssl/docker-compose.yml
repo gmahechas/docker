@@ -9,7 +9,7 @@ services:
     volumes:
       - mongodb1_data:/data/db
       - ./certificate:/etc/ssl:ro
-      - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "30001:30001"
     command: [
@@ -22,7 +22,7 @@ services:
       "--tlsCAFile", "/etc/ssl/ca.crt"
     ]
     healthcheck:
-      test: ["CMD", "/bin/bash", "/usr/local/bin/healthcheck.sh", "mongodb1", "30001"]
+      test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb1", "30001"]
       interval: 10s
       retries: 5
     networks:
@@ -38,7 +38,7 @@ services:
     volumes:
       - mongodb2_data:/data/db
       - ./certificate:/etc/ssl:ro
-      - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "30002:30002"
     command: [
@@ -51,7 +51,7 @@ services:
       "--tlsCAFile", "/etc/ssl/ca.crt"
     ]
     healthcheck:
-      test: ["CMD", "/bin/bash", "/usr/local/bin/healthcheck.sh", "mongodb2", "30002"]
+      test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb2", "30002"]
       interval: 10s
       retries: 5
     networks:
@@ -67,7 +67,7 @@ services:
     volumes:
       - mongodb3_data:/data/db
       - ./certificate:/etc/ssl:ro
-      - ./scripts/healthcheck.sh:/usr/local/bin/healthcheck.sh:ro
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "30003:30003"
     command: [
@@ -80,7 +80,7 @@ services:
       "--tlsCAFile", "/etc/ssl/ca.crt"
     ]
     healthcheck:
-      test: ["CMD", "/bin/bash", "/usr/local/bin/healthcheck.sh", "mongodb3", "30003"]
+      test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb3", "30003"]
       interval: 10s
       retries: 5
     networks:
@@ -92,22 +92,12 @@ services:
     hostname: 'mongodb_init'
     volumes:
       - ./certificate:/etc/ssl:ro
+      - ./scripts:/usr/local/bin/scripts:ro
     depends_on:
       - mongodb1
       - mongodb2
       - mongodb3
-    entrypoint: >
-      bash -c "
-        while ! mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.runCommand({ping: 1})'; do
-          echo 'Waiting for mongodb1 to be ready...'
-          sleep 5
-        done;
-        echo 'Initiating replica set...'
-        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.initiate({_id: \"rs0\", members: [{_id: 0, host: \"mongodb1:30001\"}, {_id: 1, host: \"mongodb2:30002\"}, {_id: 2, host: \"mongodb3:30003\"}]});'
-        echo 'Replica set initiated.'
-        mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
-        exit 0
-      "
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init-rs.sh"]
     networks:
       - mongodb_network
 
