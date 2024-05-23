@@ -9,7 +9,6 @@ done;
 # initiating replica set
 echo 'initiating replica set...'
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "mongodb1:30001"}, {_id: 1, host: "mongodb2:30002"}, {_id: 2, host: "mongodb3:30003"}]});'
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
 
 # Waiting for replica set to initialize and a primary node to be elected
 echo 'waiting for replica set to initialize...'
@@ -26,9 +25,9 @@ while [ $PRIMARY_READY -eq 0 ]; do
 done
 
 # creating root user
-# echo 'creating root user...'
-# mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.getSiblingDB("admin").createUser({user: "root", pwd: "root", roles: [{role: "root", db: "admin"}]});'
-# echo 'root user created.'
+echo 'creating root user...'
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.getSiblingDB("admin").createUser({user: "root", pwd: "root", roles: [{role: "root", db: "admin"}]});'
+echo 'root user created.'
 
 # enabling authentication
 # echo 'enabling authentication...'
