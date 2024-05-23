@@ -23,14 +23,3 @@ while [ $PRIMARY_READY -eq 0 ]; do
     sleep 5
   fi
 done
-
-# creating root user
-echo 'creating root user...'
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'db.getSiblingDB("admin").createUser({user: "root", pwd: "root", roles: [{role: "root", db: "admin"}]});'
-echo 'root user created.'
-
-# creates replica set initialized file
-echo 'replica set initialized' > /shared/replica_set_initialized
-
-# wait for 5 seconds
-sleep 5
