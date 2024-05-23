@@ -32,6 +32,6 @@ echo 'Admin user created.'
 # Habilitar autenticación en todos los nodos
 echo 'Enabling authentication...'
 for NODE in mongodb1 mongodb2 mongodb3; do
-  docker exec $NODE mongod --replSet rs0 --bind_ip_all --port 30001 --tlsMode requireTLS --tlsCertificateKeyFile /etc/ssl/$NODE/$NODE.pem --tlsCAFile /etc/ssl/ca.crt --auth &
+  mongod --replSet rs0 --bind_ip_all --port 30001 --tlsMode requireTLS --tlsCertificateKeyFile /etc/ssl/$NODE/$NODE.pem --tlsCAFile /etc/ssl/ca.crt --auth &
 done
 echo 'Authentication enabled.'
