@@ -20,7 +20,6 @@ services:
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
-      #"--auth"
     ]
     healthcheck:
       test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb1", "30001"]
@@ -50,7 +49,6 @@ services:
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
-      #"--auth"
     ]
     healthcheck:
       test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb2", "30002"]
@@ -80,7 +78,6 @@ services:
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
-      #"--auth"
     ]
     healthcheck:
       test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb3", "30003"]
