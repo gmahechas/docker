@@ -22,42 +22,28 @@ cat mongodb1.key mongodb1.crt > mongodb1.pem
 
 
 mongodb2
-# Generar la clave privada del servidor para mongodb2
 openssl genpkey -algorithm RSA -out mongodb2.key
-
-# Generar una solicitud de firma de certificado (CSR) para mongodb2
 openssl req -new -key mongodb2.key -out mongodb2.csr -subj "/CN=mongodb2"
-
-# Firmar el certificado del servidor para mongodb2 con la CA
 openssl x509 -req -in mongodb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb2.crt -days 365 -sha256
-
-# Combinar la clave privada y el certificado en un solo archivo
 cat mongodb2.key mongodb2.crt > mongodb2.pem
 
 
 mongodb3
-# Generar la clave privada del servidor para mongodb3
 openssl genpkey -algorithm RSA -out mongodb3.key
-
-# Generar una solicitud de firma de certificado (CSR) para mongodb3
 openssl req -new -key mongodb3.key -out mongodb3.csr -subj "/CN=mongodb3"
-
-# Firmar el certificado del servidor para mongodb3 con la CA
 openssl x509 -req -in mongodb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb3.crt -days 365 -sha256
-
-# Combinar la clave privada y el certificado en un solo archivo
 cat mongodb3.key mongodb3.crt > mongodb3.pem
 
 
 3. Generar la clave privada del cliente, CSR, y el certificado del cliente
-# Generar la clave privada del cliente
 openssl genpkey -algorithm RSA -out client.key
-
-# Generar una solicitud de firma de certificado (CSR) para el cliente
 openssl req -new -key client.key -out client.csr -subj "/CN=mongodb-client"
-
-# Firmar el certificado del cliente con la CA
 openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 365 -sha256
-
-# Combinar la clave privada y el certificado en un solo archivo
 cat client.key client.crt > client.pem
+
+
+4. apps clients
+openssl genpkey -algorithm RSA -out client1.key
+openssl req -new -key client1.key -out client1.csr -subj "/CN=client1"
+openssl x509 -req -in client1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client1.crt -days 365 -sha256
+cat client1.key client1.crt > client1.pem
