@@ -47,3 +47,15 @@ openssl genpkey -algorithm RSA -out client1.key
 openssl req -new -key client1.key -out client1.csr -subj "/CN=client1"
 openssl x509 -req -in client1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client1.crt -days 365 -sha256
 cat client1.key client1.crt > client1.pem
+
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001
+
+use admin
+
+db.createUser({
+  user: "client1",
+  pwd: "client1",
+  roles: [
+    { role: "readWrite", db: "database1" }
+  ]
+})
