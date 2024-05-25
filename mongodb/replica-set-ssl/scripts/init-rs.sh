@@ -19,7 +19,6 @@ while [ $PRIMARY_READY -eq 0 ]; do
   PRIMARY_STATE=$($MONGO_CMD --quiet --eval 'rs.status().members.filter(m => m.stateStr == "PRIMARY").length')
   if [ "$PRIMARY_STATE" -eq 1 ]; then
     echo 'primary node is ready.'
-    $MONGO_CMD --eval 'rs.status()'
     PRIMARY_READY=1
   else
     echo 'waiting for a primary node to be elected...'
