@@ -21,10 +21,6 @@ services:
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
     ]
-    healthcheck:
-      test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb1", "30001"]
-      interval: 10s
-      retries: 5
     networks:
       - mongodb_network
 
@@ -50,10 +46,6 @@ services:
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
     ]
-    healthcheck:
-      test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb2", "30002"]
-      interval: 10s
-      retries: 5
     networks:
       - mongodb_network
 
@@ -79,10 +71,6 @@ services:
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
     ]
-    healthcheck:
-      test: ["CMD", "/bin/bash", "/usr/local/bin/scripts/healthcheck.sh", "mongodb3", "30003"]
-      interval: 10s
-      retries: 5
     networks:
       - mongodb_network
 
