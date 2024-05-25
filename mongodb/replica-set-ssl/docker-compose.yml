@@ -3,7 +3,7 @@ services:
     container_name: mongodb1
     image: mongo:4.2.10
     restart: always
-    hostname: 'mongodb1'
+    hostname: 'mongodb1.gmahechas.local'
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -28,7 +28,7 @@ services:
     container_name: mongodb2
     image: mongo:4.2.10
     restart: always
-    hostname: 'mongodb2'
+    hostname: 'mongodb2.gmahechas.local'
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -53,7 +53,7 @@ services:
     container_name: mongodb3
     image: mongo:4.2.10
     restart: always
-    hostname: 'mongodb3'
+    hostname: 'mongodb3.gmahechas.local'
     cpus: 1.0
     mem_limit: 1g
     volumes:
