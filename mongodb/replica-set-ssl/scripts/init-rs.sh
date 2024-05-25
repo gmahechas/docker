@@ -1,6 +1,6 @@
 #!/bin/bash
 
-MONGO_CMD="mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem --host mongodb1 --port 30001"
+MONGO_CMD="mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem --host mongodb1"
 
 # waiting for mongodb1 to be ready
 while ! $MONGO_CMD --eval 'db.runCommand({ping: 1})'; do
@@ -10,7 +10,7 @@ done;
 
 # initiating replica set
 echo 'initiating replica set...'
-$MONGO_CMD --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "mongodb1:30001"}, {_id: 1, host: "mongodb2:30002"}, {_id: 2, host: "mongodb3:30003"}]});'
+$MONGO_CMD --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "mongodb1:27017"}, {_id: 1, host: "mongodb2:28017"}, {_id: 2, host: "mongodb3:29017"}]});'
 
 # Waiting for replica set to initialize and a primary node to be elected
 echo 'waiting for replica set to initialize...'
