@@ -10,7 +10,7 @@ done;
 
 # initiating replica set
 echo 'initiating replica set...'
-$MONGO_CMD --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "mongodb1.gmahechas.local:27017"}, {_id: 1, host: "mongodb2.gmahechas.local:28017"}, {_id: 2, host: "mongodb3.gmahechas.local:29017"}]});'
+$MONGO_CMD --eval 'rs.initiate({_id: "rs0", members: [{_id: 0, host: "mongodb1.gmahechas.local"}, {_id: 1, host: "mongodb2.gmahechas.local"}, {_id: 2, host: "mongodb3.gmahechas.local"}]});'
 
 # Waiting for replica set to initialize and a primary node to be elected
 echo 'waiting for replica set to initialize...'

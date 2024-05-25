@@ -16,7 +16,6 @@ services:
       "mongod",
       "--replSet", "rs0",
       "--bind_ip_all",
-      "--port", "27017",
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
@@ -36,12 +35,11 @@ services:
       - ./certificate:/etc/ssl:ro
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "28017:28017"
+      - "28017:27017"
     command: [
       "mongod",
       "--replSet", "rs0",
       "--bind_ip_all",
-      "--port", "28017",
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
@@ -61,12 +59,11 @@ services:
       - ./certificate:/etc/ssl:ro
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "29017:29017"
+      - "29017:27017"
     command: [
       "mongod",
       "--replSet", "rs0",
       "--bind_ip_all",
-      "--port", "29017",
       "--tlsMode", "requireTLS",
       "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem",
       "--tlsCAFile", "/etc/ssl/ca.crt",
