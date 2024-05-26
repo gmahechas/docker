@@ -10,8 +10,15 @@ services:
       - mongodb1_data:/data/db
     ports:
       - "27017:27017"
+    command: [
+      "mongod",
+      "--replSet", "rs0",
+      "--bind_ip_all"
+    ]
     networks:
-      - mongodb_network
+      mongodb_network:
+        aliases:
+          - mongodb1.gmahechas.local
 
   mongodb2:
     container_name: mongodb2
@@ -24,8 +31,15 @@ services:
       - mongodb2_data:/data/db
     ports:
       - "28017:27017"
+    command: [
+      "mongod",
+      "--replSet", "rs0",
+      "--bind_ip_all"
+    ]
     networks:
-      - mongodb_network
+      mongodb_network:
+        aliases:
+          - mongodb2.gmahechas.local
 
   mongodb3:
     container_name: mongodb3
@@ -38,8 +52,15 @@ services:
       - mongodb3_data:/data/db
     ports:
       - "29017:27017"
+    command: [
+      "mongod",
+      "--replSet", "rs0",
+      "--bind_ip_all"
+    ]
     networks:
-      - mongodb_network
+      mongodb_network:
+        aliases:
+          - mongodb3.gmahechas.local
 
   mongodb_init:
     container_name: mongodb_init
