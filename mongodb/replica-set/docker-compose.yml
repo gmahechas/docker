@@ -1,41 +1,67 @@
-version: "3"
-
 services:
-  mongo1:
+  mongodb1:
+    container_name: mongodb1
     image: mongo:4.2.10
-    container_name: mongo1
-    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30001"]
+    restart: always
+    hostname: 'mongodb1.gmahechas.local'
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
-      - ./data:/data/db
+      - mongodb1_data:/data/db
     ports:
-      - 30001:30001
-    healthcheck:
-      test: test $$(echo "rs.initiate({_id:'my-replica-set',members:[{_id:0,host:\"mongo1:30001\"},{_id:1,host:\"mongo2:30002\"},{_id:2,host:\"mongo3:30003\"}]}).ok || rs.status().ok" | mongo --port 30001 --quiet) -eq 1
-      interval: 10s
+      - "27017:27017"
     networks:
       - mongodb_network
 
-  mongo2:
+  mongodb2:
+    container_name: mongodb2
     image: mongo:4.2.10
-    container_name: mongo2
-    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30002"]
+    restart: always
+    hostname: 'mongodb2.gmahechas.local'
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
-      - ./data/mongo-2:/data/db
+      - mongodb2_data:/data/db
     ports:
-      - 30002:30002
+      - "28017:27017"
     networks:
       - mongodb_network
 
-  mongo3:
+  mongodb3:
+    container_name: mongodb3
     image: mongo:4.2.10
-    container_name: mongo3
-    command: ["--replSet", "my-replica-set", "--bind_ip_all", "--port", "30003"]
+    restart: always
+    hostname: 'mongodb3.gmahechas.local'
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
-      - ./data/mongo-3:/data/db
+      - mongodb3_data:/data/db
     ports:
-      - 30003:30003
+      - "29017:27017"
     networks:
       - mongodb_network
+
+  mongodb_init:
+    container_name: mongodb_init
+    image: mongo:4.2.10
+    hostname: 'mongodb_init'
+    volumes:
+      - ./scripts:/usr/local/bin/scripts:ro
+    depends_on:
+      - mongodb1
+      - mongodb2
+      - mongodb3
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init-rs.sh"]
+    networks:
+      - mongodb_network
+
+volumes:
+  mongodb1_data:
+    driver: local
+  mongodb2_data:
+    driver: local
+  mongodb3_data:
+    driver: local
 
 networks:
   mongodb_network:

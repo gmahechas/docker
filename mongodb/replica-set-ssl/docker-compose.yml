@@ -9,7 +9,6 @@ services:
     volumes:
       - mongodb1_data:/data/db
       - ./certificate:/etc/ssl:ro
-      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "27017:27017"
     command: [
@@ -33,7 +32,6 @@ services:
     volumes:
       - mongodb2_data:/data/db
       - ./certificate:/etc/ssl:ro
-      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "28017:27017"
     command: [
@@ -57,7 +55,6 @@ services:
     volumes:
       - mongodb3_data:/data/db
       - ./certificate:/etc/ssl:ro
-      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "29017:27017"
     command: [
