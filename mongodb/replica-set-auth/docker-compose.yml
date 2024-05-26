@@ -8,12 +8,14 @@ services:
     mem_limit: 1g
     volumes:
       - mongodb1_data:/data/db
+      - ./config:/etc/config
     ports:
       - "27017:27017"
-    command: [
+    entrypoint: [
       "mongod",
       "--replSet", "rs0",
-      "--bind_ip_all"
+      "--bind_ip_all",
+      "--keyFile", "/etc/config/mongodb-keyfile"
     ]
     networks:
       mongodb_network:
@@ -29,12 +31,14 @@ services:
     mem_limit: 1g
     volumes:
       - mongodb2_data:/data/db
+      - ./config:/etc/config
     ports:
       - "28017:27017"
-    command: [
+    entrypoint: [
       "mongod",
       "--replSet", "rs0",
-      "--bind_ip_all"
+      "--bind_ip_all",
+      "--keyFile", "/etc/config/mongodb-keyfile"
     ]
     networks:
       mongodb_network:
@@ -50,31 +54,19 @@ services:
     mem_limit: 1g
     volumes:
       - mongodb3_data:/data/db
+      - ./config:/etc/config
     ports:
       - "29017:27017"
-    command: [
+    entrypoint: [
       "mongod",
       "--replSet", "rs0",
-      "--bind_ip_all"
+      "--bind_ip_all",
+      "--keyFile", "/etc/config/mongodb-keyfile"
     ]
     networks:
       mongodb_network:
         aliases:
           - mongodb3.gmahechas.local
-
-  mongodb_init:
-    container_name: mongodb_init
-    image: mongo:4.2.10
-    hostname: 'mongodb_init'
-    volumes:
-      - ./scripts:/usr/local/bin/scripts:ro
-    depends_on:
-      - mongodb1
-      - mongodb2
-      - mongodb3
-    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init-rs.sh"]
-    networks:
-      - mongodb_network
 
 volumes:
   mongodb1_data:
