@@ -68,6 +68,21 @@ services:
         aliases:
           - mongodb3.gmahechas.local
 
+  mongodb_init:
+    container_name: mongodb_init
+    image: mongo:4.2.10
+    hostname: 'mongodb_init'
+    volumes:
+      - ./ssl:/etc/ssl:ro
+      - ./scripts:/usr/local/bin/scripts:ro
+    depends_on:
+      - mongodb1
+      - mongodb2
+      - mongodb3
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init-rs.sh"]
+    networks:
+      - mongodb_network
+
 volumes:
   mongodb1_data:
     driver: local

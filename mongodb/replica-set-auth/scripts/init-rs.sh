@@ -26,4 +26,8 @@ while [ $PRIMARY_READY -eq 0 ]; do
   fi
 done
 
+echo 'creating root user...'
+$MONGO_CMD --eval 'db.getSiblingDB("admin").createUser({user: "root", pwd: "root", roles: [{role: "root", db: "admin"}]});'
+echo 'root user created.'
+
 exit 0
