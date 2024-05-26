@@ -8,7 +8,7 @@ services:
     mem_limit: 1g
     volumes:
       - mongodb1_data:/data/db
-      - ./certificate:/etc/ssl:ro
+      - ./ssl:/etc/ssl:ro
     ports:
       - "27017:27017"
     command: [
@@ -31,7 +31,7 @@ services:
     mem_limit: 1g
     volumes:
       - mongodb2_data:/data/db
-      - ./certificate:/etc/ssl:ro
+      - ./ssl:/etc/ssl:ro
     ports:
       - "28017:27017"
     command: [
@@ -54,7 +54,7 @@ services:
     mem_limit: 1g
     volumes:
       - mongodb3_data:/data/db
-      - ./certificate:/etc/ssl:ro
+      - ./ssl:/etc/ssl:ro
     ports:
       - "29017:27017"
     command: [
@@ -73,7 +73,7 @@ services:
     image: mongo:4.2.10
     hostname: 'mongodb_init'
     volumes:
-      - ./certificate:/etc/ssl:ro
+      - ./ssl:/etc/ssl:ro
       - ./scripts:/usr/local/bin/scripts:ro
     depends_on:
       - mongodb1
