@@ -1,0 +1,8 @@
+docker compose up
+docker exec -it mongodb1 bash
+mongo
+rs.initiate({_id: "rs0", members: [{_id: 0, host: "mongodb1.gmahechas.local"}, {_id: 1, host: "mongodb2.gmahechas.local"}, {_id: 2, host: "mongodb3.gmahechas.local"}]});
+db.getSiblingDB("admin").createUser({user: "root", pwd: "root", roles: [{role: "root", db: "admin"}]});
+uncomment "--keyFile", "/etc/config/mongodb-keyfile"
+docker compose down
+docker compose up -d

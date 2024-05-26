@@ -15,7 +15,7 @@ services:
       "mongod",
       "--replSet", "rs0",
       "--bind_ip_all",
-      "--keyFile", "/etc/config/mongodb-keyfile"
+      #"--keyFile", "/etc/config/mongodb-keyfile"
     ]
     networks:
       mongodb_network:
@@ -38,7 +38,7 @@ services:
       "mongod",
       "--replSet", "rs0",
       "--bind_ip_all",
-      "--keyFile", "/etc/config/mongodb-keyfile"
+      #"--keyFile", "/etc/config/mongodb-keyfile"
     ]
     networks:
       mongodb_network:
@@ -61,7 +61,7 @@ services:
       "mongod",
       "--replSet", "rs0",
       "--bind_ip_all",
-      "--keyFile", "/etc/config/mongodb-keyfile"
+      #"--keyFile", "/etc/config/mongodb-keyfile"
     ]
     networks:
       mongodb_network:
