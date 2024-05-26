@@ -9,14 +9,10 @@ services:
     volumes:
       - mongodb1_data:/data/db
       - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "27017:27017"
-    entrypoint: [
-      "mongod",
-      "--replSet", "rs0",
-      "--bind_ip_all",
-      #"--keyFile", "/etc/config/mongodb-keyfile"
-    ]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
     networks:
       mongodb_network:
         aliases:
@@ -32,14 +28,10 @@ services:
     volumes:
       - mongodb2_data:/data/db
       - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "28017:27017"
-    entrypoint: [
-      "mongod",
-      "--replSet", "rs0",
-      "--bind_ip_all",
-      #"--keyFile", "/etc/config/mongodb-keyfile"
-    ]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
     networks:
       mongodb_network:
         aliases:
@@ -55,14 +47,10 @@ services:
     volumes:
       - mongodb3_data:/data/db
       - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "29017:27017"
-    entrypoint: [
-      "mongod",
-      "--replSet", "rs0",
-      "--bind_ip_all",
-      #"--keyFile", "/etc/config/mongodb-keyfile"
-    ]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
     networks:
       mongodb_network:
         aliases:
@@ -73,7 +61,7 @@ services:
     image: mongo:4.2.10
     hostname: 'mongodb_init'
     volumes:
-      - ./ssl:/etc/ssl:ro
+      - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     depends_on:
       - mongodb1
