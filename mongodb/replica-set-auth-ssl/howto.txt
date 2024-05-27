@@ -4,15 +4,15 @@ docker compose down
 docker compose up -d
 
 ####### login in container
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem --host mongodb1.gmahechas.local --port 30001 -u root -p root --authenticationDatabase admin
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb2/mongodb2.pem --host mongodb2.gmahechas.local --port 30002 -u root -p root --authenticationDatabase admin
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb3/mongodb3.pem --host mongodb3.gmahechas.local --port 30003 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem --host mongodb1.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb2/mongodb2.pem --host mongodb2.gmahechas.local --port 28017 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb3/mongodb3.pem --host mongodb3.gmahechas.local --port 29017 -u root -p root --authenticationDatabase admin
 rs.status()
 
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1 --port 30001 --eval 'rs.status()'
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1.gmahechas.local --port 27017 --eval 'rs.status()'
 
 ####### healthcheck
-echo 'rs.status().members.find(m => m.name === "mongodb1.gmahechas.local:30001" && (m.stateStr === "PRIMARY" || m.stateStr === "SECONDARY")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1.gmahechas.local --port 30001 --quiet
+echo 'rs.status().members.find(m => m.name === "mongodb1.gmahechas.local:27017" && (m.stateStr === "PRIMARY" || m.stateStr === "SECONDARY")) ? 1 : 0' | mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1.gmahechas.local --port 27017 --quiet
 
 ####### initiate
-rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "mongodb1.gmahechas.local:30001" }, { _id: 1, host: "mongodb2.gmahechas.local:30002" }, { _id: 2, host: "mongodb3.gmahechas.local:30003" }] })
+rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "mongodb1.gmahechas.local:27017" }, { _id: 1, host: "mongodb2.gmahechas.local:28017" }, { _id: 2, host: "mongodb3.gmahechas.local:29017" }] })
