@@ -1,0 +1,1 @@
+redis-cli --cluster create redis1.gmahechas.local:6379 redis2.gmahechas.local:6379 redis3.gmahechas.local:6379 --cluster-replicas 0
