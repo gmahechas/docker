@@ -33,6 +33,8 @@ services:
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "28017:27017"
+    depends_on:
+      - mongodb1
     entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "/etc/ssl/mongodb2/mongodb2.pem"]
     networks:
       mongodb_network:
@@ -53,6 +55,8 @@ services:
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "29017:27017"
+    depends_on:
+      - mongodb2
     entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "/etc/ssl/mongodb3/mongodb3.pem"]
     networks:
       mongodb_network:
