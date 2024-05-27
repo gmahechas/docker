@@ -1,3 +1,8 @@
+# delete contents in config/.mongodb_init_flag
+docker compose up -d
+docker compose down
+docker compose up -d
+
 ####### login in container
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem --host mongodb1.gmahechas.local --port 30001 -u root -p root --authenticationDatabase admin
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb2/mongodb2.pem --host mongodb2.gmahechas.local --port 30002 -u root -p root --authenticationDatabase admin

@@ -9,18 +9,15 @@ services:
     volumes:
       - mongodb1_data:/data/db
       - ./ssl:/etc/ssl:ro
+      - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "27017:27017"
-    command: [
-      "mongod",
-      "--replSet", "rs0",
-      "--bind_ip_all",
-      "--tlsMode", "requireTLS",
-      "--tlsCertificateKeyFile", "/etc/ssl/mongodb1/mongodb1.pem",
-      "--tlsCAFile", "/etc/ssl/ca.crt",
-    ]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "/etc/ssl/mongodb1/mongodb1.pem"]
     networks:
-      - mongodb_network
+      mongodb_network:
+        aliases:
+          - mongodb1.gmahechas.local
 
   mongodb2:
     container_name: mongodb2
@@ -32,18 +29,15 @@ services:
     volumes:
       - mongodb2_data:/data/db
       - ./ssl:/etc/ssl:ro
+      - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "28017:27017"
-    command: [
-      "mongod",
-      "--replSet", "rs0",
-      "--bind_ip_all",
-      "--tlsMode", "requireTLS",
-      "--tlsCertificateKeyFile", "/etc/ssl/mongodb2/mongodb2.pem",
-      "--tlsCAFile", "/etc/ssl/ca.crt",
-    ]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "/etc/ssl/mongodb2/mongodb2.pem"]
     networks:
-      - mongodb_network
+      mongodb_network:
+        aliases:
+          - mongodb2.gmahechas.local
 
   mongodb3:
     container_name: mongodb3
@@ -55,18 +49,15 @@ services:
     volumes:
       - mongodb3_data:/data/db
       - ./ssl:/etc/ssl:ro
+      - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "29017:27017"
-    command: [
-      "mongod",
-      "--replSet", "rs0",
-      "--bind_ip_all",
-      "--tlsMode", "requireTLS",
-      "--tlsCertificateKeyFile", "/etc/ssl/mongodb3/mongodb3.pem",
-      "--tlsCAFile", "/etc/ssl/ca.crt",
-    ]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "/etc/ssl/mongodb3/mongodb3.pem"]
     networks:
-      - mongodb_network
+      mongodb_network:
+        aliases:
+          - mongodb3.gmahechas.local
 
   mongodb_init:
     container_name: mongodb_init
@@ -74,6 +65,7 @@ services:
     hostname: 'mongodb_init'
     volumes:
       - ./ssl:/etc/ssl:ro
+      - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     depends_on:
       - mongodb1
