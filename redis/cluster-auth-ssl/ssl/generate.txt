@@ -28,3 +28,9 @@ redis3
 openssl genpkey -algorithm RSA -out redis3.key
 openssl req -new -key redis3.key -out redis3.csr -subj "/CN=redis3.gmahechas.local"
 openssl x509 -req -in redis3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis3.crt -days 3650 -sha256
+
+
+3. Generar la clave privada del cliente, CSR, y el certificado del cliente
+openssl genpkey -algorithm RSA -out client.key
+openssl req -new -key client.key -out client.csr -subj "/CN=redis-client"
+openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 3650 -sha256
