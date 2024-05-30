@@ -3,24 +3,32 @@ services:
     container_name: redis1
     image: redis:6.0.9-alpine
     restart: always
-    hostname: 'redis1.gmahechas.local'
+    hostname: "redis1.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
       - redis1_data:/data
     ports:
       - "6379:6379"
-    command: ["redis-server", "--appendonly", "yes", "--cluster-enabled", "yes", "--cluster-config-file", "/data/nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes", "--save", "\"\"", "--protected-mode", "no"]
+    command: [
+      "redis-server",
+      "--cluster-enabled", "yes",
+      "--cluster-config-file", "nodes.conf",
+      "--cluster-node-timeout", "5000",
+      "--appendonly", "yes",
+      "--cluster-announce-ip", "redis1.gmahechas.local"
+    ]
     networks:
       redis_network:
         aliases:
           - redis1.gmahechas.local
+        ipv4_address: 172.28.0.2
 
   redis2:
     container_name: redis2
     image: redis:6.0.9-alpine
     restart: always
-    hostname: 'redis2.gmahechas.local'
+    hostname: "redis2.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -29,17 +37,25 @@ services:
       - "6479:6379"
     depends_on:
       - redis1
-    command: ["redis-server", "--appendonly", "yes", "--cluster-enabled", "yes", "--cluster-config-file", "/data/nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes", "--save", "\"\"", "--protected-mode", "no"]
+    command: [
+      "redis-server",
+      "--cluster-enabled", "yes",
+      "--cluster-config-file", "nodes.conf",
+      "--cluster-node-timeout", "5000",
+      "--appendonly", "yes",
+      "--cluster-announce-ip", "redis2.gmahechas.local"
+    ]
     networks:
       redis_network:
         aliases:
           - redis2.gmahechas.local
+        ipv4_address: 172.28.0.3
 
   redis3:
     container_name: redis3
     image: redis:6.0.9-alpine
     restart: always
-    hostname: 'redis3.gmahechas.local'
+    hostname: "redis3.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -48,11 +64,33 @@ services:
       - "6579:6379"
     depends_on:
       - redis2
-    command: ["redis-server", "--appendonly", "yes", "--cluster-enabled", "yes", "--cluster-config-file", "/data/nodes.conf", "--cluster-node-timeout", "5000", "--appendonly", "yes", "--save", "\"\"", "--protected-mode", "no"]
+    command: [
+      "redis-server",
+      "--cluster-enabled", "yes",
+      "--cluster-config-file", "nodes.conf",
+      "--cluster-node-timeout", "5000",
+      "--appendonly", "yes",
+      "--cluster-announce-ip", "redis3.gmahechas.local"
+    ]
     networks:
       redis_network:
         aliases:
           - redis3.gmahechas.local
+        ipv4_address: 172.28.0.4
+
+  redis_init:
+    container_name: redis_init
+    image: redis:6.0.9-alpine
+    hostname: redis_init
+    volumes:
+      - ./scripts:/usr/local/bin/scripts:ro
+    depends_on:
+      - redis1
+      - redis2
+      - redis3
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init-cluster.sh"]
+    networks:
+      - redis_network
 
 volumes:
   redis1_data:
@@ -66,3 +104,6 @@ networks:
   redis_network:
     name: redis_network
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/24
