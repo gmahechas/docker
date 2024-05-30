@@ -1,1 +1,8 @@
-redis-cli --cluster create 172.28.0.2:6379 172.28.0.3:6379 172.28.0.4:6379 --cluster-replicas 0
+redis-cli --tls --cacert /etc/ssl/ca.crt --cert /etc/ssl/redisdb1/redisdb1.crt --key /etc/ssl/redisdb1/redisdb1.key --cluster create 172.28.0.2:6380 172.28.0.3:6380 172.28.0.4:6380 --cluster-replicas 0 -a root --user root
+
+redis-cli --tls --cacert /etc/ssl/ca.crt --cert /etc/ssl/redisdb1/redisdb1.crt --key /etc/ssl/redisdb1/redisdb1.key -a root --user root -h redisdb1.gmahechas.local -p 6380
+redis-cli --tls --cacert /etc/ssl/ca.crt --cert /etc/ssl/redisdb2/redisdb2.crt --key /etc/ssl/redisdb2/redisdb2.key -a root --user root -h redisdb2.gmahechas.local -p 6380
+redis-cli --tls --cacert /etc/ssl/ca.crt --cert /etc/ssl/redisdb3/redisdb3.crt --key /etc/ssl/redisdb3/redisdb3.key -a root --user root -h redisdb3.gmahechas.local -p 6380
+
+
+redis-cli --tls --cacert /etc/ssl/ca.crt --cert /etc/ssl/redisdb1/redisdb1.crt --key /etc/ssl/redisdb1/redisdb1.key -a root --user root --cluster info 172.28.0.2:6380

@@ -1,7 +1,7 @@
 #!/bin/sh
 
-REDIS_ANNOUNCE_IP=$1
-REDIS_NODE=$2
+REDISDB_ANNOUNCE_IP=$1
+REDISDB_NODE=$2
 
 redis-server \
   --cluster-enabled yes \
@@ -11,10 +11,11 @@ redis-server \
   --requirepass root \
   --masterauth root \
   --aclfile /etc/config/acl.conf \
-  --cluster-announce-ip $REDIS_ANNOUNCE_IP \
+  --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
   --port 0 \
   --tls-port 6380 \
-  --tls-cert-file /etc/ssl/$REDIS_NODE/$REDIS_NODE.crt \
-  --tls-key-file /etc/ssl/$REDIS_NODE/$REDIS_NODE.key \
+  --tls-cert-file /etc/ssl/$REDISDB_NODE/$REDISDB_NODE.crt \
+  --tls-key-file /etc/ssl/$REDISDB_NODE/$REDISDB_NODE.key \
   --tls-ca-cert-file /etc/ssl/ca.crt \
-  --tls-auth-clients yes
+  --tls-auth-clients yes \
+  --loglevel debug
