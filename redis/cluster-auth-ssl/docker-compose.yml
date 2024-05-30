@@ -10,25 +10,10 @@ services:
       - redis1_data:/data
       - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6380:6380" # ssl port
-    command: [
-      "redis-server",
-      "--cluster-enabled", "yes",
-      "--cluster-config-file", "nodes.conf",
-      "--cluster-node-timeout", "5000",
-      "--appendonly", "yes",
-      "--requirepass", "root",
-      "--masterauth", "root",
-      "--aclfile", "/etc/config/acl.conf",
-      "--cluster-announce-ip", "redis1.gmahechas.local",
-      "--port", "0",  # disable no ssl port
-      "--tls-port", "6380",
-      "--tls-cert-file", "/etc/ssl/redis1/redis1.crt",
-      "--tls-key-file", "/etc/ssl/redis1/redis1.key",
-      "--tls-ca-cert-file", "/etc/ssl/ca.crt",
-      "--tls-auth-clients", "yes"
-    ]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redis1.gmahechas.local", "redis1"]
     networks:
       redis_network:
         aliases:
@@ -46,27 +31,12 @@ services:
       - redis2_data:/data
       - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6480:6380" # ssl port
     depends_on:
       - redis1
-    command: [
-      "redis-server",
-      "--cluster-enabled", "yes",
-      "--cluster-config-file", "nodes.conf",
-      "--cluster-node-timeout", "5000",
-      "--appendonly", "yes",
-      "--requirepass", "root",
-      "--masterauth", "root",
-      "--aclfile", "/etc/config/acl.conf",
-      "--cluster-announce-ip", "redis2.gmahechas.local",
-      "--port", "0",  # disable no ssl port
-      "--tls-port", "6380",
-      "--tls-cert-file", "/etc/ssl/redis2/redis2.crt",
-      "--tls-key-file", "/etc/ssl/redis2/redis2.key",
-      "--tls-ca-cert-file", "/etc/ssl/ca.crt",
-      "--tls-auth-clients", "yes"
-    ]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redis2.gmahechas.local", "redis2"]
     networks:
       redis_network:
         aliases:
@@ -84,27 +54,12 @@ services:
       - redis3_data:/data
       - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6580:6380" # ssl port
     depends_on:
       - redis2
-    command: [
-      "redis-server",
-      "--cluster-enabled", "yes",
-      "--cluster-config-file", "nodes.conf",
-      "--cluster-node-timeout", "5000",
-      "--appendonly", "yes",
-      "--requirepass", "root",
-      "--masterauth", "root",
-      "--aclfile", "/etc/config/acl.conf",
-      "--cluster-announce-ip", "redis3.gmahechas.local",
-      "--port", "0",  # disable no ssl port
-      "--tls-port", "6380",
-      "--tls-cert-file", "/etc/ssl/redis3/redis3.crt",
-      "--tls-key-file", "/etc/ssl/redis3/redis3.key",
-      "--tls-ca-cert-file", "/etc/ssl/ca.crt",
-      "--tls-auth-clients", "yes"
-    ]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redis3.gmahechas.local", "redis3"]
     networks:
       redis_network:
         aliases:
@@ -116,6 +71,7 @@ services:
     image: redis:6.0.9-alpine
     hostname: redis_init
     volumes:
+      - ./ssl:/etc/ssl:ro
       - ./scripts:/usr/local/bin/scripts:ro
     depends_on:
       - redis1
