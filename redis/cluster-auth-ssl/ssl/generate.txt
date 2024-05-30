@@ -1,0 +1,6 @@
+1. Generar la clave privada de la CA y el certificado de la CA
+# Generar la clave privada de la CA
+openssl genpkey -algorithm RSA -out ca.key
+
+# Generar el certificado de la CA (Common Name: redis-ca)
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=redis-ca"
