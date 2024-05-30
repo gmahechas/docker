@@ -16,8 +16,8 @@ openssl req -new -key mongodb1.key -out mongodb1.csr -subj "/CN=mongodb1.gmahech
 openssl req -new -key mongodb1.key -out mongodb1.csr -config mongodb1-openssl.cnf
 
 # Firmar el certificado del servidor para mongodb1 con la CA
-openssl x509 -req -in mongodb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb1.crt -days 365 -sha256
-openssl x509 -req -in mongodb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb1.crt -days 365 -sha256 -extensions req_ext -extfile mongodb1-openssl.cnf
+openssl x509 -req -in mongodb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb1.crt -days 3650 -sha256
+openssl x509 -req -in mongodb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb1.crt -days 3650 -sha256 -extensions req_ext -extfile mongodb1-openssl.cnf
 
 # Combinar la clave privada y el certificado en un solo archivo
 cat mongodb1.key mongodb1.crt > mongodb1.pem
@@ -32,8 +32,8 @@ openssl genpkey -algorithm RSA -out mongodb2.key
 openssl req -new -key mongodb2.key -out mongodb2.csr -subj "/CN=mongodb2.gmahechas.local"
 openssl req -new -key mongodb2.key -out mongodb2.csr -config mongodb2-openssl.cnf
 
-openssl x509 -req -in mongodb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb2.crt -days 365 -sha256
-openssl x509 -req -in mongodb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb2.crt -days 365 -sha256 -extensions req_ext -extfile mongodb2-openssl.cnf
+openssl x509 -req -in mongodb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb2.crt -days 3650 -sha256
+openssl x509 -req -in mongodb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb2.crt -days 3650 -sha256 -extensions req_ext -extfile mongodb2-openssl.cnf
 
 cat mongodb2.key mongodb2.crt > mongodb2.pem
 
@@ -44,8 +44,8 @@ openssl genpkey -algorithm RSA -out mongodb3.key
 openssl req -new -key mongodb3.key -out mongodb3.csr -subj "/CN=mongodb3.gmahechas.local"
 openssl req -new -key mongodb3.key -out mongodb3.csr -config mongodb3-openssl.cnf
 
-openssl x509 -req -in mongodb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb3.crt -days 365 -sha256
-openssl x509 -req -in mongodb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb3.crt -days 365 -sha256 -extensions req_ext -extfile mongodb3-openssl.cnf
+openssl x509 -req -in mongodb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb3.crt -days 3650 -sha256
+openssl x509 -req -in mongodb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb3.crt -days 3650 -sha256 -extensions req_ext -extfile mongodb3-openssl.cnf
 
 cat mongodb3.key mongodb3.crt > mongodb3.pem
 
@@ -53,7 +53,7 @@ cat mongodb3.key mongodb3.crt > mongodb3.pem
 3. Generar la clave privada del cliente, CSR, y el certificado del cliente
 openssl genpkey -algorithm RSA -out client.key
 openssl req -new -key client.key -out client.csr -subj "/CN=mongodb-client"
-openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 365 -sha256
+openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 3650 -sha256
 cat client.key client.crt > client.pem
 
 
