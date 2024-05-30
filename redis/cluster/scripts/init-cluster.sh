@@ -2,3 +2,5 @@
 
 sleep 10
 echo "yes" | redis-cli --cluster create 172.28.0.2:6379 172.28.0.3:6379 172.28.0.4:6379 --cluster-replicas 0
+
+exit 0

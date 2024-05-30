@@ -8,6 +8,7 @@ services:
     mem_limit: 1g
     volumes:
       - redis1_data:/data
+      - ./config:/etc/config
     ports:
       - "6379:6379"
     command: [
@@ -16,6 +17,9 @@ services:
       "--cluster-config-file", "nodes.conf",
       "--cluster-node-timeout", "5000",
       "--appendonly", "yes",
+      "--requirepass", "root",
+      "--masterauth", "root",
+      "--aclfile", "/etc/config/acl.conf",
       "--cluster-announce-ip", "redis1.gmahechas.local"
     ]
     networks:
@@ -33,6 +37,7 @@ services:
     mem_limit: 1g
     volumes:
       - redis2_data:/data
+      - ./config:/etc/config
     ports:
       - "6479:6379"
     depends_on:
@@ -43,6 +48,9 @@ services:
       "--cluster-config-file", "nodes.conf",
       "--cluster-node-timeout", "5000",
       "--appendonly", "yes",
+      "--requirepass", "root",
+      "--masterauth", "root",
+      "--aclfile", "/etc/config/acl.conf",
       "--cluster-announce-ip", "redis2.gmahechas.local"
     ]
     networks:
@@ -60,6 +68,7 @@ services:
     mem_limit: 1g
     volumes:
       - redis3_data:/data
+      - ./config:/etc/config
     ports:
       - "6579:6379"
     depends_on:
@@ -70,6 +79,9 @@ services:
       "--cluster-config-file", "nodes.conf",
       "--cluster-node-timeout", "5000",
       "--appendonly", "yes",
+      "--requirepass", "root",
+      "--masterauth", "root",
+      "--aclfile", "/etc/config/acl.conf",
       "--cluster-announce-ip", "redis3.gmahechas.local"
     ]
     networks:
