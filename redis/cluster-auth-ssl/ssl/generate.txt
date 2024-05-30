@@ -4,3 +4,27 @@ openssl genpkey -algorithm RSA -out ca.key
 
 # Generar el certificado de la CA (Common Name: redis-ca)
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=redis-ca"
+
+
+2. Generar la clave privada del servidor, CSR, y el certificado del servidor para cada nodo
+redis1
+# Generar la clave privada del servidor para redis1
+openssl genpkey -algorithm RSA -out redis1.key
+
+# Generar una solicitud de firma de certificado (CSR) para redis1
+openssl req -new -key redis1.key -out redis1.csr -subj "/CN=redis1.gmahechas.local"
+
+# Firmar el certificado del servidor para redis1 con la CA
+openssl x509 -req -in redis1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis1.crt -days 3650 -sha256
+
+
+redis2
+openssl genpkey -algorithm RSA -out redis2.key
+openssl req -new -key redis2.key -out redis2.csr -subj "/CN=redis2.gmahechas.local"
+openssl x509 -req -in redis2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis2.crt -days 3650 -sha256
+
+
+redis3
+openssl genpkey -algorithm RSA -out redis3.key
+openssl req -new -key redis3.key -out redis3.csr -subj "/CN=redis3.gmahechas.local"
+openssl x509 -req -in redis3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis3.crt -days 3650 -sha256

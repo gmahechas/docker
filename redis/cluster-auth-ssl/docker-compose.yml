@@ -8,9 +8,10 @@ services:
     mem_limit: 1g
     volumes:
       - redis1_data:/data
+      - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
     ports:
-      - "6379:6379"
+      - "6380:6380" # ssl port
     command: [
       "redis-server",
       "--cluster-enabled", "yes",
@@ -20,7 +21,13 @@ services:
       "--requirepass", "root",
       "--masterauth", "root",
       "--aclfile", "/etc/config/acl.conf",
-      "--cluster-announce-ip", "redis1.gmahechas.local"
+      "--cluster-announce-ip", "redis1.gmahechas.local",
+      "--port", "0",  # disable no ssl port
+      "--tls-port", "6380",
+      "--tls-cert-file", "/etc/ssl/redis1/redis1.crt",
+      "--tls-key-file", "/etc/ssl/redis1/redis1.key",
+      "--tls-ca-cert-file", "/etc/ssl/ca.crt",
+      "--tls-auth-clients", "yes"
     ]
     networks:
       redis_network:
@@ -37,9 +44,10 @@ services:
     mem_limit: 1g
     volumes:
       - redis2_data:/data
+      - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
     ports:
-      - "6479:6379"
+      - "6480:6380" # ssl port
     depends_on:
       - redis1
     command: [
@@ -51,7 +59,13 @@ services:
       "--requirepass", "root",
       "--masterauth", "root",
       "--aclfile", "/etc/config/acl.conf",
-      "--cluster-announce-ip", "redis2.gmahechas.local"
+      "--cluster-announce-ip", "redis2.gmahechas.local",
+      "--port", "0",  # disable no ssl port
+      "--tls-port", "6380",
+      "--tls-cert-file", "/etc/ssl/redis2/redis2.crt",
+      "--tls-key-file", "/etc/ssl/redis2/redis2.key",
+      "--tls-ca-cert-file", "/etc/ssl/ca.crt",
+      "--tls-auth-clients", "yes"
     ]
     networks:
       redis_network:
@@ -68,9 +82,10 @@ services:
     mem_limit: 1g
     volumes:
       - redis3_data:/data
+      - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
     ports:
-      - "6579:6379"
+      - "6580:6380" # ssl port
     depends_on:
       - redis2
     command: [
@@ -82,7 +97,13 @@ services:
       "--requirepass", "root",
       "--masterauth", "root",
       "--aclfile", "/etc/config/acl.conf",
-      "--cluster-announce-ip", "redis3.gmahechas.local"
+      "--cluster-announce-ip", "redis3.gmahechas.local",
+      "--port", "0",  # disable no ssl port
+      "--tls-port", "6380",
+      "--tls-cert-file", "/etc/ssl/redis3/redis3.crt",
+      "--tls-key-file", "/etc/ssl/redis3/redis3.key",
+      "--tls-ca-cert-file", "/etc/ssl/ca.crt",
+      "--tls-auth-clients", "yes"
     ]
     networks:
       redis_network:
