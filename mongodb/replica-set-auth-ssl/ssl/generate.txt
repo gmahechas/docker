@@ -20,9 +20,6 @@ openssl x509 -req -in mongodb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateseria
 # Combinar la clave privada y el certificado en un solo archivo
 cat mongodb1.key mongodb1.crt > mongodb1.pem
 
-# check certificate
-openssl x509 -in mongodb1.crt -noout -text | grep -A1 "Subject Alternative Name"
-
 
 mongodb2
 openssl genpkey -algorithm RSA -out mongodb2.key

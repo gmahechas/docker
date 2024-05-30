@@ -1,92 +1,92 @@
 services:
-  redis1:
-    container_name: redis1
+  redisdb1:
+    container_name: redisdb1
     image: redis:6.0.9-alpine
     restart: always
-    hostname: "redis1.gmahechas.local"
+    hostname: "redisdb1.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
-      - redis1_data:/data
+      - redisdb1_data:/data
       - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6380:6380" # ssl port
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redis1.gmahechas.local", "redis1"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local", "redisdb1"]
     networks:
       redis_network:
         aliases:
-          - redis1.gmahechas.local
+          - redisdb1.gmahechas.local
         ipv4_address: 172.28.0.2
 
-  redis2:
-    container_name: redis2
+  redisdb2:
+    container_name: redisdb2
     image: redis:6.0.9-alpine
     restart: always
-    hostname: "redis2.gmahechas.local"
+    hostname: "redisdb2.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
-      - redis2_data:/data
+      - redisdb2_data:/data
       - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6480:6380" # ssl port
     depends_on:
-      - redis1
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redis2.gmahechas.local", "redis2"]
+      - redisdb1
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local", "redisdb2"]
     networks:
       redis_network:
         aliases:
-          - redis2.gmahechas.local
+          - redisdb2.gmahechas.local
         ipv4_address: 172.28.0.3
 
-  redis3:
-    container_name: redis3
+  redisdb3:
+    container_name: redisdb3
     image: redis:6.0.9-alpine
     restart: always
-    hostname: "redis3.gmahechas.local"
+    hostname: "redisdb3.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
-      - redis3_data:/data
+      - redisdb3_data:/data
       - ./ssl:/etc/ssl:ro
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6580:6380" # ssl port
     depends_on:
-      - redis2
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redis3.gmahechas.local", "redis3"]
+      - redisdb2
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local", "redisdb3"]
     networks:
       redis_network:
         aliases:
-          - redis3.gmahechas.local
+          - redisdb3.gmahechas.local
         ipv4_address: 172.28.0.4
 
-  redis_init:
-    container_name: redis_init
+  redisdb_init:
+    container_name: redisdb_init
     image: redis:6.0.9-alpine
-    hostname: redis_init
+    hostname: redisdb_init
     volumes:
       - ./ssl:/etc/ssl:ro
       - ./scripts:/usr/local/bin/scripts:ro
     depends_on:
-      - redis1
-      - redis2
-      - redis3
+      - redisdb1
+      - redisdb2
+      - redisdb3
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init-cluster.sh"]
     networks:
       - redis_network
 
 volumes:
-  redis1_data:
+  redisdb1_data:
     driver: local
-  redis2_data:
+  redisdb2_data:
     driver: local
-  redis3_data:
+  redisdb3_data:
     driver: local
 
 networks:

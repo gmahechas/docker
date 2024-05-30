@@ -2,35 +2,35 @@
 # Generar la clave privada de la CA
 openssl genpkey -algorithm RSA -out ca.key
 
-# Generar el certificado de la CA (Common Name: redis-ca)
-openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=redis-ca"
+# Generar el certificado de la CA (Common Name: redisdb-ca)
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=redisdb-ca"
 
 
 2. Generar la clave privada del servidor, CSR, y el certificado del servidor para cada nodo
-redis1
-# Generar la clave privada del servidor para redis1
-openssl genpkey -algorithm RSA -out redis1.key
+redisdb1
+# Generar la clave privada del servidor para redisdb1
+openssl genpkey -algorithm RSA -out redisdb1.key
 
-# Generar una solicitud de firma de certificado (CSR) para redis1
-openssl req -new -key redis1.key -out redis1.csr -subj "/CN=redis1.gmahechas.local"
+# Generar una solicitud de firma de certificado (CSR) para redisdb1
+openssl req -new -key redisdb1.key -out redisdb1.csr -subj "/CN=redisdb1.gmahechas.local"
 
-# Firmar el certificado del servidor para redis1 con la CA
-openssl x509 -req -in redis1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis1.crt -days 3650 -sha256
-
-
-redis2
-openssl genpkey -algorithm RSA -out redis2.key
-openssl req -new -key redis2.key -out redis2.csr -subj "/CN=redis2.gmahechas.local"
-openssl x509 -req -in redis2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis2.crt -days 3650 -sha256
+# Firmar el certificado del servidor para redisdb1 con la CA
+openssl x509 -req -in redisdb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb1.crt -days 3650 -sha256
 
 
-redis3
-openssl genpkey -algorithm RSA -out redis3.key
-openssl req -new -key redis3.key -out redis3.csr -subj "/CN=redis3.gmahechas.local"
-openssl x509 -req -in redis3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redis3.crt -days 3650 -sha256
+redisdb2
+openssl genpkey -algorithm RSA -out redisdb2.key
+openssl req -new -key redisdb2.key -out redisdb2.csr -subj "/CN=redisdb2.gmahechas.local"
+openssl x509 -req -in redisdb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb2.crt -days 3650 -sha256
+
+
+redisdb3
+openssl genpkey -algorithm RSA -out redisdb3.key
+openssl req -new -key redisdb3.key -out redisdb3.csr -subj "/CN=redisdb3.gmahechas.local"
+openssl x509 -req -in redisdb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb3.crt -days 3650 -sha256
 
 
 3. Generar la clave privada del cliente, CSR, y el certificado del cliente
 openssl genpkey -algorithm RSA -out client.key
-openssl req -new -key client.key -out client.csr -subj "/CN=redis-client"
+openssl req -new -key client.key -out client.csr -subj "/CN=redisdb-client"
 openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 3650 -sha256
