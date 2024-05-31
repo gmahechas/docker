@@ -13,7 +13,7 @@ services:
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6380:6380" # ssl port
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local", "redisdb1"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local"]
     networks:
       redis_network:
         aliases:
@@ -36,7 +36,7 @@ services:
       - "6480:6380" # ssl port
     depends_on:
       - redisdb1
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local", "redisdb2"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local"]
     networks:
       redis_network:
         aliases:
@@ -59,7 +59,7 @@ services:
       - "6580:6380" # ssl port
     depends_on:
       - redisdb2
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local", "redisdb3"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local"]
     networks:
       redis_network:
         aliases:

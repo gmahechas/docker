@@ -1,7 +1,6 @@
 #!/bin/sh
 
 REDISDB_ANNOUNCE_IP=$1
-REDISDB_NODE=$2
 
 REDISDB_CMD="redis-server \
   --appendonly yes \
@@ -14,8 +13,8 @@ REDISDB_CMD="redis-server \
   --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
   --port 0 \
   --tls-port 6380 \
-  --tls-cert-file /etc/ssl/$REDISDB_NODE/$REDISDB_NODE.crt \
-  --tls-key-file /etc/ssl/$REDISDB_NODE/$REDISDB_NODE.key \
+  --tls-cert-file /etc/ssl/redisdb/redisdb.crt \
+  --tls-key-file /etc/ssl/redisdb/redisdb.key \
   --tls-ca-cert-file /etc/ssl/ca.crt \
   --tls-auth-clients yes \
   --loglevel debug"
