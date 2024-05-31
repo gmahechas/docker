@@ -13,6 +13,7 @@ openssl genpkey -algorithm RSA -out redisdb1.key
 
 # Generar una solicitud de firma de certificado (CSR) para redisdb1
 openssl req -new -key redisdb1.key -out redisdb1.csr -subj "/CN=redisdb1.gmahechas.local"
+openssl req -new -key redisdb1.key -out redisdb1.csr -subj "/CN=172.28.0.2"
 
 # Firmar el certificado del servidor para redisdb1 con la CA
 openssl x509 -req -in redisdb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb1.crt -days 3650 -sha256
@@ -21,12 +22,14 @@ openssl x509 -req -in redisdb1.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateseria
 redisdb2
 openssl genpkey -algorithm RSA -out redisdb2.key
 openssl req -new -key redisdb2.key -out redisdb2.csr -subj "/CN=redisdb2.gmahechas.local"
+openssl req -new -key redisdb2.key -out redisdb2.csr -subj "/CN=172.28.0.3"
 openssl x509 -req -in redisdb2.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb2.crt -days 3650 -sha256
 
 
 redisdb3
 openssl genpkey -algorithm RSA -out redisdb3.key
 openssl req -new -key redisdb3.key -out redisdb3.csr -subj "/CN=redisdb3.gmahechas.local"
+openssl req -new -key redisdb3.key -out redisdb3.csr -subj "/CN=172.28.0.4"
 openssl x509 -req -in redisdb3.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb3.crt -days 3650 -sha256
 
 
