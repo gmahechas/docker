@@ -4,9 +4,6 @@ REDISDB_ANNOUNCE_IP=$1
 
 REDISDB_CMD="redis-server \
   --appendonly yes \
-  --requirepass root \
-  --masterauth root \
-  --aclfile /etc/config/acl.conf \
   --cluster-enabled yes \
   --cluster-config-file nodes.conf \
   --cluster-node-timeout 5000 \

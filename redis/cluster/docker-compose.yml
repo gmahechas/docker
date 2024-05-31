@@ -8,16 +8,10 @@ services:
     mem_limit: 1g
     volumes:
       - redisdb1_data:/data
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6379:6379"
-    command: [
-      "redis-server",
-      "--cluster-enabled", "yes",
-      "--cluster-config-file", "nodes.conf",
-      "--cluster-node-timeout", "5000",
-      "--appendonly", "yes",
-      "--cluster-announce-ip", "redisdb1.gmahechas.local"
-    ]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local"]
     networks:
       redis_network:
         aliases:
@@ -33,18 +27,12 @@ services:
     mem_limit: 1g
     volumes:
       - redisdb2_data:/data
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6479:6379"
     depends_on:
       - redisdb1
-    command: [
-      "redis-server",
-      "--cluster-enabled", "yes",
-      "--cluster-config-file", "nodes.conf",
-      "--cluster-node-timeout", "5000",
-      "--appendonly", "yes",
-      "--cluster-announce-ip", "redisdb2.gmahechas.local"
-    ]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local"]
     networks:
       redis_network:
         aliases:
@@ -60,18 +48,12 @@ services:
     mem_limit: 1g
     volumes:
       - redisdb3_data:/data
+      - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6579:6379"
     depends_on:
       - redisdb2
-    command: [
-      "redis-server",
-      "--cluster-enabled", "yes",
-      "--cluster-config-file", "nodes.conf",
-      "--cluster-node-timeout", "5000",
-      "--appendonly", "yes",
-      "--cluster-announce-ip", "redisdb3.gmahechas.local"
-    ]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local"]
     networks:
       redis_network:
         aliases:
