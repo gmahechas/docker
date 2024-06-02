@@ -1,3 +1,25 @@
-redis-cli --cluster create 172.28.0.2:6379 172.28.0.3:6379 172.28.0.4:6379 --cluster-replicas 0
 
 redis-cli -a root --user root -p 6379 -h redisdb1.gmahechas.local
+
+redis-cli --cluster create redisdb1.gmahechas.local:6379 redisdb2.gmahechas.local:6379 redisdb3.gmahechas.local:6379 --cluster-replicas 0 -a root --user root
+
+redis-cli -a root --user root -p 6379 -h redisdb1.gmahechas.local --cluster create redisdb1.gmahechas.local:6378 redisdb2.gmahechas.local:6378 redisdb3.gmahechas.local:6378 --cluster-replicas 0 -a root --user root
+redis-cli -a root --user root -p 6379 -h redisdb1.gmahechas.local --cluster create 172.28.0.2:6378 172.28.0.3:6378 172.28.0.4:6378 --cluster-replicas 0 -a root --user root
+
+redisdb1
+redis-cli -h 172.28.0.2 -p 6379 -a root --user root PING
+redis-cli -h redisdb1.gmahechas.local -p 6379 -a root --user root PING
+redis-cli -h redisdb1.gmahechas.local -p 6379 -a root --user root cluster info
+redis-cli -h redisdb1.gmahechas.local -p 6379 -a root --user root CONFIG GET cluster-enabled
+
+redisdb2
+redis-cli -h 172.28.0.3 -p 6379 -a root --user root PING
+redis-cli -h redisdb2.gmahechas.local -p 6379 -a root --user root PING
+redis-cli -h redisdb2.gmahechas.local -p 6379 -a root --user root cluster info
+redis-cli -h redisdb2.gmahechas.local -p 6379 -a root --user root CONFIG GET cluster-enabled
+
+redisdb3
+redis-cli -h 172.28.0.4 -p 6379 -a root --user root PING
+redis-cli -h redisdb3.gmahechas.local -p 6379 -a root --user root PING
+redis-cli -h redisdb3.gmahechas.local -p 6379 -a root --user root cluster info
+redis-cli -h redisdb3.gmahechas.local -p 6379 -a root --user root CONFIG GET cluster-enabled

@@ -2,7 +2,9 @@
 
 REDISDB_ANNOUNCE_IP=$1
 
-REDISDB_CMD="redis-server \
+REDISDB_CMD="
+  redis-server \
+  --bind 0.0.0.0 \
   --appendonly yes \
   --requirepass root \
   --masterauth root \
@@ -10,7 +12,9 @@ REDISDB_CMD="redis-server \
   --cluster-enabled yes \
   --cluster-config-file nodes.conf \
   --cluster-node-timeout 5000 \
-  --cluster-announce-ip $REDISDB_ANNOUNCE_IP"
+  --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
+  --cluster-announce-port 6379 \
+  --loglevel debug"
 
 echo "initiating ${HOSTNAME} instance..."
 echo $REDISDB_CMD
