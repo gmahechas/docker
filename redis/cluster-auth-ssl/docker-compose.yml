@@ -12,7 +12,7 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "6378:6378"
+      - "6380:6380"
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local"]
     networks:
       redis_network:
@@ -31,7 +31,7 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "6478:6378"
+      - "6480:6380"
     depends_on:
       - redisdb1
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local"]
@@ -52,7 +52,7 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "6578:6378"
+      - "6580:6380"
     depends_on:
       - redisdb2
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local"]
