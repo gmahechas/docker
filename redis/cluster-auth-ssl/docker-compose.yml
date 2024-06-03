@@ -16,8 +16,6 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local"]
     networks:
       redis_network:
-        aliases:
-          - redisdb1.gmahechas.local
         ipv4_address: 172.28.0.2
 
   redisdb2:
@@ -39,8 +37,6 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local"]
     networks:
       redis_network:
-        aliases:
-          - redisdb2.gmahechas.local
         ipv4_address: 172.28.0.3
 
   redisdb3:
@@ -62,8 +58,6 @@ services:
     entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local"]
     networks:
       redis_network:
-        aliases:
-          - redisdb3.gmahechas.local
         ipv4_address: 172.28.0.4
 
   # redisdb_init:
