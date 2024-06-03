@@ -13,7 +13,6 @@ REDISDB_CMD="
   --cluster-config-file nodes.conf \
   --cluster-node-timeout 5000 \
   --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
-  --port 0 \
   --tls-port 6380 \
   --tls-cert-file /etc/ssl/redisdb/redisdb.crt \
   --tls-key-file /etc/ssl/redisdb/redisdb.key \
