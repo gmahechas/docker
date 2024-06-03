@@ -13,7 +13,6 @@ REDISDB_CMD="
   --cluster-config-file nodes.conf \
   --cluster-node-timeout 5000 \
   --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
-  --cluster-announce-port 6379 \
   --loglevel debug"
 
 echo "initiating ${HOSTNAME} instance..."
