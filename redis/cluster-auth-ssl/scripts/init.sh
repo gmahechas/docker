@@ -14,7 +14,7 @@ REDISDB_CMD="
   --cluster-node-timeout 5000 \
   --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
   --port 0 \
-  --tls-port 6379 \
+  --tls-port 6378 \
   --tls-cert-file /etc/ssl/redisdb/redisdb.crt \
   --tls-key-file /etc/ssl/redisdb/redisdb.key \
   --tls-ca-cert-file /etc/ssl/ca.crt \
