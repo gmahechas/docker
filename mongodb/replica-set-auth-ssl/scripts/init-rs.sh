@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MONGODB_INIT_FLAG=/etc/config/.mongodb_init_flag
-MONGODB_CMD="mongo --host mongodb1.gmahechas.local --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem"
+MONGODB_CMD="mongo --host mongodb1.gmahechas.local --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb.pem"
 
 if [ -s "$MONGODB_INIT_FLAG" ]; then
 	echo "replica set already initialized"

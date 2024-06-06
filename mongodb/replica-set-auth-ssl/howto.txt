@@ -4,9 +4,9 @@ docker compose down
 docker compose up -d
 
 ####### login in container
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb1/mongodb1.pem --host mongodb1.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb2/mongodb2.pem --host mongodb2.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
-mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb3/mongodb3.pem --host mongodb3.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb.pem --host mongodb1.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb.pem --host mongodb2.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
+mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb.pem --host mongodb3.gmahechas.local --port 27017 -u root -p root --authenticationDatabase admin
 rs.status()
 
 mongo --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/client/client.pem --host mongodb1.gmahechas.local --port 27017 --eval 'rs.status()'
