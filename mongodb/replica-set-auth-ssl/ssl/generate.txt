@@ -5,6 +5,7 @@ openssl genpkey -algorithm RSA -out ca.key
 # Generar el certificado de la CA (Common Name: mongodb-ca)
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=mongodb-ca"
 
+
 2. Generar la clave privada del servidor, CSR, y el certificado del servidor para cada nodo
 # Generar la clave privada del servidor para mongodb
 openssl genpkey -algorithm RSA -out mongodb.key
