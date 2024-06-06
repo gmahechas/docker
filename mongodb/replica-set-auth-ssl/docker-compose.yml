@@ -15,9 +15,7 @@ services:
       - "27017:27017"
     entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
     networks:
-      mongodb_network:
-        aliases:
-          - mongodb1.gmahechas.local
+      - mongodb_network
 
   mongodb2:
     container_name: mongodb2
@@ -37,9 +35,7 @@ services:
       - mongodb1
     entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
     networks:
-      mongodb_network:
-        aliases:
-          - mongodb2.gmahechas.local
+      - mongodb_network
 
   mongodb3:
     container_name: mongodb3
@@ -59,9 +55,7 @@ services:
       - mongodb2
     entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
     networks:
-      mongodb_network:
-        aliases:
-          - mongodb3.gmahechas.local
+      - mongodb_network
 
   mongodb_init:
     container_name: mongodb_init
