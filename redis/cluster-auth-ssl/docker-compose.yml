@@ -60,20 +60,20 @@ services:
       redis_network:
         ipv4_address: 172.28.0.4
 
-  # redisdb_init:
-  #   container_name: redisdb_init
-  #   image: redis:6.0.9-alpine
-  #   hostname: redisdb_init
-  #   volumes:
-  #     - ./ssl:/etc/ssl:ro
-  #     - ./scripts:/usr/local/bin/scripts:ro
-  #   depends_on:
-  #     - redisdb1
-  #     - redisdb2
-  #     - redisdb3
-  #   entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init-cluster.sh"]
-  #   networks:
-  #     - redis_network
+  redisdb_init:
+    container_name: redisdb_init
+    image: redis:6.0.9-alpine
+    hostname: redisdb_init
+    volumes:
+      - ./ssl:/etc/ssl:ro
+      - ./scripts:/usr/local/bin/scripts:ro
+    depends_on:
+      - redisdb1
+      - redisdb2
+      - redisdb3
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init-cluster.sh"]
+    networks:
+      - redis_network
 
 volumes:
   redisdb1_data:

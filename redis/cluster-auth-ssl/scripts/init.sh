@@ -14,12 +14,12 @@ REDISDB_CMD="
   --cluster-node-timeout 5000 \
   --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
   --port 0 \
+  --tls-cluster yes \
   --tls-port 6380 \
   --tls-cert-file /etc/ssl/redisdb/redisdb.crt \
   --tls-key-file /etc/ssl/redisdb/redisdb.key \
   --tls-ca-cert-file /etc/ssl/ca.crt \
-  --tls-auth-clients yes \
-  --loglevel debug"
+  --tls-auth-clients yes" #--loglevel debug"
 
 echo "initiating ${HOSTNAME} instance..."
 echo $REDISDB_CMD
