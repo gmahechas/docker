@@ -1,7 +1,7 @@
 services:
   mongodb1:
     container_name: mongodb1
-    image: mongo:4.2.10
+    image: mongo:4.4.17-focal
     restart: always
     hostname: "mongodb1.gmahechas.local"
     cpus: 1.0
@@ -19,7 +19,7 @@ services:
 
   mongodb2:
     container_name: mongodb2
-    image: mongo:4.2.10
+    image: mongo:4.4.17-focal
     restart: always
     hostname: "mongodb2.gmahechas.local"
     cpus: 1.0
@@ -39,7 +39,7 @@ services:
 
   mongodb3:
     container_name: mongodb3
-    image: mongo:4.2.10
+    image: mongo:4.4.17-focal
     restart: always
     hostname: "mongodb3.gmahechas.local"
     cpus: 1.0
@@ -59,7 +59,7 @@ services:
 
   mongodb_init:
     container_name: mongodb_init
-    image: mongo:4.2.10
+    image: mongo:4.4.17-focal
     hostname: "mongodb_init"
     volumes:
       - ./ssl:/etc/ssl:ro
