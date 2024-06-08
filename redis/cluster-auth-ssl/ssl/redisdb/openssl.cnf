@@ -19,6 +19,4 @@ subjectAltName = @alt_names
 subjectAltName = @alt_names
 
 [ alt_names ]
-DNS.1   = redisdb1.gmahechas.local
-DNS.2   = redisdb2.gmahechas.local
-DNS.3   = redisdb3.gmahechas.local
+DNS.1 = *.gmahechas.local
