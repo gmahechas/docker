@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 10
+
 MONGODB_INIT_FLAG=/etc/config/.mongodb_init_flag
 MONGODB_CMD="mongo --host mongodb1.gmahechas.local --tls --tlsCAFile /etc/ssl/ca.crt --tlsCertificateKeyFile /etc/ssl/mongodb/mongodb.pem"
 
