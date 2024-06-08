@@ -11,10 +11,12 @@ openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "
 openssl genpkey -algorithm RSA -out mongodb.key
 
 # Generar una solicitud de firma de certificado (CSR) para mongodb
-openssl req -new -key mongodb.key -out mongodb.csr -subj "/CN=*.gmahechas.local"
+#openssl req -new -key mongodb.key -out mongodb.csr -subj "/CN=*.gmahechas.local"
+openssl req -new -key mongodb.key -out mongodb.csr -config openssl.cnf
 
 # Firmar el certificado del servidor para mongodb con la CA
-openssl x509 -req -in mongodb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb.crt -days 3650 -sha256
+#openssl x509 -req -in mongodb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb.crt -days 3650 -sha256
+openssl x509 -req -in mongodb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb.crt -days 3650 -sha256 -extfile openssl.cnf -extensions req_ext
 
 # Combinar la clave privada y el certificado en un solo archivo
 cat mongodb.key mongodb.crt > mongodb.pem
