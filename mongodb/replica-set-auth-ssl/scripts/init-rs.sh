@@ -14,7 +14,7 @@ fi
 while ! $MONGODB_CMD --eval 'db.runCommand({ping: 1})'; do
   echo 'waiting for mongodb1.gmahechas.local to be ready...'
   sleep 5
-done;
+done
 
 # initiating replica set
 echo 'initiating replica set...'
