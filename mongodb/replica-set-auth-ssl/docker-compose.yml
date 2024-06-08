@@ -13,7 +13,7 @@ services:
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "27017:27017"
-    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "27017"]
     networks:
       - mongodb_network
 
@@ -30,10 +30,10 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "28017:27017"
+      - "28017:28017"
     depends_on:
       - mongodb1
-    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "28017"]
     networks:
       - mongodb_network
 
@@ -50,10 +50,10 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "29017:27017"
+      - "29017:29017"
     depends_on:
       - mongodb2
-    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh"]
+    entrypoint: ["/bin/bash", "/usr/local/bin/scripts/init.sh", "29017"]
     networks:
       - mongodb_network
 
