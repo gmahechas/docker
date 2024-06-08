@@ -11,10 +11,12 @@ openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "
 openssl genpkey -algorithm RSA -out redisdb.key
 
 # Generar una solicitud de firma de certificado (CSR) para redisdb
-openssl req -new -key redisdb.key -out redisdb.csr -subj "/CN=*.gmahechas.local"
+#openssl req -new -key redisdb.key -out redisdb.csr -subj "/CN=*.gmahechas.local"
+openssl req -new -key redisdb.key -out redisdb.csr -config openssl.cnf
 
 # Firmar el certificado del servidor para redisdb con la CA
-openssl x509 -req -in redisdb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb.crt -days 3650 -sha256
+#openssl x509 -req -in redisdb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb.crt -days 3650 -sha256
+openssl x509 -req -in redisdb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out redisdb.crt -days 3650 -sha256 -extfile openssl.cnf -extensions req_ext
 
 # Combinar la clave privada y el certificado en un solo archivo
 cat redisdb.key redisdb.crt > redisdb.pem

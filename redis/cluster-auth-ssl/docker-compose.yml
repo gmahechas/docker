@@ -13,7 +13,7 @@ services:
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6380:6380"
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "6380"]
     networks:
       redis_network:
         ipv4_address: 172.28.0.2
@@ -31,10 +31,10 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "6480:6380"
+      - "6480:6480"
     depends_on:
       - redisdb1
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "6480"]
     networks:
       redis_network:
         ipv4_address: 172.28.0.3
@@ -52,10 +52,10 @@ services:
       - ./config:/etc/config
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
-      - "6580:6380"
+      - "6580:6580"
     depends_on:
       - redisdb2
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "6580"]
     networks:
       redis_network:
         ipv4_address: 172.28.0.4
