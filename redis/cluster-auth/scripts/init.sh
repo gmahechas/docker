@@ -1,7 +1,5 @@
 #!/bin/sh
 
-REDISDB_ANNOUNCE_IP=$1
-
 REDISDB_CMD="
   redis-server \
   --bind 0.0.0.0 \
@@ -12,7 +10,7 @@ REDISDB_CMD="
   --cluster-enabled yes \
   --cluster-config-file nodes.conf \
   --cluster-node-timeout 5000 \
-  --cluster-announce-ip $REDISDB_ANNOUNCE_IP \
+  --cluster-announce-ip $HOSTNAME \
   --loglevel debug"
 
 echo "initiating ${HOSTNAME} instance..."

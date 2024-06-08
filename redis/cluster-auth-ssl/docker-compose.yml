@@ -13,7 +13,7 @@ services:
       - ./scripts:/usr/local/bin/scripts:ro
     ports:
       - "6380:6380"
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb1.gmahechas.local"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh"]
     networks:
       redis_network:
         ipv4_address: 172.28.0.2
@@ -34,7 +34,7 @@ services:
       - "6480:6380"
     depends_on:
       - redisdb1
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb2.gmahechas.local"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh"]
     networks:
       redis_network:
         ipv4_address: 172.28.0.3
@@ -55,7 +55,7 @@ services:
       - "6580:6380"
     depends_on:
       - redisdb2
-    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh", "redisdb3.gmahechas.local"]
+    entrypoint: ["/bin/sh", "/usr/local/bin/scripts/init.sh"]
     networks:
       redis_network:
         ipv4_address: 172.28.0.4
