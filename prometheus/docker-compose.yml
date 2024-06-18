@@ -1,0 +1,35 @@
+services:
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.52.0
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/prometheus
+      - ./config:/etc/config
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.templates=/usr/share/prometheus/consoles"
+    networks:
+      - prometheus_network
+
+  alertmanager:
+    container_name: alertmanager
+    image: prom/alertmanager:v0.27.0
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager:/etc/alertmanager
+    command:
+      - "--config.file=/etc/alertmanager/alertmanager.yml"
+
+volumes:
+  prometheus_data:
+    driver: local
+
+networks:
+  prometheus_network:
+    name: prometheus_network
+    driver: bridge
