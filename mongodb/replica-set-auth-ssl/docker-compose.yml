@@ -82,7 +82,7 @@ services:
     ports:
       - "9216:9216"
     environment:
-      MONGODB_URI: "mongodb://root:root@mongodb1-shared1.gmahechas.local:27017,mongodb2-shared1.gmahechas.local:28017,mongodb3-shared1.gmahechas.local:29017/?replicaSet=rs0&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&tls=true&authSource=admin"
+      MONGODB_URI: "mongodb://root:root@mongodb1.gmahechas.local:27017,mongodb2.gmahechas.local:28017,mongodb3.gmahechas.local:29017/?replicaSet=rs0&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&tls=true&authSource=admin"
     networks:
       - mongodb_network
 
