@@ -75,6 +75,27 @@ services:
     networks:
       - redis_network
 
+  redisdb_exporter:
+    container_name: redisdb_exporter
+    image: oliver006/redis_exporter:alpine
+    hostname: redisdb_exporter
+    volumes:
+      - ./ssl:/etc/ssl:ro
+    command:
+      - "--redis.addr=rediss://redisdb1-shared1.gmahechas.local:6380"
+      - "--redis.password=root"
+      - "--redis.user=root"
+      - "--tls-client-key-file=/etc/ssl/client/client.key"
+      - "--tls-client-cert-file=/etc/ssl/client/client.crt"
+      - "--tls-ca-cert-file=/etc/ssl/ca.crt"
+      - "--web.listen-address=:9121"
+      - "--web.telemetry-path=/metrics"
+      - "--debug"
+    ports:
+      - "9121:9121"
+    networks:
+      - redis_network
+
 volumes:
   redisdb1_data:
     driver: local
