@@ -75,14 +75,17 @@ services:
 
   mongodb_exporter:
     container_name: mongodb_exporter
-    image: bitnami/mongodb-exporter:0.40.0
+    image: percona/mongodb_exporter:0.40.0
     hostname: "mongodb_exporter"
     volumes:
       - ./ssl:/etc/ssl:ro
     ports:
       - "9216:9216"
-    environment:
-      MONGODB_URI: "mongodb://root:root@mongodb1.gmahechas.local:27017,mongodb2.gmahechas.local:28017,mongodb3.gmahechas.local:29017/?replicaSet=rs0&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&tls=true&authSource=admin"
+    command:
+      - "--mongodb.user=root"
+      - "--mongodb.password=root"
+      - "--mongodb.uri=mongodb://mongodb1.gmahechas.local:27017/?tls=true&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&authSource=admin,mongodb://mongodb2.gmahechas.local:28017/?tls=true&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&authSource=admin,mongodb://mongodb3.gmahechas.local:29017/?tls=true&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&authSource=admin"
+      - "--log.level=debug"
     networks:
       - mongodb_network
 

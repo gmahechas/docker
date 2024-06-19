@@ -82,7 +82,7 @@ services:
     volumes:
       - ./ssl:/etc/ssl:ro
     command:
-      - "--redis.addr=rediss://redisdb1-shared1.gmahechas.local:6380"
+      - "--redis.addr=rediss://redisdb1.gmahechas.local:6380"
       - "--redis.password=root"
       - "--redis.user=root"
       - "--tls-client-key-file=/etc/ssl/client/client.key"
