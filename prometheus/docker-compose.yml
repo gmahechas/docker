@@ -2,7 +2,10 @@ services:
   prometheus:
     container_name: prometheus
     image: prom/prometheus:v2.52.0
+    restart: always
     hostname: "prometheus"
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
       - prometheus_data:/prometheus
       - ./prometheus-config:/etc/config
@@ -14,13 +17,18 @@ services:
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
       - "--web.console.templates=/usr/share/prometheus/consoles"
       - "--web.listen-address=:9090"
+    dns:
+      - 10.1.0.1
     networks:
       - prometheus_network
 
   alertmanager:
     container_name: alertmanager
     image: prom/alertmanager:v0.27.0
+    restart: always
     hostname: "alertmanager"
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
       - ./alertmanager-config:/etc/config
     ports:

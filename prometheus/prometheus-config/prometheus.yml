@@ -11,6 +11,16 @@ scrape_configs:
     static_configs:
       - targets: ['localhost:9090']
 
-  - job_name: 'mongodb_shared1_exporter'
+  - job_name: 'mongodb_shared1'
+    metrics_path: /scrape
+    params:
+      target:
+        - 'mongodb://mongodb1-shared1.gmahechas.local:27017'
+        - 'mongodb://mongodb2-shared1.gmahechas.local:28017'
+        - 'mongodb://mongodb3-shared1.gmahechas.local:29017'
     static_configs:
-      - targets: ['10.1.0.85:9216']
+      - targets: ['shared1.gmahechas.local:9216']
+
+  - job_name: 'redisdb_shared1'
+    static_configs:
+      - targets: ['shared1.gmahechas.local:9121']
