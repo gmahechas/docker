@@ -1,0 +1,17 @@
+1. Generar la clave privada de la CA y el certificado de la CA
+openssl genpkey -algorithm RSA -out ca.key
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=prometheus-ca"
+
+
+2. Generar la clave privada del servidor (Prometheus), CSR y el certificado del servidor
+openssl genpkey -algorithm RSA -out prometheus.key
+openssl req -new -key prometheus.key -out prometheus.csr -config openssl.cnf
+openssl x509 -req -in prometheus.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out prometheus.crt -days 3650 -sha256 -extfile openssl.cnf -extensions req_ext
+cat prometheus.key prometheus.crt > prometheus.pem
+
+
+3. Generar la clave privada del cliente, CSR, y el certificado del cliente (en este caso la usara grafana)
+openssl genpkey -algorithm RSA -out client.key
+openssl req -new -key client.key -out client.csr -subj "/CN=prometheus-client"
+openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 3650 -sha256
+cat client.key client.crt > client.pem

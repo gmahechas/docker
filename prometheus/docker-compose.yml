@@ -33,6 +33,8 @@ services:
       - ./alertmanager-config:/etc/config
     ports:
       - "9093:9093"
+    depends_on:
+      - prometheus
     dns:
       - 10.1.0.1
     command:
@@ -54,6 +56,8 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=root
     ports:
       - "3000:3000"
+    depends_on:
+      - prometheus
     dns:
       - 10.1.0.1
     networks:

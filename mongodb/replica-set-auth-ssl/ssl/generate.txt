@@ -1,24 +1,14 @@
 1. Generar la clave privada de la CA y el certificado de la CA
-# Generar la clave privada de la CA
 openssl genpkey -algorithm RSA -out ca.key
-
-# Generar el certificado de la CA (Common Name: mongodb-ca)
 openssl req -x509 -new -nodes -key ca.key -sha256 -days 3650 -out ca.crt -subj "/CN=mongodb-ca"
 
 
 2. Generar la clave privada del servidor, CSR, y el certificado del servidor para cada nodo
-# Generar la clave privada del servidor para mongodb
 openssl genpkey -algorithm RSA -out mongodb.key
-
-# Generar una solicitud de firma de certificado (CSR) para mongodb
 #openssl req -new -key mongodb.key -out mongodb.csr -subj "/CN=*.gmahechas.local"
 openssl req -new -key mongodb.key -out mongodb.csr -config openssl.cnf
-
-# Firmar el certificado del servidor para mongodb con la CA
 #openssl x509 -req -in mongodb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb.crt -days 3650 -sha256
 openssl x509 -req -in mongodb.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out mongodb.crt -days 3650 -sha256 -extfile openssl.cnf -extensions req_ext
-
-# Combinar la clave privada y el certificado en un solo archivo
 cat mongodb.key mongodb.crt > mongodb.pem
 
 
