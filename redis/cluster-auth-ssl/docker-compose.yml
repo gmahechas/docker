@@ -81,6 +81,8 @@ services:
     hostname: redisdb_exporter
     volumes:
       - ./ssl:/etc/ssl:ro
+    ports:
+      - "9121:9121"
     command:
       - "--redis.addr=rediss://redisdb1.gmahechas.local:6380"
       - "--redis.password=root"
@@ -91,8 +93,6 @@ services:
       - "--web.listen-address=:9121"
       - "--web.telemetry-path=/metrics"
       - "--debug"
-    ports:
-      - "9121:9121"
     networks:
       - redis_network
 
