@@ -13,5 +13,5 @@ cat prometheus.key prometheus.crt > prometheus.pem
 3. Generar la clave privada del cliente, CSR, y el certificado del cliente (en este caso la usara grafana)
 openssl genpkey -algorithm RSA -out client.key
 openssl req -new -key client.key -out client.csr -subj "/CN=prometheus-client"
-openssl x509 -req -in client.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out client.crt -days 3650 -sha256
+openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial -out client.crt -days 3650 -sha256
 cat client.key client.crt > client.pem
