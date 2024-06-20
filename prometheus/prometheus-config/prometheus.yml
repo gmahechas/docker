@@ -24,7 +24,7 @@ scrape_configs:
     basic_auth:
       username: root
       password: root
-    metrics_path: /mongodb/metrics
+    metrics_path: /metrics
     params:
       target:
         - 'mongodb://mongodb1.gmahechas.local:27017'
@@ -40,6 +40,6 @@ scrape_configs:
     basic_auth:
       username: root
       password: root
-    metrics_path: /redisdb/metrics
+    metrics_path: /metrics
     static_configs:
       - targets: ['redisdb-exporter.gmahechas.local']
