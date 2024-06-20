@@ -3,7 +3,7 @@ services:
     container_name: prometheus
     image: prom/prometheus:v2.52.0
     restart: always
-    hostname: "prometheus-shared3.gmahechas.local"
+    hostname: "prometheus.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -18,7 +18,7 @@ services:
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
       - "--web.console.templates=/usr/share/prometheus/consoles"
       - "--web.listen-address=:9090"
-      - "--web.external-url=https://prometheus-shared3.gmahechas.local"
+      - "--web.external-url=https://prometheus.gmahechas.local"
       - "--web.config.file=/etc/config/web-config.yml"
     dns:
       - 10.1.0.1
@@ -29,7 +29,7 @@ services:
     container_name: alertmanager
     image: prom/alertmanager:v0.27.0
     restart: always
-    hostname: "alertmanager-shared3.gmahechas.local"
+    hostname: "alertmanager.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -50,7 +50,7 @@ services:
     container_name: grafana
     image: grafana/grafana-enterprise:10.4.4
     restart: unless-stopped
-    hostname: "grafana-shared3.gmahechas.local"
+    hostname: "grafana.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:

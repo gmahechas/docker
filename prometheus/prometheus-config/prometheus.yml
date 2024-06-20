@@ -4,32 +4,35 @@ global:
 alerting:
   alertmanagers:
     - static_configs:
-        - targets: ['alertmanager-shared3.gmahechas.local:9093']
+        - targets: ['alertmanager.gmahechas.local:9093']
 
 scrape_configs:
   - job_name: 'prometheus'
     scheme: https
+    tls_config:
+      insecure_skip_verify: true
     basic_auth:
       username: root
       password: root
-    tls_config:
-      ca_file: /etc/ssl/ca.crt
-      cert_file: /etc/ssl/client/client.crt
-      key_file: /etc/ssl/client/client.key
-      insecure_skip_verify: true
     static_configs:
-      - targets: ['prometheus-shared3.gmahechas.local:9090']
+      - targets: ['prometheus.gmahechas.local:9090']
 
-  - job_name: 'mongodb_shared1'
+  - job_name: 'mongodb'
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
     metrics_path: /scrape
     params:
       target:
-        - 'mongodb://mongodb1-shared1.gmahechas.local:27017'
-        - 'mongodb://mongodb2-shared1.gmahechas.local:28017'
-        - 'mongodb://mongodb3-shared1.gmahechas.local:29017'
+        - 'mongodb://mongodb1.gmahechas.local:27017'
+        - 'mongodb://mongodb2.gmahechas.local:28017'
+        - 'mongodb://mongodb3.gmahechas.local:29017'
     static_configs:
-      - targets: ['mongodb-exporter-shared1.gmahechas.local:9216']
+      - targets: ['mongodb-exporter.gmahechas.local']
 
-  - job_name: 'redisdb_shared1'
+  - job_name: 'redisdb'
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
     static_configs:
-      - targets: ['redisdb-exporter-shared1.gmahechas.local:9121']
+      - targets: ['redisdb-exporter.gmahechas.local']
