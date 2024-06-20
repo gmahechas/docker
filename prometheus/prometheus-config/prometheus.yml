@@ -21,7 +21,7 @@ scrape_configs:
     scheme: https
     tls_config:
       insecure_skip_verify: true
-    metrics_path: /scrape
+    metrics_path: /mongodb/metrics
     params:
       target:
         - 'mongodb://mongodb1.gmahechas.local:27017'
@@ -34,5 +34,6 @@ scrape_configs:
     scheme: https
     tls_config:
       insecure_skip_verify: true
+    metrics_path: /redisdb/metrics
     static_configs:
       - targets: ['redisdb-exporter.gmahechas.local']
