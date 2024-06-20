@@ -4,7 +4,7 @@ global:
 alerting:
   alertmanagers:
     - static_configs:
-        - targets: ['alertmanager:9093']
+        - targets: ['alertmanager-shared3.gmahechas.local:9093']
 
 scrape_configs:
   - job_name: 'prometheus'
@@ -18,7 +18,7 @@ scrape_configs:
       key_file: /etc/ssl/client/client.key
       insecure_skip_verify: true
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['prometheus-shared3.gmahechas.local:9090']
 
   - job_name: 'mongodb_shared1'
     metrics_path: /scrape

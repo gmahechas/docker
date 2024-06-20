@@ -3,7 +3,7 @@ services:
     container_name: prometheus
     image: prom/prometheus:v2.52.0
     restart: always
-    hostname: "prometheus"
+    hostname: "prometheus-shared3.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -29,7 +29,7 @@ services:
     container_name: alertmanager
     image: prom/alertmanager:v0.27.0
     restart: always
-    hostname: "alertmanager"
+    hostname: "alertmanager-shared3.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
@@ -50,7 +50,7 @@ services:
     container_name: grafana
     image: grafana/grafana-enterprise:10.4.4
     restart: unless-stopped
-    hostname: "grafana"
+    hostname: "grafana-shared3.gmahechas.local"
     cpus: 1.0
     mem_limit: 1g
     volumes:
