@@ -18,7 +18,7 @@ services:
       - "--web.console.libraries=/usr/share/prometheus/console_libraries"
       - "--web.console.templates=/usr/share/prometheus/consoles"
       - "--web.listen-address=:9090"
-      - "--web.external-url=prometheus-shared3.gmahechas.local"
+      - "--web.external-url=https://prometheus-shared3.gmahechas.local"
       - "--web.config.file=/etc/config/web-config.yml"
     dns:
       - 10.1.0.1
