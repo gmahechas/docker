@@ -31,7 +31,7 @@ scrape_configs:
         - 'mongodb://mongodb2.gmahechas.local:28017'
         - 'mongodb://mongodb3.gmahechas.local:29017'
     static_configs:
-      - targets: ['prometheus-exporters.gmahechas.local']
+      - targets: ['mongodb-exporter.gmahechas.local']
 
   - job_name: 'redisdb'
     scheme: https
@@ -42,4 +42,4 @@ scrape_configs:
       password: root
     metrics_path: /redisdb/metrics
     static_configs:
-      - targets: ['prometheus-exporters.gmahechas.local']
+      - targets: ['redisdb-exporter.gmahechas.local']
