@@ -17,3 +17,4 @@ openssl x509 -req -in client.csr -CA ../ca.crt -CAkey ../ca.key -CAcreateserial 
 cat client.key client.crt > client.pem
 
 openssl pkcs12 -export -out client.p12 -in client.pem -name "Prometheus Client Cert"
+security import archivo.p12 -k ~/Library/Keychains/login.keychain-db -P "1234"

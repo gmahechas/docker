@@ -10,7 +10,9 @@ countryName                = CO
 stateOrProvinceName        = Tolima
 localityName               = Ibague
 organizationName           = gmahechas
+organizationalUnitName     = gmahechas
 commonName                 = *.gmahechas.local
+emailAddress               = gmahechas@outlook.com
 
 [ req_ext ]
 subjectAltName = @alt_names
