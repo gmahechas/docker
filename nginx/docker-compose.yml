@@ -11,6 +11,7 @@ services:
     volumes:
       - ./ssl:/etc/ssl:ro
       - ./config/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./config/.htpasswd:/etc/nginx/.htpasswd:ro
     networks:
       - nginx_network
       - mongodb_network
