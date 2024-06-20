@@ -55,8 +55,14 @@ services:
     mem_limit: 1g
     volumes:
       - grafana_data:/var/lib/grafana
+      - ./ssl:/etc/ssl:ro
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=root
+      - GF_SERVER_PROTOCOL=https
+      - GF_SERVER_CERT_FILE=/etc/ssl/grafana/grafana.crt
+      - GF_SERVER_CERT_KEY=/etc/ssl/grafana/grafana.key
+      - GF_SERVER_ROOT_URL=https://grafana.gmahechas.local
+      - GF_SERVER_TLS_SKIP_VERIFY_INSECURE=true
     ports:
       - "3000:3000"
     depends_on:
