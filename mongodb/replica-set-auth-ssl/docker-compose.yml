@@ -76,7 +76,7 @@ services:
   mongodb_exporter:
     container_name: mongodb_exporter
     image: percona/mongodb_exporter:0.40.0
-    hostname: "mongodb_exporter"
+    hostname: "mongodb-exporter.gmahechas.local"
     volumes:
       - ./ssl:/etc/ssl:ro
     ports:
