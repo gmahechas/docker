@@ -21,6 +21,9 @@ scrape_configs:
     scheme: https
     tls_config:
       insecure_skip_verify: true
+    basic_auth:
+      username: root
+      password: root
     metrics_path: /mongodb/metrics
     params:
       target:
@@ -34,6 +37,9 @@ scrape_configs:
     scheme: https
     tls_config:
       insecure_skip_verify: true
+    basic_auth:
+      username: root
+      password: root
     metrics_path: /redisdb/metrics
     static_configs:
       - targets: ['redisdb-exporter.gmahechas.local']
