@@ -78,11 +78,9 @@ services:
   redisdb_exporter:
     container_name: redisdb_exporter
     image: oliver006/redis_exporter:alpine
-    hostname: "redisdb-exporter.gmahechas.local"
+    hostname: "redisdb_exporter"
     volumes:
       - ./ssl:/etc/ssl:ro
-    ports:
-      - "9121:9121"
     command:
       - "--redis.addr=rediss://redisdb1.gmahechas.local:6380"
       - "--redis.password=root"

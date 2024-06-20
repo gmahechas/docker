@@ -76,11 +76,9 @@ services:
   mongodb_exporter:
     container_name: mongodb_exporter
     image: percona/mongodb_exporter:0.40.0
-    hostname: "mongodb-exporter.gmahechas.local"
+    hostname: "mongodb_exporter"
     volumes:
       - ./ssl:/etc/ssl:ro
-    ports:
-      - "9216:9216"
     command:
       - "--mongodb.user=root"
       - "--mongodb.password=root"
