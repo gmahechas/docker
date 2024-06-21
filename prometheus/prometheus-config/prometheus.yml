@@ -5,6 +5,12 @@ alerting:
   alertmanagers:
     - static_configs:
         - targets: ['alertmanager.gmahechas.local:9093']
+      scheme: https
+      tls_config:
+        insecure_skip_verify: true
+      basic_auth:
+        username: root
+        password: root
 
 scrape_configs:
   - job_name: 'prometheus'
