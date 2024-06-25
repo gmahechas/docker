@@ -83,6 +83,7 @@ services:
       - "--mongodb.user=root"
       - "--mongodb.password=root"
       - "--mongodb.uri=mongodb://mongodb1.gmahechas.local:27017/?tls=true&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&authSource=admin,mongodb://mongodb2.gmahechas.local:28017/?tls=true&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&authSource=admin,mongodb://mongodb3.gmahechas.local:29017/?tls=true&tlsCertificateKeyFile=/etc/ssl/client/client.pem&tlsCAFile=/etc/ssl/ca.crt&authSource=admin"
+      - "--collect-all"
       - "--log.level=debug"
     networks:
       - mongodb_network
