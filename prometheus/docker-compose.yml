@@ -33,6 +33,7 @@ services:
     cpus: 1.0
     mem_limit: 1g
     volumes:
+      - ./ssl:/etc/ssl:ro
       - ./alertmanager-config:/etc/config
     ports:
       - "9093:9093"
@@ -43,6 +44,7 @@ services:
     command:
       - "--config.file=/etc/config/alertmanager.yml"
       - "--web.listen-address=:9093"
+      - "--web.config.file=/etc/config/web-config.yml"
     networks:
       - prometheus_network
 
