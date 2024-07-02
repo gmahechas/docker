@@ -81,6 +81,11 @@ services:
     hostname: "redisdb_exporter"
     volumes:
       - ./ssl:/etc/ssl:ro
+    depends_on:
+      - redisdb1
+      - redisdb2
+      - redisdb3
+      - redisdb_init
     command:
       - "--redis.addr=rediss://redisdb1.gmahechas.local:6380"
       - "--redis.password=root"

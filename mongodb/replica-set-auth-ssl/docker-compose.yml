@@ -79,6 +79,11 @@ services:
     hostname: "mongodb_exporter"
     volumes:
       - ./ssl:/etc/ssl:ro
+    depends_on:
+      - mongodb1
+      - mongodb2
+      - mongodb3
+      - mongodb_init
     command:
       - "--mongodb.user=root"
       - "--mongodb.password=root"
