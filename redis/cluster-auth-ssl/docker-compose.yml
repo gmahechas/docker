@@ -95,6 +95,12 @@ services:
       - "--tls-ca-cert-file=/etc/ssl/ca.crt"
       - "--web.listen-address=:9121"
       - "--web.telemetry-path=/metrics"
+      - "--is-cluster=true"
+      - "--include-system-metrics=true"
+      - "--include-config-metrics=true"
+      - "--ping-on-connect=true"
+      - "--export-client-list=true"
+      - "--set-client-name=true"
       - "--debug"
     networks:
       - redis_network
