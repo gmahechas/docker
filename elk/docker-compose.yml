@@ -1,61 +1,76 @@
-version: "3.8"
 services:
-  elasticsearch0:
-    container_name: elasticsearch0
-    image: amazon/opendistro-for-elasticsearch:1.13.3 
-    ports:
-      - "9200:9200"
-      - "9600:9600"
+  opensearch1:
+    container_name: opensearch1
+    image: opensearchproject/opensearch:2
+    cpus: 1.0
+    mem_limit: 768m
+    volumes:
+      - opensearch1_data:/usr/share/opensearch/data
     environment:
-      - cluster.name=elasticsearch-cluster
-      - node.name=elasticsearch0
-      - discovery.seed_hosts=elasticsearch0
-      - cluster.initial_master_nodes=elasticsearch0
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch1
+      - discovery.seed_hosts=opensearch1,opensearch2
+      - cluster.initial_cluster_manager_nodes=opensearch1,opensearch2
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-      - opendistro_security.disabled=true
+      - OPENSEARCH_JAVA_OPTS=-Xms384m -Xmx384m
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
     ulimits:
       memlock:
         soft: -1
         hard: -1
       nofile:
-        soft: 65536 
+        soft: 65536
         hard: 65536
+    networks:
+      - opensearch_network
+
+  opensearch2:
+    container_name: opensearch2
+    image: opensearchproject/opensearch:2
+    cpus: 1.0
+    mem_limit: 768m
     volumes:
-      - ./elasticsearch/data:/usr/share/elasticsearch/data
-    networks:
-      - opendistro_network
-  logstash:
-    container_name: logstash
-    image: docker.elastic.co/logstash/logstash:7.10.2
-    ports:
-      - "5044:5044"
+      - opensearch2_data:/usr/share/opensearch/data
     environment:
-      - XPACK_MONITORING_ELASTICSEARCH_HOSTS=http://10.1.0.229:9200
-#      - XPACK_MONITORING_ELASTICSEARCH_USERNAME=admin
-#      - XPACK_MONITORING_ELASTICSEARCH_PASSWORD=admin
-    volumes:
-      - ./logstash/pipeline:/usr/share/logstash/pipeline
-      - ./logstash/templates:/usr/share/logstash/templates
+      - cluster.name=opensearch-cluster
+      - node.name=opensearch2
+      - discovery.seed_hosts=opensearch1,opensearch2
+      - cluster.initial_cluster_manager_nodes=opensearch1,opensearch2
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms384m -Xmx384m
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
     networks:
-      - opendistro_network
-    depends_on:
-      - elasticsearch0
-  kibana:
-    image: kibana-no-security:latest
-    container_name: kibana
+      - opensearch_network
+  
+  opensearch_dashboards:
+    container_name: opensearch_dashboards
+    image: opensearchproject/opensearch-dashboards:2
+    cpus: 1.0
+    mem_limit: 512m
     ports:
-      - "5601:5601"
-    expose:
-      - "5601"
+      - 5601:5601
     environment:
-      ELASTICSEARCH_URL: http://elasticsearch0:9200
-      ELASTICSEARCH_HOSTS: http://elasticsearch0:9200
-    networks:
-      - opendistro_network
+      OPENSEARCH_HOSTS: '["https://opensearch1:9200","https://opensearch2:9200"]'
     depends_on:
-      - elasticsearch0
+      - opensearch1
+      - opensearch2
+    networks:
+      - opensearch_network
+
+volumes:
+  opensearch1_data:
+    driver: local
+  opensearch2_data:
+    driver: local
+
 networks:
-  opendistro_network:
-    name: opendistro_network
+  opensearch_network:
+    name: opensearch_network
     driver: bridge
