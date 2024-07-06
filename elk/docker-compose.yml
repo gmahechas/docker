@@ -2,18 +2,28 @@ services:
   opensearch1:
     container_name: opensearch1
     image: opensearchproject/opensearch:2
-    cpus: 1.0
-    mem_limit: 1g
+    # cpus: 1.0
+    # mem_limit: 1g
     volumes:
       - opensearch1_data:/usr/share/opensearch/data
+      - ./ssl:/etc/ssl:ro
+      - ./opensearch-config:/etc/config
     environment:
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Djava.security.policy=/etc/config/java.policy
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
       - cluster.name=opensearch-cluster
       - node.name=opensearch1
       - discovery.seed_hosts=opensearch1
       - cluster.initial_cluster_manager_nodes=opensearch1
       - bootstrap.memory_lock=false
-      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
+      - plugins.security.ssl.transport.pemcert_filepath=/etc/ssl/opensearch/opensearch.crt
+      - plugins.security.ssl.transport.pemkey_filepath=/etc/ssl/opensearch/opensearch.key
+      - plugins.security.ssl.transport.pemtrustedcas_filepath=/etc/ssl/ca.crt
+      - plugins.security.ssl.http.enabled=true
+      - plugins.security.ssl.http.pemcert_filepath=/etc/ssl/opensearch/opensearch.crt
+      - plugins.security.ssl.http.pemkey_filepath=/etc/ssl/opensearch/opensearch.key
+      - plugins.security.ssl.http.pemtrustedcas_filepath=/etc/ssl/ca.crt
+      - plugins.security.allow_unsafe_democertificates=false
     ulimits:
       memlock:
         soft: -1
@@ -29,10 +39,17 @@ services:
     image: opensearchproject/opensearch-dashboards:2
     cpus: 1.0
     mem_limit: 1g
+    volumes:
+      - ./ssl:/etc/ssl:ro
     ports:
       - 5601:5601
     environment:
       OPENSEARCH_HOSTS: '["https://opensearch1:9200"]'
+      OPENSEARCH_SSL_CERTIFICATEAUTHORITIES: /etc/ssl/ca.crt
+      OPENSEARCH_SSL_VERIFICATIONMODE: full
+      OPENSEARCH_SSL_CERTIFICATE: /etc/ssl/opensearch/opensearch.crt
+      OPENSEARCH_SSL_KEY: /etc/ssl/opensearch/opensearch.key
+      OPENSEARCH_SECURITY_DISABLE: false
     depends_on:
       - opensearch1
     networks:

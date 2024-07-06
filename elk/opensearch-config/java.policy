@@ -1,0 +1,4 @@
+grant {
+    permission java.io.FilePermission "/etc/ssl/opensearch/*", "read";
+    permission java.io.FilePermission "/etc/ssl/ca.crt", "read";
+};
