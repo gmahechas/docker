@@ -3,16 +3,16 @@ services:
     container_name: opensearch1
     image: opensearchproject/opensearch:2
     cpus: 1.0
-    mem_limit: 768m
+    mem_limit: 1g
     volumes:
       - opensearch1_data:/usr/share/opensearch/data
     environment:
       - cluster.name=opensearch-cluster
       - node.name=opensearch1
-      - discovery.seed_hosts=opensearch1,opensearch2
-      - cluster.initial_cluster_manager_nodes=opensearch1,opensearch2
-      - bootstrap.memory_lock=true
-      - OPENSEARCH_JAVA_OPTS=-Xms384m -Xmx384m
+      - discovery.seed_hosts=opensearch1
+      - cluster.initial_cluster_manager_nodes=opensearch1
+      - bootstrap.memory_lock=false
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
     ulimits:
       memlock:
@@ -24,72 +24,22 @@ services:
     networks:
       - opensearch_network
 
-  opensearch2:
-    container_name: opensearch2
-    image: opensearchproject/opensearch:2
-    cpus: 1.0
-    mem_limit: 768m
-    volumes:
-      - opensearch2_data:/usr/share/opensearch/data
-    environment:
-      - cluster.name=opensearch-cluster
-      - node.name=opensearch2
-      - discovery.seed_hosts=opensearch1,opensearch2
-      - cluster.initial_cluster_manager_nodes=opensearch1,opensearch2
-      - bootstrap.memory_lock=true
-      - OPENSEARCH_JAVA_OPTS=-Xms384m -Xmx384m
-      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    networks:
-      - opensearch_network
-  
   opensearch_dashboards:
     container_name: opensearch_dashboards
     image: opensearchproject/opensearch-dashboards:2
     cpus: 1.0
-    mem_limit: 512m
+    mem_limit: 1g
     ports:
       - 5601:5601
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch1:9200","https://opensearch2:9200"]'
+      OPENSEARCH_HOSTS: '["https://opensearch1:9200"]'
     depends_on:
       - opensearch1
-      - opensearch2
-    networks:
-      - opensearch_network
-
-  opensearch_logstash:
-    container_name: opensearch_logstash
-    image: docker.elastic.co/logstash/logstash:8.14.2
-    cpus: 1
-    mem_limit: 1g
-    volumes:
-      - ./logstash-config:/etc/config
-    ports:
-      - 5044:5044
-    environment:
-      LS_JAVA_OPTS: "-Xms512m -Xmx512m"
-    depends_on:
-      - opensearch1
-      - opensearch2
-    entrypoint: >
-      bash -c "
-        bin/logstash-plugin install logstash-output-opensearch &&
-        logstash -f /etc/config/logstash.conf --path.settings /etc/config
-      "
     networks:
       - opensearch_network
 
 volumes:
   opensearch1_data:
-    driver: local
-  opensearch2_data:
     driver: local
 
 networks:
