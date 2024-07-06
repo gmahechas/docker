@@ -2,8 +2,8 @@ services:
   opensearch1:
     container_name: opensearch1
     image: opensearchproject/opensearch:2
-    # cpus: 1.0
-    # mem_limit: 1g
+    cpus: 1.0
+    mem_limit: 1g
     volumes:
       - opensearch1_data:/usr/share/opensearch/data
       - ./ssl:/etc/ssl:ro
