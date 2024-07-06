@@ -1,2 +1,2 @@
 http.host: "0.0.0.0"
-xpack.monitoring.elasticsearch.hosts: [ "https://opensearch1:9200" ]
+path.config: /usr/share/logstash/pipeline

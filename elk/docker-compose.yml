@@ -6,23 +6,23 @@ services:
     mem_limit: 1g
     volumes:
       - opensearch1_data:/usr/share/opensearch/data
-      - ./ssl:/etc/ssl:ro
-      - ./opensearch-config:/etc/config
+      - ./ssl:/usr/share/opensearch/config/ssl:ro
+      - ./opensearch-config:/usr/share/opensearch/config/custom:ro
     environment:
-      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Djava.security.policy=/etc/config/java.policy
+      - OPENSEARCH_JAVA_OPTS=-Xms512m -Xmx512m -Djava.security.policy=/usr/share/opensearch/config/custom/java.policy
       - OPENSEARCH_INITIAL_ADMIN_PASSWORD=Root2024*
       - cluster.name=opensearch-cluster
       - node.name=opensearch1
       - discovery.seed_hosts=opensearch1
       - cluster.initial_cluster_manager_nodes=opensearch1
       - bootstrap.memory_lock=false
-      - plugins.security.ssl.transport.pemcert_filepath=/etc/ssl/opensearch/opensearch.crt
-      - plugins.security.ssl.transport.pemkey_filepath=/etc/ssl/opensearch/opensearch.key
-      - plugins.security.ssl.transport.pemtrustedcas_filepath=/etc/ssl/ca.crt
+      - plugins.security.ssl.transport.pemcert_filepath=/usr/share/opensearch/config/ssl/opensearch/opensearch.crt
+      - plugins.security.ssl.transport.pemkey_filepath=/usr/share/opensearch/config/ssl/opensearch/opensearch.key
+      - plugins.security.ssl.transport.pemtrustedcas_filepath=/usr/share/opensearch/config/ssl/ca.crt
       - plugins.security.ssl.http.enabled=true
-      - plugins.security.ssl.http.pemcert_filepath=/etc/ssl/opensearch/opensearch.crt
-      - plugins.security.ssl.http.pemkey_filepath=/etc/ssl/opensearch/opensearch.key
-      - plugins.security.ssl.http.pemtrustedcas_filepath=/etc/ssl/ca.crt
+      - plugins.security.ssl.http.pemcert_filepath=/usr/share/opensearch/config/ssl/opensearch/opensearch.crt
+      - plugins.security.ssl.http.pemkey_filepath=/usr/share/opensearch/config/ssl/opensearch/opensearch.key
+      - plugins.security.ssl.http.pemtrustedcas_filepath=/usr/share/opensearch/config/ssl/ca.crt
       - plugins.security.allow_unsafe_democertificates=false
     ulimits:
       memlock:
@@ -34,22 +34,50 @@ services:
     networks:
       - opensearch_network
 
+  opensearch_logstash:
+    container_name: opensearch_logstash
+    image: docker.elastic.co/logstash/logstash:8.14.1
+    cpus: 1.0
+    mem_limit: 1g
+    volumes:
+      - ./ssl:/usr/share/logstash/config/ssl:ro
+      - ./logstash-config:/usr/share/logstash/config
+      - ./logstash-pipeline:/usr/share/logstash/pipeline
+    environment:
+      LS_JAVA_OPTS: "-Xms768m -Xmx768m"
+    ports:
+      - 5044:5044
+    entrypoint: >
+      sh -c "
+      if ! /usr/share/logstash/bin/logstash-plugin list | grep -q logstash-output-opensearch; then
+        echo 'Installing logstash-output-opensearch plugin...';
+        /usr/share/logstash/bin/logstash-plugin install logstash-output-opensearch;
+      else
+        echo 'logstash-output-opensearch plugin is already installed';
+      fi &&
+      exec /usr/local/bin/docker-entrypoint $@
+      "
+    networks:
+      - opensearch_network
+  
   opensearch_dashboards:
     container_name: opensearch_dashboards
     image: opensearchproject/opensearch-dashboards:2
     cpus: 1.0
     mem_limit: 1g
     volumes:
-      - ./ssl:/etc/ssl:ro
+      - ./ssl:/usr/share/opensearch-dashboards/config/ssl:ro
     ports:
       - 5601:5601
     environment:
-      OPENSEARCH_HOSTS: '["https://opensearch1:9200"]'
-      OPENSEARCH_SSL_CERTIFICATEAUTHORITIES: /etc/ssl/ca.crt
-      OPENSEARCH_SSL_VERIFICATIONMODE: full
-      OPENSEARCH_SSL_CERTIFICATE: /etc/ssl/opensearch/opensearch.crt
-      OPENSEARCH_SSL_KEY: /etc/ssl/opensearch/opensearch.key
-      OPENSEARCH_SECURITY_DISABLE: false
+      - OPENSEARCH_HOSTS=https://opensearch1:9200
+      - OPENSEARCH_USERNAME=admin
+      - OPENSEARCH_PASSWORD=Root2024*
+      - OPENSEARCH_SSL_CERTIFICATEAUTHORITIES=/usr/share/opensearch-dashboards/config/ssl/ca.crt
+      - OPENSEARCH_SSL_VERIFICATIONMODE=full
+      - SERVER_SSL_ENABLED=true
+      - SERVER_SSL_KEY=/usr/share/opensearch-dashboards/config/ssl/opensearch/opensearch.key
+      - SERVER_SSL_CERTIFICATE=/usr/share/opensearch-dashboards/config/ssl/opensearch/opensearch.crt
     depends_on:
       - opensearch1
     networks:

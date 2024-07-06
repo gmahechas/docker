@@ -1,0 +1,2 @@
+plugins.security.authcz.admin_dn:
+  - "CN=*.gmahechas.local,O=gmahechas,L=Ibague,ST=Tolima,C=CO"
