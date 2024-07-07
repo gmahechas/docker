@@ -1,0 +1,19 @@
+filebeat.inputs:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/*.log
+    - /path/to/your/custom/logs/*.log
+
+output.logstash:
+  hosts: ["logstash-shared2.gmahechas.local:5044"]
+  ssl:
+    certificate_authorities: ["/etc/filebeat/ssl/ca.crt"]
+    certificate: "/etc/filebeat/ssl/filebeat.crt"
+    key: "/etc/filebeat/ssl/filebeat.key"
+
+processors:
+  - add_host_metadata: ~
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+  - add_kubernetes_metadata: ~

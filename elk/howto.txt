@@ -24,3 +24,7 @@ sudo sysctl -p
 
 # Verify that the change was applied by checking the value
 cat /proc/sys/vm/max_map_count
+
+################ filebeat ################
+curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-8.14.2-amd64.deb
+sudo dpkg -i filebeat-8.14.2-amd64.deb
