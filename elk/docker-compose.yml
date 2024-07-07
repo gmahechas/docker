@@ -47,6 +47,8 @@ services:
       LS_JAVA_OPTS: "-Xms768m -Xmx768m"
     ports:
       - 5044:5044
+    depends_on:
+      - opensearch1
     entrypoint: >
       sh -c "
       if ! /usr/share/logstash/bin/logstash-plugin list | grep -q logstash-output-opensearch; then
