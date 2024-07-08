@@ -45,6 +45,7 @@ services:
       - ./logstash-pipeline:/usr/share/logstash/pipeline
     environment:
       LS_JAVA_OPTS: "-Xms768m -Xmx768m"
+      LS_LOG_LEVEL: "debug"
     ports:
       - 5044:5044
     entrypoint: >
