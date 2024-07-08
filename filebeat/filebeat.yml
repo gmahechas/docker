@@ -3,6 +3,11 @@ filebeat.inputs:
   enabled: true
   paths:
     - /var/lib/docker/containers/13c22755145464a038cf20fc1e1384b921db4645a7d1f47968ffa95af22ffbca/13c22755145464a038cf20fc1e1384b921db4645a7d1f47968ffa95af22ffbca-json.log
+    - /var/lib/docker/containers/f41505b6eaa5e61c595a2d87998e899532b935efbe37d6172b6550b853a995e4/f41505b6eaa5e61c595a2d87998e899532b935efbe37d6172b6550b853a995e4-json.log
+    - /var/lib/docker/containers/1f345e2b9489b94a3d4ee8a56a48b25960ce84789e3b2b40bf0ad466f7718395/1f345e2b9489b94a3d4ee8a56a48b25960ce84789e3b2b40bf0ad466f7718395-json.log
+    - /var/lib/docker/containers/d8ff96fbbae515ec9083fcc8d2d58482949a99827c07e275829bf9d380ba68c4/d8ff96fbbae515ec9083fcc8d2d58482949a99827c07e275829bf9d380ba68c4-json.log
+    - /var/lib/docker/containers/65c6a14fbde9f13bd702e2e274a40fe746fd51d58f6169c9efaca146d6a26ca8/65c6a14fbde9f13bd702e2e274a40fe746fd51d58f6169c9efaca146d6a26ca8-json.log
+    - /var/lib/docker/containers/fe4255ef24888b69f7d9d607e9be6bb69560f9ee2f3c58c529743d1e8f2ce70d/fe4255ef24888b69f7d9d607e9be6bb69560f9ee2f3c58c529743d1e8f2ce70d-json.log
   tail_files: true
 
 processors:
