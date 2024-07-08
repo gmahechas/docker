@@ -18,7 +18,7 @@ REDISDB_CMD="
   --tls-key-file /etc/ssl/redisdb/redisdb.key \
   --tls-ca-cert-file /etc/ssl/ca.crt \
   --tls-auth-clients yes \
-  --loglevel debug"
+  --loglevel notice"
 
 echo "initiating ${HOSTNAME} instance..."
 echo $REDISDB_CMD
