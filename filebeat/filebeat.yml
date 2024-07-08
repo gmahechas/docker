@@ -2,18 +2,14 @@ filebeat.inputs:
 - type: log
   enabled: true
   paths:
-    - /var/log/*.log
-    - /path/to/your/custom/logs/*.log
-
-output.logstash:
-  hosts: ["logstash-shared2.gmahechas.local:5044"]
-  ssl:
-    certificate_authorities: ["/etc/filebeat/ssl/ca.crt"]
-    certificate: "/etc/filebeat/ssl/filebeat.crt"
-    key: "/etc/filebeat/ssl/filebeat.key"
+    - /var/lib/docker/containers/13c22755145464a038cf20fc1e1384b921db4645a7d1f47968ffa95af22ffbca/13c22755145464a038cf20fc1e1384b921db4645a7d1f47968ffa95af22ffbca-json.log
+  tail_files: true
 
 processors:
   - add_host_metadata: ~
   - add_cloud_metadata: ~
   - add_docker_metadata: ~
   - add_kubernetes_metadata: ~
+
+output.logstash:
+  hosts: ["10.1.0.86:5044"]
