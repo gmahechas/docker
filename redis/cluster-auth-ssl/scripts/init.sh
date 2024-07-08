@@ -23,4 +23,6 @@ REDISDB_CMD="
 
 echo "initiating ${HOSTNAME} instance..."
 echo $REDISDB_CMD
+mkdir -p /var/log/redis
+chmod 755 /var/log/redis
 exec $REDISDB_CMD
