@@ -18,11 +18,8 @@ REDISDB_CMD="
   --tls-key-file /etc/ssl/redisdb/redisdb.key \
   --tls-ca-cert-file /etc/ssl/ca.crt \
   --tls-auth-clients yes \
-  --logfile /var/log/redis/redis-server.log \
   --loglevel debug"
 
 echo "initiating ${HOSTNAME} instance..."
 echo $REDISDB_CMD
-mkdir -p /var/log/redis
-chmod 755 /var/log/redis
 exec $REDISDB_CMD
