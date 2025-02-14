@@ -5,7 +5,7 @@ services:
     container_name: mongodb
     image: mongo:4.2.10
     volumes:
-      - mongodb-dbs:/data/db
+      - mongodb_data:/data/db
     ports:
       - "27017:27017"
     environment:
@@ -20,5 +20,5 @@ networks:
     driver: bridge
 
 volumes:
-  mongodb-dbs:
+  mongodb_data:
     external: true

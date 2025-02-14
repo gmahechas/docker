@@ -4,6 +4,8 @@ services:
   redis:
     container_name: redis
     image: redis:6.0.9-alpine
+    volumes:
+      - redis_data:/data
     ports:
       - "6379:6379"
     networks:
@@ -13,3 +15,7 @@ networks:
   redis_network:
     name: redis_network
     driver: bridge
+
+volumes:
+  redis_data:
+    external: true
