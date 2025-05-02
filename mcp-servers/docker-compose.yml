@@ -1,0 +1,21 @@
+services:
+  mcp-intelepeer-jira:
+    container_name: mcp-intelepeer-jira
+    image: ghcr.io/sooperset/mcp-atlassian:latest
+    ports:
+      - "9000:9000"
+    environment:
+      - CONFLUENCE_URL="xxx"
+      - CONFLUENCE_USERNAME="xxx"
+      - CONFLUENCE_API_TOKEN="xxx"
+      - JIRA_URL="xxx"
+      - JIRA_USERNAME="xxx"
+      - JIRA_API_TOKEN="xxx"
+    command: --transport sse --port 9000 -vv
+    networks:
+      - mcp_network
+      
+networks:
+  mcp_network:
+    name: mcp_network
+    driver: bridge
