@@ -14,6 +14,19 @@ services:
     networks:
       - mongodb_network
 
+  mongodb_7:
+    container_name: mongodb_7
+    image: mongo:7.0.21-jammy
+    volumes:
+      - mongodb_7_data:/data/db
+    ports:
+      - "27018:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    networks:
+      - mongodb_network
+
 networks:
   mongodb_network:
     name: mongodb_network
@@ -21,4 +34,6 @@ networks:
 
 volumes:
   mongodb_data:
+    external: true
+  mongodb_7_data:
     external: true
