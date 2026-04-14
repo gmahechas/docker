@@ -1,21 +1,8 @@
 version: "3.8"
 
 services:
-  mongodb:
-    container_name: mongodb
-    image: mongo:4.2.10
-    volumes:
-      - mongodb_data:/data/db
-    ports:
-      - "27017:27017"
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root
-    networks:
-      - mongodb_network
-
-  mongodb_7:
-    container_name: mongodb_7
+  mongodb-7:
+    container_name: mongodb-7
     image: mongo:7.0.21-jammy
     volumes:
       - mongodb_7_data:/data/db
@@ -33,7 +20,5 @@ networks:
     driver: bridge
 
 volumes:
-  mongodb_data:
-    external: true
   mongodb_7_data:
     external: true
